@@ -2,11 +2,10 @@
 
 namespace FashionClothesAndTrends.Domain.Entities;
 
-public class FavoriteItem : BaseEntity
+public class WishlistItem : BaseEntity
 {
-    public string UserId { get; set; }
-    public User User { get; set; }
-
+    public Guid WishlistId { get; set; }
+    public Wishlist Wishlist { get; set; }
     public Guid ClothingItemId { get; set; }
     public ClothingItem ClothingItem { get; set; }
 }

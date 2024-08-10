@@ -1,17 +1,20 @@
-﻿using FashionClothesAndTrends.Domain.Common;
-using FashionClothesAndTrends.Domain.Entities.Enums;
+﻿using FashionClothesAndTrends.Domain.Entities.Enums;
+using FashionClothesAndTrends.Domain.Entities.OrderAggregate;
+using Microsoft.AspNetCore.Identity;
 
 namespace FashionClothesAndTrends.Domain.Entities;
 
-public class User : BaseEntity
+public class User : IdentityUser
 {
-    public string Username { get; set; }
-    public string Email { get; set; }
-    public string PasswordHash { get; set; }
+    public string Name { get; set; }
     public Role Role { get; set; }
-    public ICollection<FavoriteItem> FavoriteItems { get; set; }
-    public ICollection<Rating> Ratings { get; set; }
-    public ICollection<Comment> Comments { get; set; }
-    public ICollection<Notification> Notifications { get; set; }
-    public ICollection<LikeDislike> LikesDislikes { get; set; }
+    public ShippingAddress Address { get; set; }
+    public virtual ICollection<Order> Orders { get; set; }
+    public virtual ICollection<OrderHistory> OrderHistories { get; set; } 
+    public virtual ICollection<FavoriteItem> FavoriteItems { get; set; }
+    public virtual ICollection<Rating> Ratings { get; set; }
+    public virtual ICollection<Comment> Comments { get; set; }
+    public virtual ICollection<Notification> Notifications { get; set; }
+    public virtual ICollection<LikeDislike> LikesDislikes { get; set; }
+    public virtual ICollection<Wishlist> Wishlists { get; set; }
 }
