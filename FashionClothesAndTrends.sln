@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionClothesAndTrends", "FashionClothesAndTrends\FashionClothesAndTrends.csproj", "{C70EDEB0-3D0E-4C9F-A261-CD32D582E4C8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionClothesAndTrends.WebAPI", "FashionClothesAndTrends.WebAPI\FashionClothesAndTrends.WebAPI.csproj", "{4E2E1862-D0B2-4017-A795-D70DAEA258B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionClothesAndTrends.Domain", "FashionClothesAndTrends.Domain\FashionClothesAndTrends.Domain.csproj", "{7F83C63C-0A93-4C15-AEF1-59D6675E535C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +10,13 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C70EDEB0-3D0E-4C9F-A261-CD32D582E4C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C70EDEB0-3D0E-4C9F-A261-CD32D582E4C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C70EDEB0-3D0E-4C9F-A261-CD32D582E4C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C70EDEB0-3D0E-4C9F-A261-CD32D582E4C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E2E1862-D0B2-4017-A795-D70DAEA258B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E2E1862-D0B2-4017-A795-D70DAEA258B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E2E1862-D0B2-4017-A795-D70DAEA258B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E2E1862-D0B2-4017-A795-D70DAEA258B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F83C63C-0A93-4C15-AEF1-59D6675E535C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F83C63C-0A93-4C15-AEF1-59D6675E535C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F83C63C-0A93-4C15-AEF1-59D6675E535C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F83C63C-0A93-4C15-AEF1-59D6675E535C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

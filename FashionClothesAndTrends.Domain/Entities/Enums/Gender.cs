@@ -2,5 +2,7 @@
 
 public enum Gender
 {
-    
+    Male,
+    Female,
+    Kids
 }

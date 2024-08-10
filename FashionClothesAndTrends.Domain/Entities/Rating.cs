@@ -1,6 +1,14 @@
-﻿namespace FashionClothesAndTrends.Domain.Entities;
+﻿using FashionClothesAndTrends.Domain.Common;
 
-public class Rating
-{
+namespace FashionClothesAndTrends.Domain.Entities;
+
+public class Rating : BaseEntity
+{ 
+    public int Score { get; set; }
     
+    public Guid UserId { get; set; }
+    public User User { get; set; }
+    
+    public Guid ClothingItemId { get; set; }
+    public ClothingItem ClothingItem { get; set; }
 }
