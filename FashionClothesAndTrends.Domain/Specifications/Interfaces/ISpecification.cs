@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace FashionClothesAndTrends.Domain.Interfaces;
+namespace FashionClothesAndTrends.Domain.Specifications.Interfaces;
 
 public interface ISpecification<T>
 {

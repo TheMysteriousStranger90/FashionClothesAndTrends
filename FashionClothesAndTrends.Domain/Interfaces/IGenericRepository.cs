@@ -1,4 +1,5 @@
 ﻿using FashionClothesAndTrends.Domain.Common;
+using FashionClothesAndTrends.Domain.Specifications.Interfaces;
 
 namespace FashionClothesAndTrends.Domain.Interfaces;
 
