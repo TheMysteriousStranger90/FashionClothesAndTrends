@@ -1,4 +1,6 @@
-﻿namespace FashionClothesAndTrends.Domain.Specifications;
+﻿using FashionClothesAndTrends.Domain.Entities.Enums;
+
+namespace FashionClothesAndTrends.Domain.Specifications;
 
 public class ClothingSpecParams
 {
@@ -6,7 +8,6 @@ public class ClothingSpecParams
     public int PageIndex { get; set; } = 1;
 
     private int _pageSize = 6;
-
     public int PageSize
     {
         get => _pageSize;
@@ -14,6 +15,10 @@ public class ClothingSpecParams
     }
 
     public Guid? ClothingBrandId { get; set; }
+
+    public Gender? Gender { get; set; }
+    public Size? Size { get; set; }
+    public Category? Category { get; set; }
     
     public string Sort { get; set; }
     private string _search;
