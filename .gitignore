@@ -4,4 +4,6 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 
-.idea/
+.idea
+
+FashionClothesAndTrends.WebAPI/appsettings.json
