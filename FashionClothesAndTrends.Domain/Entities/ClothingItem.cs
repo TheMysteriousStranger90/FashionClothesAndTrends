@@ -13,6 +13,7 @@ public class ClothingItem : BaseEntity
     public Category Category { get; set; }
     public ICollection<Rating> Ratings { get; set; }
     public ICollection<Comment> Comments { get; set; }
+    public ICollection<FavoriteItem> FavoriteItems { get; set; }
     public decimal? Discount { get; set; }
     public bool IsInStock { get; set; }
     public string PictureUrl { get; set; }
