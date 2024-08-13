@@ -5,6 +5,10 @@ namespace FashionClothesAndTrends.Domain.Entities.OrderAggregate;
 
 public class Order : BaseEntity
 {
+    public Order()
+    {
+    }
+    
     public Order(IReadOnlyList<OrderItem> orderItems, string buyerEmail, AddressAggregate shipToAddress,
         DeliveryMethod deliveryMethod, decimal subtotal, string paymentIntentId, Coupon coupon = null)
     {
@@ -22,6 +26,7 @@ public class Order : BaseEntity
     public AddressAggregate ShipToAddress { get; set; }
     public DeliveryMethod DeliveryMethod { get; set; }
     public IReadOnlyList<OrderItem> OrderItems { get; set; }
+    public Guid? CouponId { get; set; }
     public Coupon Coupon { get; set; }
     public decimal Subtotal { get; set; }
     public OrderStatus Status { get; set; } = OrderStatus.Pending;

@@ -25,6 +25,7 @@ public class OrderHistoryConfiguration : IEntityTypeConfiguration<OrderHistory>
 
         builder.HasOne(o => o.User)
             .WithMany(u => u.OrderHistories)
-            .HasForeignKey(o => o.UserId);
+            .HasForeignKey(o => o.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

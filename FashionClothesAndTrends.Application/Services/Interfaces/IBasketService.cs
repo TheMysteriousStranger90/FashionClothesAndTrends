@@ -1,8 +1,8 @@
 ﻿using FashionClothesAndTrends.Domain.Entities;
 
-namespace FashionClothesAndTrends.Domain.Interfaces;
+namespace FashionClothesAndTrends.Application.Services.Interfaces;
 
-public interface IBasketRepository
+public interface IBasketService
 {
     Task<CustomerBasket> GetBasketAsync(string basketId);
     Task<CustomerBasket> UpdateBasketAsync(CustomerBasket basket);

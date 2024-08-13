@@ -44,6 +44,10 @@ public class ApplicationDbContext : IdentityDbContext<User, AppRole, string,
         modelBuilder.ApplyConfiguration(new DeliveryMethodConfiguration());
         modelBuilder.ApplyConfiguration(new OrderItemConfiguration());
         modelBuilder.ApplyConfiguration(new OrderConfiguration());
+        modelBuilder.ApplyConfiguration(new WishlistConfiguration());
+        modelBuilder.ApplyConfiguration(new WishlistItemConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderHistoryConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderItemHistoryConfiguration());
 
         SeedDataInitializer.ContextSeed(modelBuilder);
     }

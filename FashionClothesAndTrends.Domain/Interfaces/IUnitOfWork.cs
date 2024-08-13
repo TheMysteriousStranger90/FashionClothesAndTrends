@@ -7,10 +7,7 @@ namespace FashionClothesAndTrends.Domain.Interfaces;
 public interface IUnitOfWork : IDisposable
 {
     IGenericRepository<T> GenericRepository<T>() where T : BaseEntity;
-    
-    IBasketRepository BasketRepository { get; }
     IClothingItemRepository ClothingItemRepository { get; }
-    
     ICommentRepository CommentRepository { get; }
     IFavoriteItemRepository FavoriteItemRepository { get; }
     ILikeDislikeRepository LikeDislikeRepository { get; }

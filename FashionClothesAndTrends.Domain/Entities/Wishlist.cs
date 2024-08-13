@@ -4,7 +4,7 @@ namespace FashionClothesAndTrends.Domain.Entities;
     
 public class Wishlist : BaseEntity
 {
-    public Guid UserId { get; set; }
+    public string UserId { get; set; }
     public User User { get; set; }
     public string Name { get; set; }
     public ICollection<WishlistItem> Items { get; set; }

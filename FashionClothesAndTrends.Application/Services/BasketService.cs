@@ -1,15 +1,15 @@
 ﻿using System.Text.Json;
+using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.Domain.Entities;
-using FashionClothesAndTrends.Domain.Interfaces;
 using StackExchange.Redis;
 
-namespace FashionClothesAndTrends.Infrastructure.Repositories;
+namespace FashionClothesAndTrends.Application.Services;
 
-public class BasketRepository : IBasketRepository
+public class BasketService : IBasketService
 {
     private readonly IDatabase _database;
 
-    public BasketRepository(IConnectionMultiplexer redis)
+    public BasketService(IConnectionMultiplexer redis)
     {
         _database = redis.GetDatabase();
     }

@@ -9,18 +9,43 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.OwnsOne(u => u.Address, a => 
+        builder.OwnsOne(u => u.Address, a =>
         {
             a.WithOwner();
+
+            a.Property(sa => sa.AddressLine)
+                .IsRequired()
+                .HasMaxLength(200);
+
+            a.Property(sa => sa.City)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            a.Property(sa => sa.State)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            a.Property(sa => sa.PostalCode)
+                .IsRequired()
+                .HasMaxLength(20);
+
+            a.Property(sa => sa.Country)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            a.HasOne(sa => sa.User)
+                .WithOne(u => u.Address)
+                .HasForeignKey<ShippingAddress>(sa => sa.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
-        
+
         builder.HasMany(a => a.UserRoles).WithOne(ur => ur.User)
             .HasForeignKey(ur => ur.UserId)
             .IsRequired();
-        
+
         builder.Property(x => x.DateOfBirth)
             .HasConversion(new DateOnlyToDateTimeConverter());
-        
+
         builder.Property(u => u.Name)
             .IsRequired()
             .HasMaxLength(100);

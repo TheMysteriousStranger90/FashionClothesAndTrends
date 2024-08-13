@@ -185,7 +185,7 @@ public static class SeedDataInitializer
                 DateOfBirth = new DateOnly(1990, 5, 15),
                 Address = new ShippingAddress
                 {
-                    AddressLine1 = "123 Main St",
+                    AddressLine = "123 Main St",
                     City = "New York",
                     State = "NY",
                     PostalCode = "10001",
@@ -201,7 +201,7 @@ public static class SeedDataInitializer
                 DateOfBirth = new DateOnly(1985, 10, 25),
                 Address = new ShippingAddress
                 {
-                    AddressLine1 = "456 Maple Ave",
+                    AddressLine = "456 Maple Ave",
                     City = "Los Angeles",
                     State = "CA",
                     PostalCode = "90001",
@@ -217,7 +217,7 @@ public static class SeedDataInitializer
                 DateOfBirth = new DateOnly(1980, 1, 1),
                 Address = new ShippingAddress
                 {
-                    AddressLine1 = "789 Oak St",
+                    AddressLine = "789 Oak St",
                     City = "San Francisco",
                     State = "CA",
                     PostalCode = "94102",
