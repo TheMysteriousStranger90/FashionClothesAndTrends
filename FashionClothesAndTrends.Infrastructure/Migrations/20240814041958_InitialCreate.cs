@@ -63,7 +63,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClothingBrand",
+                name: "ClothingBrands",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -74,7 +74,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClothingBrand", x => x.Id);
+                    table.PrimaryKey("PK_ClothingBrands", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -306,9 +306,9 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_ClothingItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ClothingItems_ClothingBrand_ClothingBrandId",
+                        name: "FK_ClothingItems_ClothingBrands_ClothingBrandId",
                         column: x => x.ClothingBrandId,
-                        principalTable: "ClothingBrand",
+                        principalTable: "ClothingBrands",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -547,7 +547,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "ClothingBrand",
+                table: "ClothingBrands",
                 columns: new[] { "Id", "CreatedAt", "Description", "LastUpdatedAt", "Name" },
                 values: new object[,]
                 {
@@ -564,10 +564,10 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                 columns: new[] { "Id", "CreatedAt", "DeliveryTime", "Description", "LastUpdatedAt", "Price", "ShortName" },
                 values: new object[,]
                 {
-                    { new Guid("14f197d1-fc68-47e6-9bd5-eaddc4ac570e"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "1-2 Days", "Fastest delivery time", null, 10m, "UPS1" },
-                    { new Guid("3a10e2b9-211f-4273-ad56-86e1d92ba6f7"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "2-5 Days", "Get it within 5 days", null, 5m, "UPS2" },
-                    { new Guid("433684f2-9d0b-4e71-a81c-1d9f9f7f999d"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "5-10 Days", "Slower but cheap", null, 2m, "UPS3" },
-                    { new Guid("e4689bd7-abba-42dc-ad32-ff14f94d52fc"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "1-2 Weeks", "Free! You get what you pay for", null, 0m, "FREE" }
+                    { new Guid("046da8e3-8735-496a-8805-906db468bc02"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "1-2 Weeks", "Free! You get what you pay for", null, 0m, "FREE" },
+                    { new Guid("283179d5-3ce9-47e3-9078-c44bc0f5fe3d"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "5-10 Days", "Slower but cheap", null, 2m, "UPS3" },
+                    { new Guid("2bbb7e64-b3b2-41af-bb89-d8b7baddde43"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "2-5 Days", "Get it within 5 days", null, 5m, "UPS2" },
+                    { new Guid("46518479-09bd-4431-930e-e1cdd9bb0825"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "1-2 Days", "Fastest delivery time", null, 10m, "UPS1" }
                 });
 
             migrationBuilder.InsertData(
@@ -575,12 +575,12 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                 columns: new[] { "Id", "Category", "ClothingBrandId", "CreatedAt", "Description", "Discount", "Gender", "IsInStock", "LastUpdatedAt", "Name", "PictureUrl", "Price", "Size" },
                 values: new object[,]
                 {
-                    { new Guid("14ee6d36-2714-424b-819c-88425b9d9736"), 5, new Guid("e96c60b6-09df-4e1a-9d6c-617bdd48eaf5"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Classic Dior Saddle Bag in blue oblique canvas.", null, 1, true, null, "Dior Saddle Bag", "images/clothing/dior_saddle_bag.jpg", 2900.00m, 2 },
-                    { new Guid("b0b0608f-3f3f-4ceb-a3f3-85d9ff19143e"), 5, new Guid("b5d6b8f8-dad4-4f2f-8c52-2911d856b3ad"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Iconic Louis Vuitton bag with monogram canvas.", null, 1, true, null, "Louis Vuitton Monogram Bag", "images/clothing/lv_monogram_bag.jpg", 3200.00m, 2 },
-                    { new Guid("b35a631e-c678-4f7c-ab6e-920eb7bebf3c"), 2, new Guid("3d6f79a2-c462-4c28-ae5f-0ec93b7f4e01"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Classic Chanel tweed jacket in black and white.", null, 1, true, null, "Chanel Tweed Jacket", "images/clothing/chanel_tweed_jacket.jpg", 5000.00m, 2 },
-                    { new Guid("b73dcb35-0eee-4620-b069-3d43e75cf9f7"), 3, new Guid("c981db82-b2f1-48c3-9864-efc6c56a5b0e"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Black leather belt with double G buckle from Gucci.", null, 0, true, null, "Gucci GG Belt", "images/clothing/gucci_belt.jpg", 450.00m, 3 },
-                    { new Guid("b89193d4-1ce1-4f0e-ba33-3a0831837226"), 0, new Guid("5d24a48b-6c72-4e2a-9ef2-64d0f657bfc6"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Versace silk shirt with baroque print in gold and black.", null, 0, true, null, "Versace Silk Shirt", "images/clothing/versace_silk_shirt.jpg", 1200.00m, 3 },
-                    { new Guid("d6f2f6da-882d-454a-b1c0-bf7e8f671736"), 5, new Guid("a2c5c305-f2c2-45e7-8f7d-c489bb7f7e8a"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Classic black nylon backpack with leather trim.", null, 1, true, null, "Prada Nylon Backpack", "images/clothing/prada_backpack.jpg", 950.00m, 2 }
+                    { new Guid("0768fddc-b6f0-4462-86bc-ec971515a906"), 0, new Guid("5d24a48b-6c72-4e2a-9ef2-64d0f657bfc6"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Versace silk shirt with baroque print in gold and black.", null, 0, true, null, "Versace Silk Shirt", "images/clothing/versace_silk_shirt.jpg", 1200.00m, 3 },
+                    { new Guid("0ffb6993-8963-4fa6-a2f8-64604df188f0"), 2, new Guid("3d6f79a2-c462-4c28-ae5f-0ec93b7f4e01"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Classic Chanel tweed jacket in black and white.", null, 1, true, null, "Chanel Tweed Jacket", "images/clothing/chanel_tweed_jacket.jpg", 5000.00m, 2 },
+                    { new Guid("20ab5a9f-d76b-4dad-ae01-1c7516932b1c"), 5, new Guid("e96c60b6-09df-4e1a-9d6c-617bdd48eaf5"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Classic Dior Saddle Bag in blue oblique canvas.", null, 1, true, null, "Dior Saddle Bag", "images/clothing/dior_saddle_bag.jpg", 2900.00m, 2 },
+                    { new Guid("4dab4d1a-fc31-4223-9f50-2600a9100869"), 5, new Guid("a2c5c305-f2c2-45e7-8f7d-c489bb7f7e8a"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Classic black nylon backpack with leather trim.", null, 1, true, null, "Prada Nylon Backpack", "images/clothing/prada_backpack.jpg", 950.00m, 2 },
+                    { new Guid("5983c225-5eb2-4693-ace1-976f1ae6ea7d"), 3, new Guid("c981db82-b2f1-48c3-9864-efc6c56a5b0e"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Black leather belt with double G buckle from Gucci.", null, 0, true, null, "Gucci GG Belt", "images/clothing/gucci_belt.jpg", 450.00m, 3 },
+                    { new Guid("9d2f2bbf-d049-47f2-bd75-d4443693f921"), 5, new Guid("b5d6b8f8-dad4-4f2f-8c52-2911d856b3ad"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Iconic Louis Vuitton bag with monogram canvas.", null, 1, true, null, "Louis Vuitton Monogram Bag", "images/clothing/lv_monogram_bag.jpg", 3200.00m, 2 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -785,7 +785,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "ClothingBrand");
+                name: "ClothingBrands");
         }
     }
 }

@@ -17,6 +17,7 @@ public class ApplicationDbContext : IdentityDbContext<User, AppRole, string,
     }
 
     public DbSet<ClothingItem> ClothingItems { get; set; }
+    public DbSet<ClothingBrand> ClothingBrands { get; set; }
     public DbSet<Comment> Comments { get; set; }
     public DbSet<FavoriteItem> FavoriteItems { get; set; }
     public DbSet<Rating> Ratings { get; set; }
