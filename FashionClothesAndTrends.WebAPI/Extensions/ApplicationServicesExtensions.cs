@@ -1,7 +1,10 @@
 ﻿using FashionClothesAndTrends.Application.Services;
 using FashionClothesAndTrends.Application.Services.Interfaces;
+using FashionClothesAndTrends.Application.UoW;
 using FashionClothesAndTrends.Domain.Interfaces;
 using FashionClothesAndTrends.Infrastructure.Context;
+using FashionClothesAndTrends.Infrastructure.Repositories;
+using FashionClothesAndTrends.Infrastructure.UoW;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 
@@ -27,6 +30,9 @@ public static class ApplicationServicesExtensions
         
         services.AddSingleton<IResponseCacheService, ResponseCacheService>();
         services.AddScoped<IBasketService, BasketService>();
+        
+        services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         
         return services;
     }

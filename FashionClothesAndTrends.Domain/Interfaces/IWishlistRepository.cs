@@ -4,6 +4,6 @@ namespace FashionClothesAndTrends.Domain.Interfaces;
 
 public interface IWishlistRepository : IGenericRepository<Wishlist>
 {
-    Task<IReadOnlyList<Wishlist>> GetWishlistsByUserIdAsync(Guid userId);
-    Task<Wishlist?> GetWishlistByNameAsync(Guid userId, string name);
+    Task<IReadOnlyList<Wishlist>> GetWishlistsByUserIdAsync(string userId);
+    Task<Wishlist?> GetWishlistByNameAsync(string userId, string name);
 }

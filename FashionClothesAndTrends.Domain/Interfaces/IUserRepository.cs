@@ -9,6 +9,6 @@ public interface IUserRepository
     Task<User?> GetUserByEmail(string email);
     Task<User?> GetUserByUserName(string userName);
     Task<IReadOnlyList<User>> GetAllUsersAsync();
-    Task<IReadOnlyList<User>> GetUsersByRoleAsync(Role role);
+    Task<IReadOnlyList<User>> GetUsersByRoleAsync(AppUserRole role);
     Task<IReadOnlyList<User>> SearchUsersByNameAsync(string name);
 }

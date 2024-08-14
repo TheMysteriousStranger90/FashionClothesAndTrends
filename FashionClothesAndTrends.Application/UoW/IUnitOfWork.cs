@@ -1,8 +1,9 @@
 ﻿using FashionClothesAndTrends.Domain.Common;
 using FashionClothesAndTrends.Domain.Entities;
+using FashionClothesAndTrends.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
-namespace FashionClothesAndTrends.Domain.Interfaces;
+namespace FashionClothesAndTrends.Application.UoW;
 
 public interface IUnitOfWork : IDisposable
 {
@@ -18,7 +19,7 @@ public interface IUnitOfWork : IDisposable
     IUserRepository UserRepository { get; }
     UserManager<User> UserManager { get; }
     SignInManager<User> SignInManager { get; }
-    RoleManager<IdentityRole> RoleManager { get; }
+    RoleManager<AppRole> RoleManager { get; }
 
     Task<int> SaveAsync();
 }

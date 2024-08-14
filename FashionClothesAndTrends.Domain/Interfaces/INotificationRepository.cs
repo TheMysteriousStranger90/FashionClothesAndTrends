@@ -2,7 +2,7 @@
 
 namespace FashionClothesAndTrends.Domain.Interfaces;
 
-public interface INotificationRepository
+public interface INotificationRepository : IGenericRepository<Notification>
 {
     Task<IReadOnlyList<Notification>> GetNotificationsByUserIdAsync(string userId);
     Task<IReadOnlyList<Notification>> GetUnreadNotificationsByUserIdAsync(string userId);
