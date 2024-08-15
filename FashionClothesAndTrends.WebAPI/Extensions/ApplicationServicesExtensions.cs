@@ -36,6 +36,9 @@ public static class ApplicationServicesExtensions
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         
         services.AddAutoMapper(typeof(AutoMapperProfile));
+        
+        services.AddScoped<ITokenService, TokenService>();
+
 
         
         return services;

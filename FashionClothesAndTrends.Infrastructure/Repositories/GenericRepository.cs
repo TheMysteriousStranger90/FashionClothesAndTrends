@@ -57,6 +57,24 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         _dbSet.Remove(entity);
     }
+    
+    public async Task AddAsync(T entity)
+    {
+        await _dbSet.AddAsync(entity);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task UpdateAsync(T entity)
+    {
+        _dbSet.Update(entity);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task RemoveAsync(T entity)
+    {
+        _dbSet.Remove(entity);
+        await _context.SaveChangesAsync();
+    }
 
     private IQueryable<T> ApplySpecification(ISpecification<T> spec)
     {
