@@ -1,4 +1,5 @@
-﻿using FashionClothesAndTrends.Application.Services;
+﻿using FashionClothesAndTrends.Application.Mapping;
+using FashionClothesAndTrends.Application.Services;
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.Application.UoW;
 using FashionClothesAndTrends.Domain.Interfaces;
@@ -33,6 +34,9 @@ public static class ApplicationServicesExtensions
         
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        
+        services.AddAutoMapper(typeof(AutoMapperProfile));
+
         
         return services;
     }
