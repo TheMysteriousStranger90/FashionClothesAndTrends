@@ -35,6 +35,11 @@ public static class ApplicationServicesExtensions
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         
+        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IOrderHistoryService, OrderHistoryService>();
+        services.AddScoped<IWishlistService, WishlistService>();
+        
         services.AddAutoMapper(typeof(AutoMapperProfile));
         
         services.AddScoped<ITokenService, TokenService>();
