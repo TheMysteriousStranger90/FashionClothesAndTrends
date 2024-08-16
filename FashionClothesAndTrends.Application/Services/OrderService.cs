@@ -1,4 +1,5 @@
-﻿using FashionClothesAndTrends.Application.Services.Interfaces;
+﻿using FashionClothesAndTrends.Application.Exceptions;
+using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.Application.UoW;
 using FashionClothesAndTrends.Domain.Entities;
 using FashionClothesAndTrends.Domain.Entities.OrderAggregate;
@@ -14,23 +15,37 @@ public class OrderService : IOrderService
     public OrderService(IBasketService basketService, IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _basketService = basketService;   }
+        _basketService = basketService;
+    }
 
     public async Task<Order> CreateOrderAsync(string buyerEmail, Guid deliveryMethodId, string basketId,
         AddressAggregate shippingAddress)
     {
         var basket = await _basketService.GetBasketAsync(basketId);
+        if (basket == null)
+        {
+            throw new NotFoundException($"Basket with ID '{basketId}' not found.");
+        }
 
         var items = new List<OrderItem>();
         foreach (var item in basket.Items)
         {
             var productItem = await _unitOfWork.GenericRepository<ClothingItem>().GetByIdAsync(item.Id);
+            if (productItem == null)
+            {
+                throw new NotFoundException($"Product item with ID '{item.Id}' not found.");
+            }
+
             var itemOrdered = new ClothingItemOrdered(productItem.Id, productItem.Name, productItem.PictureUrl);
             var orderItem = new OrderItem(itemOrdered, productItem.Price, item.Quantity);
             items.Add(orderItem);
         }
 
         var deliveryMethod = await _unitOfWork.GenericRepository<DeliveryMethod>().GetByIdAsync(deliveryMethodId);
+        if (deliveryMethod == null)
+        {
+            throw new NotFoundException($"Delivery method with ID '{deliveryMethodId}' not found.");
+        }
 
         var subtotal = items.Sum(item => item.Price * item.Quantity);
 
@@ -53,7 +68,10 @@ public class OrderService : IOrderService
 
         var result = await _unitOfWork.SaveAsync();
 
-        if (result <= 0) return null;
+        if (result <= 0)
+        {
+            throw new InternalServerException("Failed to save the order.");
+        }
 
         return order;
     }
@@ -66,14 +84,19 @@ public class OrderService : IOrderService
     public async Task<Order> GetOrderByIdAsync(Guid id, string buyerEmail)
     {
         var spec = new OrdersWithItemsAndOrderingSpecification(id, buyerEmail);
+        var order = await _unitOfWork.GenericRepository<Order>().GetEntityWithSpec(spec);
 
-        return await _unitOfWork.GenericRepository<Order>().GetEntityWithSpec(spec);
+        if (order == null)
+        {
+            throw new NotFoundException($"Order with ID '{id}' not found.");
+        }
+
+        return order;
     }
 
     public async Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
     {
         var spec = new OrdersWithItemsAndOrderingSpecification(buyerEmail);
-
         return await _unitOfWork.GenericRepository<Order>().ListAsync(spec);
     }
 }

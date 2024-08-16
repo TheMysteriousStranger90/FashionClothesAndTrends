@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FashionClothesAndTrends.Application.DTOs;
+using FashionClothesAndTrends.Application.Exceptions;
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.Application.UoW;
 using FashionClothesAndTrends.Domain.Entities.OrderAggregate;
@@ -38,7 +39,12 @@ public class OrderHistoryService : IOrderHistoryService
         };
 
         _unitOfWork.GenericRepository<OrderHistory>().Add(orderHistory);
-        await _unitOfWork.SaveAsync();
+        var result = await _unitOfWork.SaveAsync();
+
+        if (result <= 0)
+        {
+            throw new InternalServerException("Failed to save the order history.");
+        }
 
         return _mapper.Map<OrderHistoryDto>(orderHistory);
     }
@@ -47,14 +53,18 @@ public class OrderHistoryService : IOrderHistoryService
     {
         var orderHistories = await _unitOfWork.GenericRepository<OrderHistory>().ListAllAsync();
         var res = orderHistories.Where(u => u.UserId == userId).ToList();
-        
+
         return _mapper.Map<IReadOnlyList<OrderHistoryDto>>(res);
     }
-
 
     public async Task<OrderHistoryDto> GetOrderHistoryByIdAsync(Guid id)
     {
         var orderHistory = await _unitOfWork.GenericRepository<OrderHistory>().GetByIdAsync(id);
+        if (orderHistory == null)
+        {
+            throw new NotFoundException($"Order history with ID '{id}' not found.");
+        }
+
         return _mapper.Map<OrderHistoryDto>(orderHistory);
     }
 }
