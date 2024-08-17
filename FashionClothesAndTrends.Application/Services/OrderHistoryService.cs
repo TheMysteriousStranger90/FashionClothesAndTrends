@@ -27,7 +27,7 @@ public class OrderHistoryService : IOrderHistoryService
             OrderDate = order.OrderDate.DateTime,
             TotalAmount = order.GetTotal(),
             Status = order.Status,
-            ShippingAddress = _mapper.Map<string>(order.ShipToAddress),
+            ShippingAddress = _mapper.Map<string>(order.ShipToAddress.AddressLine),
             UserId = order.BuyerEmail,
             OrderItems = order.OrderItems.Select(item => new OrderItemHistory
             {

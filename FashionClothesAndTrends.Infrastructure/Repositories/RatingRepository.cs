@@ -33,4 +33,16 @@ public class RatingRepository : GenericRepository<Rating>, IRatingRepository
             return null;
         }
     }
+    
+    public async Task UpdateRatingAsync(string userId, Guid clothingItemId, int value)
+    {
+        var rating = await _context.Ratings
+            .FirstOrDefaultAsync(r => r.UserId == userId && r.ClothingItemId == clothingItemId);
+
+        if (rating != null)
+        {
+            rating.Score = value;
+            await _context.SaveChangesAsync();
+        }
+    }
 }
