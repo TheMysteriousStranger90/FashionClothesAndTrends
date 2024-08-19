@@ -42,6 +42,9 @@ public static class ApplicationServicesExtensions
         services.AddScoped<IOrderHistoryService, OrderHistoryService>();
         services.AddScoped<IWishlistService, WishlistService>();
         services.AddScoped<IRatingService, RatingService>();
+        services.AddScoped<ILikeDislikeService, LikeDislikeService>();
+        services.AddScoped<INotificationService, NotificationService>();
+        services.AddScoped<IFavoriteItemService, FavoriteItemService>();
         
         
 
