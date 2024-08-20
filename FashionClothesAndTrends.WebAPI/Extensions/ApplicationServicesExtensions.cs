@@ -46,6 +46,7 @@ public static class ApplicationServicesExtensions
         services.AddScoped<INotificationService, NotificationService>();
         services.AddScoped<IFavoriteItemService, FavoriteItemService>();
         services.AddScoped<ICommentService, CommentService>();
+        services.AddScoped<IPaymentService, PaymentService>();
         
 
 
