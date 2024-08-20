@@ -45,7 +45,7 @@ public static class ApplicationServicesExtensions
         services.AddScoped<ILikeDislikeService, LikeDislikeService>();
         services.AddScoped<INotificationService, NotificationService>();
         services.AddScoped<IFavoriteItemService, FavoriteItemService>();
-        
+        services.AddScoped<ICommentService, CommentService>();
         
 
 
