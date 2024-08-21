@@ -19,6 +19,7 @@ public class UserRepository : IUserRepository
         return await _context.Users
             .Include(u => u.UserRoles)
             .ThenInclude(ur => ur.Role)
+            .Include(u => u.UserName)
             .Include(u => u.Address)
             .Include(u => u.Orders)
             .Include(u => u.OrderHistories)
@@ -36,6 +37,7 @@ public class UserRepository : IUserRepository
         return await _context.Users
             .Include(u => u.UserRoles)
             .ThenInclude(ur => ur.Role)
+            .Include(u => u.UserName)
             .Include(u => u.Address)
             .Include(u => u.Orders)
             .Include(u => u.OrderHistories)
@@ -53,6 +55,7 @@ public class UserRepository : IUserRepository
         return await _context.Users
             .Include(u => u.UserRoles)
             .ThenInclude(ur => ur.Role)
+            .Include(u => u.UserName)
             .Include(u => u.Address)
             .Include(u => u.Orders)
             .Include(u => u.OrderHistories)
@@ -70,6 +73,7 @@ public class UserRepository : IUserRepository
         return await _context.Users
             .Include(u => u.UserRoles)
             .ThenInclude(ur => ur.Role)
+            .Include(u => u.UserName)
             .Include(u => u.Address)
             .Include(u => u.Orders)
             .Include(u => u.OrderHistories)
@@ -103,7 +107,7 @@ public class UserRepository : IUserRepository
     public async Task<IReadOnlyList<User>> SearchUsersByNameAsync(string name)
     {
         return await _context.Users
-            .Where(u => u.Name.Contains(name))
+            .Where(u => u.UserName.Contains(name))
             .Include(u => u.UserRoles)
             .ThenInclude(ur => ur.Role)
             .Include(u => u.Address)

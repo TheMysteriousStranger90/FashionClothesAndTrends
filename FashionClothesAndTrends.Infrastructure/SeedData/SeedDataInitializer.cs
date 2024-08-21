@@ -179,10 +179,14 @@ public static class SeedDataInitializer
         {
             new User
             {
-                UserName = "buyer1@example.com",
+                UserName = "JohnDoe254",
                 Email = "buyer1@example.com",
-                Name = "John Doe",
+                FirstName = "John",
+                LastName = "Doe",
+                Gender = "male",
                 DateOfBirth = new DateOnly(1990, 5, 15),
+                UserPhotos = new List<UserPhoto> { new UserPhoto { Url = "https://randomuser.me/api/portraits/men/91.jpg", IsMain = true, PublicId = "PublicId1",
+                } },
                 Address = new ShippingAddress
                 {
                     AddressLine = "123 Main St",
@@ -195,10 +199,14 @@ public static class SeedDataInitializer
             },
             new User
             {
-                UserName = "buyer2@example.com",
+                UserName = "JaneSmith123",
                 Email = "buyer2@example.com",
-                Name = "Jane Smith",
+                FirstName = "Jane",
+                LastName = "Smith",
+                Gender = "female",
                 DateOfBirth = new DateOnly(1985, 10, 25),
+                UserPhotos = new List<UserPhoto> { new UserPhoto { Url = "https://randomuser.me/api/portraits/women/85.jpg", IsMain = true, PublicId = "PublicId2",
+                } },
                 Address = new ShippingAddress
                 {
                     AddressLine = "456 Maple Ave",
@@ -211,10 +219,14 @@ public static class SeedDataInitializer
             },
             new User
             {
-                UserName = "admin@example.com",
+                UserName = "AdminUser111",
                 Email = "admin@example.com",
-                Name = "Admin User",
+                FirstName = "Admin",
+                LastName = "User",
+                Gender = "male",
                 DateOfBirth = new DateOnly(1980, 1, 1),
+                UserPhotos = new List<UserPhoto> { new UserPhoto { Url = "https://randomuser.me/api/portraits/men/72.jpg", IsMain = true, PublicId = "PublicId3",
+                } },
                 Address = new ShippingAddress
                 {
                     AddressLine = "789 Oak St",

@@ -5,11 +5,10 @@ namespace FashionClothesAndTrends.Application.DTOs
     public class RegisterDto
     {
         [Required]
-        public string Name { get; set; }
         public string FirstName { get; set; }
+        [Required]
         public string LastName { get; set; }
-        public string City { get; set; }
-        public string Country { get; set; }
+        [Required]
         public string Gender { get; set; }
         
         [Required] public DateOnly? DateOfBirth { get; set; }

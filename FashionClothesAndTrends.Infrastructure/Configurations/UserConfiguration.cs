@@ -46,7 +46,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.DateOfBirth)
             .HasConversion(new DateOnlyToDateTimeConverter());
 
-        builder.Property(u => u.Name)
+        builder.Property(u => u.UserName)
             .IsRequired()
             .HasMaxLength(100);
 
