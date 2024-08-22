@@ -1,4 +1,5 @@
-﻿using FashionClothesAndTrends.Application.Mapping;
+﻿using FashionClothesAndTrends.Application.Helpers;
+using FashionClothesAndTrends.Application.Mapping;
 using FashionClothesAndTrends.Application.Services;
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.Application.UoW;
@@ -29,6 +30,8 @@ public static class ApplicationServicesExtensions
             return ConnectionMultiplexer.Connect(options);
         });
         
+        services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
+        
         services.AddSingleton<IResponseCacheService, ResponseCacheService>();
         services.AddScoped<IBasketService, BasketService>();
         
@@ -47,6 +50,7 @@ public static class ApplicationServicesExtensions
         services.AddScoped<IFavoriteItemService, FavoriteItemService>();
         services.AddScoped<ICommentService, CommentService>();
         services.AddScoped<IPaymentService, PaymentService>();
+        services.AddScoped<IPhotoService, PhotoService>();
         
 
 

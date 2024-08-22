@@ -129,7 +129,7 @@ public class AdminService : IAdminService
                 throw new NotFoundException($"Clothing item with ID '{itemDto.ClothingItemId}' not found.");
             }
 
-            var itemOrdered = new ClothingItemOrdered(clothingItem.Id, clothingItem.Name, clothingItem.PictureUrl);
+            var itemOrdered = new ClothingItemOrdered(clothingItem.Id, clothingItem.Name, clothingItem.ClothingItemPhotos);
             var orderItem = new OrderItem(itemOrdered, clothingItem.Price, itemDto.Quantity);
             updatedOrderItems.Add(orderItem);
         }
@@ -171,7 +171,7 @@ public class AdminService : IAdminService
             {
                 ClothingItemId = item.ItemOrdered.ClothingItemId,
                 ClothingItemName = item.ItemOrdered.ClothingItemName,
-                PictureUrl = item.ItemOrdered.PictureUrl,
+                PictureUrl = item.ItemOrdered.MainPictureUrl,
                 Price = item.Price,
                 Quantity = item.Quantity
             }).ToList(),

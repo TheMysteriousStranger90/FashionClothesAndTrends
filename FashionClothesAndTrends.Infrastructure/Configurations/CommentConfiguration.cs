@@ -10,11 +10,12 @@ public class CommentConfiguration : IEntityTypeConfiguration<Comment>
     {
         builder.HasOne(c => c.User)
             .WithMany(user => user.Comments)
-            .HasForeignKey(post => post.UserId)
+            .HasForeignKey(c => c.UserId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(c => c.ClothingItem)
             .WithMany(ci => ci.Comments)
-            .HasForeignKey(c => c.ClothingItemId);
+            .HasForeignKey(c => c.ClothingItemId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -36,7 +36,7 @@ public class OrderService : IOrderService
                 throw new NotFoundException($"Product item with ID '{item.Id}' not found.");
             }
 
-            var itemOrdered = new ClothingItemOrdered(productItem.Id, productItem.Name, productItem.PictureUrl);
+            var itemOrdered = new ClothingItemOrdered(productItem.Id, productItem.Name, productItem.ClothingItemPhotos);
             var orderItem = new OrderItem(itemOrdered, productItem.Price, item.Quantity);
             items.Add(orderItem);
         }

@@ -15,6 +15,7 @@ public class RatingConfiguration : IEntityTypeConfiguration<Rating>
 
         builder.HasOne(rating => rating.ClothingItem)
             .WithMany(ci => ci.Ratings)
-            .HasForeignKey(rating => rating.ClothingItemId);
+            .HasForeignKey(rating => rating.ClothingItemId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -12,7 +12,7 @@ public static class SeedDataInitializer
 {
     public static void ContextSeed(ModelBuilder modelBuilder)
     {
-        var clothingBrands = new[]
+       var clothingBrands = new[]
         {
             new ClothingBrand
             {
@@ -54,87 +54,138 @@ public static class SeedDataInitializer
 
         modelBuilder.Entity<ClothingBrand>().HasData(clothingBrands);
 
-        modelBuilder.Entity<ClothingItem>().HasData(
+        var clothingItems = new[]
+        {
             new ClothingItem
             {
                 Id = Guid.NewGuid(),
-                Name = "Chanel Tweed Jacket",
-                Description = "Classic Chanel tweed jacket in black and white.",
+                Name = "Chanel JACKET",
+                Description = "Classic Chanel tweed jacket in black.",
                 Price = 5000.00M,
                 Gender = Gender.Female,
                 Size = Size.M,
                 Category = Category.Outerwear,
                 IsInStock = true,
-                PictureUrl = "images/clothing/chanel_tweed_jacket.jpg",
                 ClothingBrandId = clothingBrands[0].Id
             },
             new ClothingItem
             {
                 Id = Guid.NewGuid(),
-                Name = "Louis Vuitton Monogram Bag",
-                Description = "Iconic Louis Vuitton bag with monogram canvas.",
+                Name = "LV Gram Square Cat Eye Sunglasses",
+                Description = "The LV Gram Square Cat Eye sunglasses feature a distinctive signature from Louis Vuitton’s jewelry and belts collections. The slim acetate and metal temples are adorned with the LV Initials and two Monogram Flowers finely crafted in gold-tone metal. Monogram Flower details on the lenses and end tips add an extra House touch. These stylish, feminine sunglasses are ideal for accenting a summer outfit.",
                 Price = 3200.00M,
                 Gender = Gender.Female,
                 Size = Size.M,
-                Category = Category.Bags,
+                Category = Category.Accessories,
                 IsInStock = true,
-                PictureUrl = "images/clothing/lv_monogram_bag.jpg",
                 ClothingBrandId = clothingBrands[1].Id
             },
             new ClothingItem
             {
                 Id = Guid.NewGuid(),
-                Name = "Dior Saddle Bag",
-                Description = "Classic Dior Saddle Bag in blue oblique canvas.",
+                Name = "Dior Dior Icon Heeled Ankle Boot",
+                Description = "New for Winter 2024, the Dior Icon heeled ankle boot transcends House codes of couture refinement. The black suede calfskin upper is elevated by elastic bands on the sides and the gold-finish metal CD signature on the back. The 8-cm (3) Graphic Cannage cylindrical heel in gold-finish metal offers a modern 3D version of the House's iconic motif. Featuring a square toe, the sophisticated and comfortable ankle boot will add the finishing touch to any of the season's looks.",
                 Price = 2900.00M,
                 Gender = Gender.Female,
                 Size = Size.M,
-                Category = Category.Bags,
+                Category = Category.Shoes,
                 IsInStock = true,
-                PictureUrl = "images/clothing/dior_saddle_bag.jpg",
                 ClothingBrandId = clothingBrands[2].Id
             },
             new ClothingItem
             {
                 Id = Guid.NewGuid(),
-                Name = "Gucci GG Belt",
-                Description = "Black leather belt with double G buckle from Gucci.",
+                Name = "Gucci GG MARMONT THIN BELT",
+                Description = "The GG Marmont belt continues to enrich each new collection with its streamlined design. Inspired by an archival design from the 1970s, the line's monogram Double G hardware is presented in a shiny silver tone atop this black leather variation.",
                 Price = 450.00M,
                 Gender = Gender.Male,
                 Size = Size.L,
                 Category = Category.Accessories,
                 IsInStock = true,
-                PictureUrl = "images/clothing/gucci_belt.jpg",
                 ClothingBrandId = clothingBrands[3].Id
             },
             new ClothingItem
             {
                 Id = Guid.NewGuid(),
-                Name = "Prada Nylon Backpack",
-                Description = "Classic black nylon backpack with leather trim.",
+                Name = "Prada Cotton T-shirt",
+                Description = "An essential item of the brand, the Prada jersey T-shirt embodies the luxury of simplicity that becomes an attitude and search to reinvent the bases and propose new meanings. The design is accented with the brand's emblematic lettering logo presented here in a silicone version.",
                 Price = 950.00M,
-                Gender = Gender.Female,
-                Size = Size.M,
-                Category = Category.Bags,
+                Gender = Gender.Male,
+                Size = Size.XL,
+                Category = Category.Top,
                 IsInStock = true,
-                PictureUrl = "images/clothing/prada_backpack.jpg",
                 ClothingBrandId = clothingBrands[4].Id
             },
             new ClothingItem
             {
                 Id = Guid.NewGuid(),
-                Name = "Versace Silk Shirt",
-                Description = "Versace silk shirt with baroque print in gold and black.",
+                Name = "Versace Barocco Devore Shirt",
+                Description = "A regular-fit, long-sleeved fluid shirt featuring an all-over tonal Barocco devore motif.",
                 Price = 1200.00M,
                 Gender = Gender.Male,
                 Size = Size.L,
                 Category = Category.Top,
                 IsInStock = true,
-                PictureUrl = "images/clothing/versace_silk_shirt.jpg",
                 ClothingBrandId = clothingBrands[5].Id
             }
-        );
+        };
 
+        modelBuilder.Entity<ClothingItem>().HasData(clothingItems);
+
+        var clothingItemPhotos = new[]
+        {
+            new ClothingItemPhoto
+            {
+                Id = Guid.NewGuid(),
+                Url = "https://www.chanel.com/images//t_zoomportee/f_auto//jacket-black-lambskin-lambskin-packshot-alternative-p78125c7009094305-9548808159262.jpg",
+                IsMain = true,
+                PublicId = "PublicId6",
+                ClothingItemId = clothingItems[0].Id
+            },
+            new ClothingItemPhoto
+            {
+                Id = Guid.NewGuid(),
+                Url = "https://eu.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-lv-gram-square-cat-eye-sunglasses-s00-sunglasses--Z2459U_PM2_Front%20view.png?wid=1090&hei=1090",
+                IsMain = true,
+                PublicId = "PublicId5",
+                ClothingItemId = clothingItems[1].Id
+            },
+            new ClothingItemPhoto
+            {
+                Id = Guid.NewGuid(),
+                Url = "https://www.dior.com/couture/ecommerce/media/catalog/product/Q/K/1721839565_KCT067VVV_S900_E03_GHC.jpg?imwidth=720",
+                IsMain = true,
+                PublicId = "PublicId4",
+                ClothingItemId = clothingItems[2].Id
+            },
+            new ClothingItemPhoto
+            {
+                Id = Guid.NewGuid(),
+                Url = "https://media.gucci.com/style/DarkGray_Center_0_0_2400x2400/1714409103/414516_0AABG_1000_001_100_0000_Light-GG-Marmont-thin-belt.jpg",
+                IsMain = true,
+                PublicId = "PublicId3",
+                ClothingItemId = clothingItems[3].Id
+            },
+            new ClothingItemPhoto
+            {
+                Id = Guid.NewGuid(),
+                Url = "https://www.prada.com/content/dam/pradabkg_products/U/UJN/UJN815/1052F0002/UJN815_1052_F0002_S_221_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg",
+                IsMain = true,
+                PublicId = "PublicId2",
+                ClothingItemId = clothingItems[4].Id
+            },
+            new ClothingItemPhoto
+            {
+                Id = Guid.NewGuid(),
+                Url = "https://www.versace.com/dw/image/v2/BGWN_PRD/on/demandware.static/-/Sites-ver-master-catalog/default/dwf9d0b70e/original/90_1012141-1A11358_1B000_10_BaroccoDevorShirt-Shirts-Versace-online-store_0_2.jpg?sw=1200&q=85&strip=true",
+                IsMain = true,
+                PublicId = "PublicId1",
+                ClothingItemId = clothingItems[5].Id
+            }
+        };
+
+        modelBuilder.Entity<ClothingItemPhoto>().HasData(clothingItemPhotos);
+        
         modelBuilder.Entity<DeliveryMethod>().HasData(
             new DeliveryMethod()
             {

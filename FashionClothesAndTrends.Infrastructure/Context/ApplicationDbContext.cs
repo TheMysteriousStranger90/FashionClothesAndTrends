@@ -31,6 +31,7 @@ public class ApplicationDbContext : IdentityDbContext<User, AppRole, string,
     public DbSet<Wishlist> Wishlists { get; set; }
     public DbSet<WishlistItem> WishlistItems { get; set; }
     public DbSet<UserPhoto> UserPhotos { get; set; }
+    public DbSet<ClothingItemPhoto> ClothingItemPhotos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -51,8 +52,8 @@ public class ApplicationDbContext : IdentityDbContext<User, AppRole, string,
         modelBuilder.ApplyConfiguration(new OrderHistoryConfiguration());
         modelBuilder.ApplyConfiguration(new OrderItemHistoryConfiguration());
         modelBuilder.ApplyConfiguration(new UserPhotoConfiguration());
-
-
+        modelBuilder.ApplyConfiguration(new ClothingItemConfiguration());
+        
         SeedDataInitializer.ContextSeed(modelBuilder);
     }
 }

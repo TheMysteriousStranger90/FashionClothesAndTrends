@@ -15,10 +15,19 @@ public class AutoMapperProfile : Profile
         CreateMap<User, RegisterDto>().ReverseMap();
 
         CreateMap<User, UserDto>()
+            .ForMember(dest => dest.PhotoUrl,
+                opt => opt.MapFrom(src => src.UserPhotos.FirstOrDefault(x => x.IsMain).Url));
+        CreateMap<User, UserDto>()
             .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.DateOfBirth.CalcuateAge()));
         
         CreateMap<UserPhoto, UserPhotoDto>();
         CreateMap<UserPhotoDto, UserPhoto>();
+
+        CreateMap<ClothingItem, ClothingItemDto>()
+            .ForMember(dest => dest.PictureUrl,
+                opt => opt.MapFrom(src => src.ClothingItemPhotos.FirstOrDefault(x => x.IsMain).Url));
+        CreateMap<ClothingItemPhoto, ClothingItemPhotoDto>();
+        CreateMap<ClothingItemPhotoDto, ClothingItemPhoto>();
         
         CreateMap<ShippingAddress, AddressDto>().ReverseMap();
         CreateMap<AddressDto, AddressAggregate>();
@@ -28,11 +37,11 @@ public class AutoMapperProfile : Profile
         CreateMap<Order, OrderToReturnDto>()
             .ForMember(d => d.DeliveryMethod, o => o.MapFrom(s => s.DeliveryMethod.ShortName))
             .ForMember(d => d.ShippingPrice, o => o.MapFrom(s => s.DeliveryMethod.Price));
+        
         CreateMap<OrderItem, OrderItemDto>()
             .ForMember(d => d.ClothingItemId, o => o.MapFrom(s => s.ItemOrdered.ClothingItemId))
             .ForMember(d => d.ClothingItemName, o => o.MapFrom(s => s.ItemOrdered.ClothingItemName))
-            .ForMember(d => d.PictureUrl, o => o.MapFrom(s => s.ItemOrdered.PictureUrl))
-            .ForMember(d => d.PictureUrl, o => o.MapFrom<OrderItemUrlResolver>());
+            .ForMember(d => d.PictureUrl, o => o.MapFrom(s => s.ItemOrdered.MainPictureUrl));
         
         CreateMap<Comment, CommentDto>()
             .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName))

@@ -15,6 +15,7 @@ public interface IUnitOfWork : IDisposable
     INotificationRepository NotificationRepository { get; }
     IRatingRepository RatingRepository { get; }
     IWishlistRepository WishlistRepository { get; }
+    IPhotoRepository PhotoRepository { get; }
 
     IUserRepository UserRepository { get; }
     UserManager<User> UserManager { get; }
