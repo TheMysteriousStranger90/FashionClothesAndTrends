@@ -1,4 +1,6 @@
-﻿using FashionClothesAndTrends.Application.Exceptions;
+﻿using AutoMapper;
+using FashionClothesAndTrends.Application.DTOs;
+using FashionClothesAndTrends.Application.Exceptions;
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.Application.UoW;
 using FashionClothesAndTrends.Domain.Entities;
@@ -11,11 +13,15 @@ public class OrderService : IOrderService
 {
     private readonly IBasketService _basketService;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IOrderHistoryService _orderHistoryService;
+    private readonly IMapper _mapper;
 
-    public OrderService(IBasketService basketService, IUnitOfWork unitOfWork)
+    public OrderService(IBasketService basketService, IUnitOfWork unitOfWork, IOrderHistoryService orderHistoryService, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _basketService = basketService;
+        _orderHistoryService = orderHistoryService;
+        _mapper = mapper;
     }
 
     public async Task<Order> CreateOrderAsync(string buyerEmail, Guid deliveryMethodId, string basketId,
@@ -72,10 +78,18 @@ public class OrderService : IOrderService
         {
             throw new InternalServerException("Failed to save the order.");
         }
+        
+        var orderDto = new OrderDto
+        {
+            BasketId = basketId,
+            DeliveryMethodId = deliveryMethodId,
+            ShipToAddress = _mapper.Map<AddressDto>(shippingAddress)
+        };
+        await _orderHistoryService.CreateOrderHistoryAsync(orderDto);
 
         return order;
     }
-
+    
     public async Task<IReadOnlyList<DeliveryMethod>> GetDeliveryMethodsAsync()
     {
         return await _unitOfWork.GenericRepository<DeliveryMethod>().ListAllAsync();
