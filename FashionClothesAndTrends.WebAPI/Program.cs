@@ -2,6 +2,7 @@ using FashionClothesAndTrends.Domain.Entities;
 using FashionClothesAndTrends.Infrastructure.Context;
 using FashionClothesAndTrends.Infrastructure.SeedData;
 using FashionClothesAndTrends.WebAPI.Extensions;
+using FashionClothesAndTrends.WebAPI.Middleware;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,8 @@ builder.Services.AddSwaggerDocumentation();
 builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -45,6 +48,22 @@ app.MapGet("/weatherforecast", () =>
     })
     .WithName("GetWeatherForecast")
     .WithOpenApi();
+
+
+app.UseCors(builder => builder
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowCredentials()
+    .WithOrigins("https://localhost:4200"));
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseDefaultFiles();
+//app.UseStaticFiles();
+
+app.MapControllers();
+
 
 
 using var scope = app.Services.CreateScope();

@@ -27,5 +27,4 @@
       <ProjectReference Include="..\FashionClothesAndTrends.Application\FashionClothesAndTrends.Application.csproj" />
       <ProjectReference Include="..\FashionClothesAndTrends.Infrastructure\FashionClothesAndTrends.Infrastructure.csproj" />
     </ItemGroup>
-
 </Project>
