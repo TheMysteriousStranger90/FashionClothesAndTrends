@@ -84,12 +84,14 @@ public class AccountController : BaseApiController
         }
     }
 
-    [HttpGet("emailexists")]
+    [Authorize(Policy = "RequireAdminRole")]
+    [HttpGet("check-email-exists")]
     public async Task<ActionResult<bool>> CheckEmailExistsAsync([FromQuery] string email)
     {
         try
         {
-            return await _authService.CheckEmailExistsAsync(email);
+            var exists = await _authService.CheckEmailExistsAsync(email);
+            return Ok(exists);
         }
         catch (Exception ex)
         {
@@ -97,12 +99,14 @@ public class AccountController : BaseApiController
         }
     }
 
-    [HttpGet("usernameexists")]
+    [Authorize(Policy = "RequireAdminRole")]
+    [HttpGet("check-username-exists")]
     public async Task<ActionResult<bool>> CheckUserNameExistsAsync([FromQuery] string userName)
     {
         try
         {
-            return await _authService.CheckUserNameExistsAsync(userName);
+            var exists = await _authService.CheckUserNameExistsAsync(userName);
+            return Ok(exists);
         }
         catch (Exception ex)
         {
