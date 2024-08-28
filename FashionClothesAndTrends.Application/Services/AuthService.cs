@@ -32,27 +32,28 @@ public class AuthService : IAuthService
             throw new ForbiddenException("Invalid claims principal");
         }
 
-        var user = await _unitOfWork.UserManager.FindByEmailAsync(email);
+        var user = await _unitOfWork.UserManager.Users
+            .Include(u => u.UserPhotos)
+            .FirstOrDefaultAsync(u => u.Email == email);
 
-        return new UserDto
+        if (user == null)
         {
-            Email = user.Email,
-            Token = await _tokenService.CreateToken(user),
-            Username = user.UserName,
-            PhotoUrl = user.UserPhotos.FirstOrDefault(x => x.IsMain)?.Url,
-            Gender = user.Gender,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-        };
+            throw new NotFoundException("User not found");
+        }
+
+        var userDto = _mapper.Map<UserDto>(user);
+        userDto.Token = await _tokenService.CreateToken(user);
+
+        return userDto;
     }
 
     public async Task<UserDto> RegisterAsync(RegisterDto registerDto)
     {
-        if (await CheckEmailExistsAsync(registerDto.Email)) 
+        if (await CheckEmailExistsAsync(registerDto.Email))
             throw new UnauthorizedException("Email is taken");
 
         var user = _mapper.Map<User>(registerDto);
-        
+
         string baseUsername = $"{registerDto.FirstName}{registerDto.LastName}";
         string uniqueUsername;
         do
@@ -62,54 +63,45 @@ public class AuthService : IAuthService
 
         user.UserName = uniqueUsername.ToLower();
         user.Email = registerDto.Email.ToLower();
-        user.Created = DateTime.Now;
+        user.Created = DateTime.UtcNow;
+        user.LastActive = DateTime.UtcNow;
 
         var result = await _unitOfWork.UserManager.CreateAsync(user, registerDto.Password);
 
-        if (!result.Succeeded) 
+        if (!result.Succeeded)
             throw new UnauthorizedException("Error!");
 
         var roleResult = await _unitOfWork.UserManager.AddToRoleAsync(user, "Buyer");
 
-        if (!roleResult.Succeeded) 
+        if (!roleResult.Succeeded)
             throw new UnauthorizedException("Error!");
 
-        return new UserDto
-        {
-            Username = user.UserName,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            Email = user.Email,
-            Token = await _tokenService.CreateToken(user),
-            Gender = user.Gender,
-        };
+        var userDto = _mapper.Map<UserDto>(user);
+        userDto.Token = await _tokenService.CreateToken(user);
+
+        return userDto;
     }
 
     public async Task<UserDto> LoginAsync(LoginDto loginDto)
     {
         var user = await _unitOfWork.UserManager.Users
+            .Include(u => u.UserPhotos)
             .SingleOrDefaultAsync(x => x.Email == loginDto.Email);
 
-        if (user == null) 
+        if (user == null)
             throw new UnauthorizedException("Invalid email");
 
         var result = await _unitOfWork.SignInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
-        if (!result.Succeeded) 
+        if (!result.Succeeded)
             throw new UnauthorizedException("Invalid password");
 
-        return new UserDto
-        {
-            Email = user.Email,
-            Token = await _tokenService.CreateToken(user),
-            Username = user.UserName,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            Gender = user.Gender,
-            PhotoUrl = user.UserPhotos.FirstOrDefault(x => x.IsMain)?.Url,
-        };
+        var userDto = _mapper.Map<UserDto>(user);
+        userDto.Token = await _tokenService.CreateToken(user);
+
+        return userDto;
     }
-    
+
     public async Task<bool> CheckUserNameExistsAsync(string userName)
     {
         if (userName == null) throw new NotFoundException("UserName doesn't exist");
