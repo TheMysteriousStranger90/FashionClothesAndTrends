@@ -16,15 +16,15 @@ public class AutoMapperProfile : Profile
 
         CreateMap<User, UserDto>()
             .ForMember(dest => dest.PhotoUrl,
-                opt => opt.MapFrom(src => src.UserPhotos.FirstOrDefault(x => x.IsMain).Url));
-        CreateMap<User, UserDto>()
-            .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.DateOfBirth.CalcuateAge()));
+                opt => opt.MapFrom(src => src.UserPhotos.FirstOrDefault(x => x.IsMain).Url))
+            .ForMember(dest => dest.Age,
+                opt => opt.MapFrom(src => src.DateOfBirth.CalcuateAge()));
         
         CreateMap<UserPhoto, UserPhotoDto>();
         CreateMap<UserPhotoDto, UserPhoto>();
-
+        
         CreateMap<ClothingItem, ClothingItemDto>()
-            .ForMember(dest => dest.PictureUrl,
+            .ForPath(dest => dest.PictureUrl,
                 opt => opt.MapFrom(src => src.ClothingItemPhotos.FirstOrDefault(x => x.IsMain).Url));
         CreateMap<ClothingItemPhoto, ClothingItemPhotoDto>();
         CreateMap<ClothingItemPhotoDto, ClothingItemPhoto>();
@@ -50,11 +50,11 @@ public class AutoMapperProfile : Profile
         CreateMap<Coupon, CouponDto>().ReverseMap();
         
         CreateMap<FavoriteItem, FavoriteItemDto>()
-            .ForMember(dest => dest.ClothingItemDto.Name, opt => opt.MapFrom(src => src.ClothingItem.Name))
+            .ForPath(dest => dest.ClothingItemDto.Name, opt => opt.MapFrom(src => src.ClothingItem.Name))
             .ReverseMap();
         
         CreateMap<LikeDislike, LikeDislikeDto>()
-            .ForMember(dest => dest.UserDto.Username, opt => opt.MapFrom(src => src.User.UserName))
+            .ForPath(dest => dest.UserDto.Username, opt => opt.MapFrom(src => src.User.UserName))
             .ReverseMap();
         
         CreateMap<Notification, NotificationDto>().ReverseMap();

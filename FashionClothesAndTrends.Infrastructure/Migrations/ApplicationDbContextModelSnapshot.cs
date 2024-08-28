@@ -185,7 +185,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9eaf2bd3-7441-4533-bd25-82e55ba34b90"),
+                            Id = new Guid("97c769ce-d72a-431b-a2b5-516ecf3b1fa1"),
                             Category = 2,
                             ClothingBrandId = new Guid("3d6f79a2-c462-4c28-ae5f-0ec93b7f4e01"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -198,7 +198,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("cec7ead7-fb73-4bc5-83f9-bf2a038682b9"),
+                            Id = new Guid("82cd5572-9c46-4b95-a5f3-88b7e9551529"),
                             Category = 3,
                             ClothingBrandId = new Guid("b5d6b8f8-dad4-4f2f-8c52-2911d856b3ad"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -211,7 +211,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b7a5a95c-9e43-4c58-8b9a-ccac22bd2b70"),
+                            Id = new Guid("a8d03c89-275f-479d-9060-32d6d4cacc14"),
                             Category = 4,
                             ClothingBrandId = new Guid("e96c60b6-09df-4e1a-9d6c-617bdd48eaf5"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -224,7 +224,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b3ad6ec9-3a54-48f6-b4f9-ca7bae3318dd"),
+                            Id = new Guid("12dc3d88-9eba-4e1a-bfde-9e26430f7faa"),
                             Category = 3,
                             ClothingBrandId = new Guid("c981db82-b2f1-48c3-9864-efc6c56a5b0e"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -237,7 +237,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ff62aac9-6985-4a40-affc-a89190d136a2"),
+                            Id = new Guid("b23849ec-6066-482e-9e56-f52cebd2e074"),
                             Category = 0,
                             ClothingBrandId = new Guid("a2c5c305-f2c2-45e7-8f7d-c489bb7f7e8a"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -250,7 +250,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("cc193c80-e369-4e6e-9f57-0514cc47a8ef"),
+                            Id = new Guid("b3f2dc9c-05d4-46af-98bd-3183c77a63a9"),
                             Category = 0,
                             ClothingBrandId = new Guid("5d24a48b-6c72-4e2a-9ef2-64d0f657bfc6"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -298,8 +298,8 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7a06938b-c7e5-4ff9-9bb4-27ffb7c5b477"),
-                            ClothingItemId = new Guid("9eaf2bd3-7441-4533-bd25-82e55ba34b90"),
+                            Id = new Guid("a611e716-926a-4c3c-bad8-008ae812d42d"),
+                            ClothingItemId = new Guid("97c769ce-d72a-431b-a2b5-516ecf3b1fa1"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsMain = true,
                             PublicId = "PublicId6",
@@ -307,8 +307,8 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("062bc308-0dec-48f5-bbcd-8432b72ec85f"),
-                            ClothingItemId = new Guid("cec7ead7-fb73-4bc5-83f9-bf2a038682b9"),
+                            Id = new Guid("12b7ee44-d2e1-4a88-a8ef-da45ab47a857"),
+                            ClothingItemId = new Guid("82cd5572-9c46-4b95-a5f3-88b7e9551529"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsMain = true,
                             PublicId = "PublicId5",
@@ -316,8 +316,8 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7cb83a8a-8076-4dfb-b4bf-a5e7e47de44b"),
-                            ClothingItemId = new Guid("b7a5a95c-9e43-4c58-8b9a-ccac22bd2b70"),
+                            Id = new Guid("148643b3-a49b-49b4-9307-1ae5dfbf65e4"),
+                            ClothingItemId = new Guid("a8d03c89-275f-479d-9060-32d6d4cacc14"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsMain = true,
                             PublicId = "PublicId4",
@@ -325,8 +325,8 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d1f2b65c-1f7c-4318-960b-1b6583b490b8"),
-                            ClothingItemId = new Guid("b3ad6ec9-3a54-48f6-b4f9-ca7bae3318dd"),
+                            Id = new Guid("95d1da08-87db-441c-9378-1d1aaef63a08"),
+                            ClothingItemId = new Guid("12dc3d88-9eba-4e1a-bfde-9e26430f7faa"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsMain = true,
                             PublicId = "PublicId3",
@@ -334,8 +334,8 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("4af611af-827e-4146-9fae-7f2d719920bb"),
-                            ClothingItemId = new Guid("ff62aac9-6985-4a40-affc-a89190d136a2"),
+                            Id = new Guid("5271bdba-2476-4b7c-a52e-9a383e7e77b4"),
+                            ClothingItemId = new Guid("b23849ec-6066-482e-9e56-f52cebd2e074"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsMain = true,
                             PublicId = "PublicId2",
@@ -343,8 +343,8 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c900e8a8-c0a8-40a8-94e3-077e9d0f102b"),
-                            ClothingItemId = new Guid("cc193c80-e369-4e6e-9f57-0514cc47a8ef"),
+                            Id = new Guid("9c3121c4-2eba-4d17-a4d7-f011d0be7fe8"),
+                            ClothingItemId = new Guid("b3f2dc9c-05d4-46af-98bd-3183c77a63a9"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsMain = true,
                             PublicId = "PublicId1",
@@ -537,7 +537,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("20de984f-88af-40ba-bf03-8f0163fd507c"),
+                            Id = new Guid("2553874b-348b-42a3-ae8d-7bcbefb9579c"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DeliveryTime = "1-2 Days",
                             Description = "Fastest delivery time",
@@ -546,7 +546,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("14e6ee7b-fab1-4045-8b22-cd9785e3fd5e"),
+                            Id = new Guid("28a2b33f-5c19-4b75-9a4a-c4c6f0915271"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DeliveryTime = "2-5 Days",
                             Description = "Get it within 5 days",
@@ -555,7 +555,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("44b01398-285b-4b2e-8ba5-05d6028a1ea3"),
+                            Id = new Guid("dee606b1-e810-46fc-9b01-bc98d3c23089"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DeliveryTime = "5-10 Days",
                             Description = "Slower but cheap",
@@ -564,7 +564,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8b0e5ff3-5b6d-4528-8e1a-8d869b95fc5c"),
+                            Id = new Guid("88d33925-a1f6-4971-b840-137bc6a132a1"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DeliveryTime = "1-2 Weeks",
                             Description = "Free! You get what you pay for",
@@ -1275,30 +1275,27 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                                 .HasColumnType("nvarchar(450)");
 
                             b1.Property<string>("AddressLine")
-                                .IsRequired()
                                 .HasMaxLength(200)
                                 .HasColumnType("nvarchar(200)");
 
                             b1.Property<string>("City")
-                                .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("nvarchar(100)");
 
                             b1.Property<string>("Country")
-                                .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("nvarchar(100)");
 
-                            b1.Property<bool>("IsDefault")
-                                .HasColumnType("bit");
+                            b1.Property<bool?>("IsDefault")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("bit")
+                                .HasDefaultValue(false);
 
                             b1.Property<string>("PostalCode")
-                                .IsRequired()
                                 .HasMaxLength(20)
                                 .HasColumnType("nvarchar(20)");
 
                             b1.Property<string>("State")
-                                .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("nvarchar(100)");
 
