@@ -55,9 +55,6 @@ public static class ApplicationServicesExtensions
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IClothingItemService, ClothingItemService>();
         
-
-
-        
         return services;
     }
 }
