@@ -3,6 +3,7 @@
   &lt;Or&gt;&#xD;
     &lt;TestAncestor&gt;&#xD;
       &lt;TestId&gt;xUnit::2D35B861-E111-4B9F-B014-BAA36E2A8E6E::net8.0::FashionClothesAndTrends.WebAPI.Tests.AccountControllerTests&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::2D35B861-E111-4B9F-B014-BAA36E2A8E6E::net8.0::FashionClothesAndTrends.WebAPI.Tests.PaymentsControllerTests&lt;/TestId&gt;&#xD;
     &lt;/TestAncestor&gt;&#xD;
     &lt;ProjectFile&gt;2D35B861-E111-4B9F-B014-BAA36E2A8E6E/f:OrdersControllerTests.cs&lt;/ProjectFile&gt;&#xD;
   &lt;/Or&gt;&#xD;
