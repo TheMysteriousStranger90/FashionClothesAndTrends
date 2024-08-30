@@ -27,7 +27,10 @@ public static class IdentityServiceExtensions
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Token:Key"])),
                     ValidIssuer = config["Token:Issuer"],
                     ValidateIssuer = true,
-                    ValidateAudience = false
+                    ValidateAudience = false,
+                    
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.FromMinutes(10) 
                 };
 
                 options.Events = new JwtBearerEvents
