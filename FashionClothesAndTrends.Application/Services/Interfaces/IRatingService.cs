@@ -6,4 +6,5 @@ public interface IRatingService
 {
     Task AddRatingAsync(Guid clothingItemId, RatingDto rating);
     Task<double?> GetAverageRatingAsync(Guid clothingItemId);
+    Task UpdateRatingAsync(RatingDto ratingDto);
 }

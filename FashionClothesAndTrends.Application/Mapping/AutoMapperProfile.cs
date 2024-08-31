@@ -60,7 +60,7 @@ public class AutoMapperProfile : Profile
         CreateMap<Notification, NotificationDto>().ReverseMap();
         
         CreateMap<Rating, RatingDto>()
-            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName))
+            .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.UserName))
             .ReverseMap();
         
         CreateMap<Wishlist, WishlistDto>().ReverseMap();

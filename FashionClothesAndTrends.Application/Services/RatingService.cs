@@ -35,7 +35,7 @@ public class RatingService : IRatingService
     
     public async Task UpdateRatingAsync(RatingDto ratingDto)
     {
-        var user = await _unitOfWork.UserRepository.GetUserByUserName(ratingDto.UserName);
+        var user = await _unitOfWork.UserRepository.GetUserByUserName(ratingDto.Username);
         await _unitOfWork.RatingRepository.UpdateRatingAsync(user.Id, ratingDto.ClothingItemId, ratingDto.Score);
     }
 }
