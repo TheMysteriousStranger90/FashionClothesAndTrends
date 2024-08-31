@@ -44,7 +44,7 @@ public class AutoMapperProfile : Profile
             .ForMember(d => d.PictureUrl, o => o.MapFrom(s => s.ItemOrdered.MainPictureUrl));
         
         CreateMap<Comment, CommentDto>()
-            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName))
+            .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.UserName))
             .ReverseMap();
         
         CreateMap<Coupon, CouponDto>().ReverseMap();
