@@ -34,7 +34,7 @@ public class RatingController : BaseApiController
         }
     }
 
-    [HttpGet("{clothingItemId}")]
+    [HttpGet("clothing/{clothingItemId}/average")]
     public async Task<ActionResult<double?>> GetAverageRating(Guid clothingItemId)
     {
         try
@@ -53,7 +53,7 @@ public class RatingController : BaseApiController
     {
         try
         {
-            await _ratingService.UpdateRatingAsync (ratingDto);
+            await _ratingService.UpdateRatingAsync(ratingDto);
             return Ok();
         }
         catch (Exception ex)
