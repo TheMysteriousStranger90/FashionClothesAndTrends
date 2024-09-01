@@ -17,43 +17,49 @@ public static class IdentityServiceExtensions
             .AddRoleManager<RoleManager<AppRole>>()
             .AddSignInManager<SignInManager<User>>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
-        
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
+
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
             {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Token:Key"])),
-                    ValidIssuer = config["Token:Issuer"],
-                    ValidateIssuer = true,
-                    ValidateAudience = false,
-                    
-                    ValidateLifetime = true,
-                    ClockSkew = TimeSpan.FromMinutes(10) 
-                };
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Token:Key"])),
+                ValidIssuer = config["Token:Issuer"],
+                ValidAudience = config["Token:Audience"],
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.FromMinutes(10),
+                ValidateIssuerSigningKey = true
+            };
 
-                options.Events = new JwtBearerEvents
+            options.Events = new JwtBearerEvents
+            {
+                OnMessageReceived = context =>
                 {
-                    OnMessageReceived = context =>
+                    var accessToken = context.Request.Query["access_token"];
+
+                    var path = context.HttpContext.Request.Path;
+                    if (!string.IsNullOrEmpty(accessToken))
                     {
-                        var accessToken = context.Request.Query["access_token"];
-
-                        var path = context.HttpContext.Request.Path;
-                        if (!string.IsNullOrEmpty(accessToken))
-                        {
-                            context.Token = accessToken;
-                        }
-
-                        return Task.CompletedTask;
+                        context.Token = accessToken;
                     }
-                };
-            });
+
+                    return Task.CompletedTask;
+                }
+            };
+        });
 
         services.AddAuthorization(opt =>
         {
             opt.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Administrator"));
         });
+
+        services.AddControllers();
 
         return services;
     }
