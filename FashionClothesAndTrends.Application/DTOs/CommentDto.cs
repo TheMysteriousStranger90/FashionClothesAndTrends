@@ -7,5 +7,6 @@ public class CommentDto
     public string Username { get; set; }
     public string UserId { get; set; }
     public DateTime CreatedAt { get; set; }
+    public string? TimeAgo { get; set; }
     public List<LikeDislikeDto> LikesDislikes { get; set; }
 }

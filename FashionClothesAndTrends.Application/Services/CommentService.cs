@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Exceptions;
+using FashionClothesAndTrends.Application.Extensions;
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.Application.UoW;
 using FashionClothesAndTrends.Domain.Entities;
@@ -50,7 +51,13 @@ public class CommentService : ICommentService
             throw new NotFoundException("No comments found for this clothing item.");
         }
 
-        return _mapper.Map<IEnumerable<CommentDto>>(comments);
+        var commentDtos = _mapper.Map<IEnumerable<CommentDto>>(comments);
+        foreach (var commentDto in commentDtos)
+        {
+            commentDto.TimeAgo = commentDto.CreatedAt.DateTimeAgo();
+        }
+
+        return commentDtos;
     }
 
     public async Task<IEnumerable<CommentDto>> GetCommentsByUserIdAsync(string userId)
@@ -61,6 +68,12 @@ public class CommentService : ICommentService
             throw new NotFoundException("No comments found for this user.");
         }
 
-        return _mapper.Map<IEnumerable<CommentDto>>(comments);
+        var commentDtos = _mapper.Map<IEnumerable<CommentDto>>(comments);
+        foreach (var commentDto in commentDtos)
+        {
+            commentDto.TimeAgo = commentDto.CreatedAt.DateTimeAgo();
+        }
+
+        return commentDtos;
     }
 }
