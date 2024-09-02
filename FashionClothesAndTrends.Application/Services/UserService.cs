@@ -44,6 +44,18 @@ public class UserService : IUserService
 
         return _mapper.Map<UserDto>(user);
     }
+    
+    public async Task<IReadOnlyList<UserDto>> GetAllUsersAsync()
+    {
+        var users = await _unitOfWork.UserRepository.GetAllUsersAsync();
+        return _mapper.Map<IReadOnlyList<UserDto>>(users);
+    }
+
+    public async Task<IReadOnlyList<UserDto>> SearchUsersByNameAsync(string name)
+    {
+        var users = await _unitOfWork.UserRepository.SearchUsersByNameAsync(name);
+        return _mapper.Map<IReadOnlyList<UserDto>>(users);
+    }
 
     public async Task<UserPhotoDto> AddPhotoByUser(ImageUploadResult result, string userName)
     {
