@@ -54,6 +54,7 @@ public static class ApplicationServicesExtensions
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IClothingItemService, ClothingItemService>();
+        services.AddScoped<ICouponService, CouponService>();
         
         return services;
     }

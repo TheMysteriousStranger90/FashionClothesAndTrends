@@ -1,4 +1,5 @@
-﻿using FashionClothesAndTrends.Domain.Common;
+﻿using System.Linq.Expressions;
+using FashionClothesAndTrends.Domain.Common;
 using FashionClothesAndTrends.Domain.Specifications.Interfaces;
 
 namespace FashionClothesAndTrends.Domain.Interfaces;
@@ -16,4 +17,5 @@ public interface IGenericRepository<T> where T : BaseEntity
     Task AddAsync(T entity);
     Task UpdateAsync(T entity);
     Task RemoveAsync(T entity);
+    Task<T> GetByConditionAsync(Expression<Func<T, bool>> predicate);
 }

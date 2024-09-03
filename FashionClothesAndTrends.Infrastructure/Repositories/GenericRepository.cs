@@ -1,4 +1,5 @@
-﻿using FashionClothesAndTrends.Domain.Common;
+﻿using System.Linq.Expressions;
+using FashionClothesAndTrends.Domain.Common;
 using FashionClothesAndTrends.Domain.Interfaces;
 using FashionClothesAndTrends.Domain.Specifications;
 using FashionClothesAndTrends.Domain.Specifications.Interfaces;
@@ -74,6 +75,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         _dbSet.Remove(entity);
         await _context.SaveChangesAsync();
+    }
+    
+    public async Task<T> GetByConditionAsync(Expression<Func<T, bool>> predicate)
+    {
+        return await _dbSet.FirstOrDefaultAsync(predicate);
     }
 
     private IQueryable<T> ApplySpecification(ISpecification<T> spec)

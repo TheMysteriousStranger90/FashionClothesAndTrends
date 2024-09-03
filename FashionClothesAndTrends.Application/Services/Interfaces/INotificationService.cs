@@ -4,6 +4,7 @@ namespace FashionClothesAndTrends.Application.Services.Interfaces;
 
 public interface INotificationService
 {
+    Task NotifyUserAboutDiscountAsync(string userId, Guid clothingItemId);
     Task AddNotificationAsync(NotificationDto notificationDto);
     Task MarkAsReadAsync(Guid notificationId);
     Task<IEnumerable<NotificationDto>> GetNotificationsByUserIdAsync(string userId);

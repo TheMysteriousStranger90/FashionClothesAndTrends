@@ -25,4 +25,12 @@ public class WishlistRepository : GenericRepository<Wishlist>, IWishlistReposito
             .Include(w => w.Items)
             .FirstOrDefaultAsync(w => w.UserId == userId && w.Name == name);
     }
+    
+    public async Task<IReadOnlyList<Wishlist>> GetWishlistsByClothingItemIdAsync(Guid clothingItemId)
+    {
+        return await _context.Wishlists
+            .Where(w => w.Items.Any(i => i.ClothingItemId == clothingItemId))
+            .Include(w => w.Items)
+            .ToListAsync();
+    }
 }
