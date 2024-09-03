@@ -26,7 +26,7 @@ public static class ApplicationServicesExtensions
         
         services.AddSingleton<IConnectionMultiplexer>(c => 
         {
-            var options = ConfigurationOptions.Parse(config.GetConnectionString("Redis"));
+            var options = ConfigurationOptions.Parse(config.GetConnectionString("Redis"), true);
             return ConnectionMultiplexer.Connect(options);
         });
         

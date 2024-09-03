@@ -23,7 +23,7 @@ public class ClothingItemService : IClothingItemService
         _photoService = photoService;
     }
 
-    public async Task<ClothingItemDto> GetClothingItem(Guid clothingItemId)
+    public async Task<ClothingItemDto> GetClothingItemById(Guid clothingItemId)
     {
         var spec = new ClothingItemsWithTypesAndBrandsSpecification(clothingItemId);
 
@@ -34,11 +34,11 @@ public class ClothingItemService : IClothingItemService
         return _mapper.Map<ClothingItem, ClothingItemDto>(clothingItem);
     }
 
-    public async Task<Pagination<ClothingItemDto>> GetClothingItems(ClothingSpecParams clothingSpecParamsParams)
+    public async Task<Pagination<ClothingItemDto>> GetClothingItems(ClothingSpecParams clothingSpecParams)
     {
-        var spec = new ClothingItemsWithTypesAndBrandsSpecification(clothingSpecParamsParams);
+        var spec = new ClothingItemsWithTypesAndBrandsSpecification(clothingSpecParams);
 
-        var countSpec = new ClothingItemWithFiltersForCountSpecificication(clothingSpecParamsParams);
+        var countSpec = new ClothingItemWithFiltersForCountSpecificication(clothingSpecParams);
 
         var totalItems = await _unitOfWork.GenericRepository<ClothingItem>().CountAsync(countSpec);
 
@@ -47,7 +47,7 @@ public class ClothingItemService : IClothingItemService
         var data = _mapper
             .Map<IReadOnlyList<ClothingItem>, IReadOnlyList<ClothingItemDto>>(clothingItems);
         
-        return new Pagination<ClothingItemDto>(clothingSpecParamsParams.PageIndex, clothingSpecParamsParams.PageSize, totalItems, data);
+        return new Pagination<ClothingItemDto>(clothingSpecParams.PageIndex, clothingSpecParams.PageSize, totalItems, data);
     }
 
     public async Task<IReadOnlyList<ClothingBrand>> GetClothingBrands()

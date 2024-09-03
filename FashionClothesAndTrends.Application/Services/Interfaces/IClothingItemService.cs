@@ -8,8 +8,8 @@ namespace FashionClothesAndTrends.Application.Services.Interfaces;
 
 public interface IClothingItemService
 {
-    Task<ClothingItemDto> GetClothingItem(Guid clothingItemId);
-    Task<Pagination<ClothingItemDto>> GetClothingItems(ClothingSpecParams clothingSpecParamsParams);
+    Task<ClothingItemDto> GetClothingItemById(Guid clothingItemId);
+    Task<Pagination<ClothingItemDto>> GetClothingItems(ClothingSpecParams clothingSpecParams);
     Task<IReadOnlyList<ClothingBrand>> GetClothingBrands();
     Task<ClothingItemPhotoDto> AddPhotoByClothingItem(ImageUploadResult result, Guid clothingItemId);
     Task SetMainClothingItemPhotoByClothingItem(Guid clothingItemPhotoId, Guid clothingItemId);
