@@ -8,6 +8,12 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["FashionClothesAndTrends.WebAPI/FashionClothesAndTrends.WebAPI.csproj", "FashionClothesAndTrends.WebAPI/"]
+
+RUN pwd && ls
+COPY ["FashionClothesAndTrends.Application/FashionClothesAndTrends.Application.csproj", "FashionClothesAndTrends.Application"]
+COPY ["FashionClothesAndTrends.Domain/FashionClothesAndTrends.Domain.csproj", "FashionClothesAndTrends.Domain"]
+COPY ["FashionClothesAndTrends.Infrastructure/FashionClothesAndTrends.Infrastructure.csproj", "FashionClothesAndTrends.Infrastructure"]
+
 RUN dotnet restore "FashionClothesAndTrends.WebAPI/FashionClothesAndTrends.WebAPI.csproj"
 COPY . .
 WORKDIR "/src/FashionClothesAndTrends.WebAPI"
