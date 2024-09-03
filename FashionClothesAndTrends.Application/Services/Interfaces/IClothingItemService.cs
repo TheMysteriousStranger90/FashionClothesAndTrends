@@ -10,8 +10,11 @@ public interface IClothingItemService
 {
     Task<ClothingItemDto> GetClothingItemById(Guid clothingItemId);
     Task<Pagination<ClothingItemDto>> GetClothingItems(ClothingSpecParams clothingSpecParams);
-    Task<IReadOnlyList<ClothingBrand>> GetClothingBrands();
+    Task<IReadOnlyList<ClothingBrandDto>> GetClothingBrands();
     Task<ClothingItemPhotoDto> AddPhotoByClothingItem(ImageUploadResult result, Guid clothingItemId);
     Task SetMainClothingItemPhotoByClothingItem(Guid clothingItemPhotoId, Guid clothingItemId);
     Task DeleteClothingItemPhotoByClothingItem(Guid clothingItemPhotoId, Guid clothingItemId);
+    Task AddClothingBrandAsync(ClothingBrandDto clothingBrandDto);
+    Task AddClothingItemAsync(ClothingItemDto clothingItemDto);
+    Task<IReadOnlyList<ClothingItemDto>> GetAllClothingItemsAsync();
 }

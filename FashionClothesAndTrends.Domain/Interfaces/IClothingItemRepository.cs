@@ -11,7 +11,7 @@ public interface IClothingItemRepository
     Task<IReadOnlyList<ClothingItem>> GetClothingByGenderAsync(Gender gender);
     Task<IReadOnlyList<ClothingItem>> GetClothingBySizeAsync(Size size);
     Task<IReadOnlyList<ClothingItem>> GetClothingByCategoryAsync(Category category);
-
     Task<IReadOnlyList<ClothingItem>> GetClothingByFiltersAsync(Gender? gender = null, Size? size = null,
         Category? category = null);
+    Task<IReadOnlyList<ClothingItem>> GetAllClothingItemsAsync();
 }

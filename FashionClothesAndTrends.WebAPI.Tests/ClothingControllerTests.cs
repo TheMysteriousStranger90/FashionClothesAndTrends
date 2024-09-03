@@ -1,4 +1,5 @@
-﻿using FashionClothesAndTrends.Application.DTOs;
+﻿using AutoMapper;
+using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Helpers;
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.Domain.Entities;
@@ -13,10 +14,18 @@ public class ClothingControllerTests
 {
     private readonly Mock<IClothingItemService> _mockClothingItemService;
     private readonly ClothingController _controller;
+    private readonly IMapper _mapper;
 
     public ClothingControllerTests()
     {
         _mockClothingItemService = new Mock<IClothingItemService>();
+
+        var config = new MapperConfiguration(cfg =>
+        {
+            cfg.CreateMap<ClothingBrand, ClothingBrandDto>().ReverseMap();
+        });
+        _mapper = config.CreateMapper();
+
         _controller = new ClothingController(_mockClothingItemService.Object);
     }
 
@@ -93,17 +102,23 @@ public class ClothingControllerTests
     public async Task GetClothingBrandS_ReturnsOkResult_WhenBrandsExist()
     {
         // Arrange
-        var clothingBrands = new List<ClothingBrand> { new ClothingBrand { Id = Guid.NewGuid(), Name = "Test Brand" } };
+        var clothingBrands = new List<ClothingBrand>
+        {
+            new ClothingBrand { Id = Guid.NewGuid(), Name = "Test Brand" }
+        };
+        var clothingBrandDtos = _mapper.Map<IReadOnlyList<ClothingBrandDto>>(clothingBrands);
+
         _mockClothingItemService.Setup(service => service.GetClothingBrands())
-            .ReturnsAsync(clothingBrands);
+            .ReturnsAsync(clothingBrandDtos);
 
         // Act
         var result = await _controller.GetClothingBrandS();
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
-        var returnValue = Assert.IsType<List<ClothingBrand>>(okResult.Value);
+        var returnValue = Assert.IsType<List<ClothingBrandDto>>(okResult.Value);
         Assert.Single(returnValue);
+        Assert.Equal(clothingBrandDtos[0].Name, returnValue[0].Name);
     }
 
     [Fact]
