@@ -53,6 +53,7 @@ public static class ApplicationServicesExtensions
         services.AddScoped<IPhotoService, PhotoService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IAdminService, AdminService>();
         services.AddScoped<IClothingItemService, ClothingItemService>();
         services.AddScoped<ICouponService, CouponService>();
         
