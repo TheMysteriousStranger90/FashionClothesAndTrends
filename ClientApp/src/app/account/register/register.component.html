@@ -1,0 +1,69 @@
+<div class="vh-100 gradient-custom">
+  <div class="container py-2 h-25">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-4 col-md-8 col-lg-6 col-xl-5">
+        <mat-card class="bg-primary mb-3" style="border-radius: 1rem;">
+          <mat-card-content class="p-3 text-center">
+            <form [formGroup]="registerForm" (ngSubmit)="register()" style="color: #9f7aea">
+              <div class="mb-md-5 mt-md-4 pb-5">
+                <h2 class="fw-bold mb-2 text-uppercase" style="color: #9f7aea">Register</h2>
+                <p class="text-50 mb-5" style="color:#9f7aea">Please fill in the form to create an account!</p>
+                <mat-form-field appearance="fill">
+                  <mat-label>First Name</mat-label>
+                  <input matInput formControlName="firstName" type="text">
+                  <mat-error *ngIf="registerForm.get('firstName')?.hasError('required')">First Name is required</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                  <mat-label>Last Name</mat-label>
+                  <input matInput formControlName="lastName" type="text">
+                  <mat-error *ngIf="registerForm.get('lastName')?.hasError('required')">Last Name is required</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                  <mat-label>Email Address</mat-label>
+                  <input matInput formControlName="email" type="email">
+                  <mat-error *ngIf="registerForm.get('email')?.hasError('required')">Email is required</mat-error>
+                  <mat-error *ngIf="registerForm.get('email')?.hasError('email')">Invalid email address</mat-error>
+                  <mat-error *ngIf="registerForm.get('email')?.hasError('emailExists')">Email already exists</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                  <mat-label>Password</mat-label>
+                  <input matInput formControlName="password" type="password">
+                  <mat-error *ngIf="registerForm.get('password')?.hasError('required')">Password is required</mat-error>
+                  <mat-error *ngIf="registerForm.get('password')?.hasError('pattern')">Password must have 1 Uppercase, 1 Lowercase, 1 number, 1 non alphanumeric and at least 6 characters</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                  <mat-label>Confirm Password</mat-label>
+                  <input matInput formControlName="confirmPassword" type="password">
+                  <mat-error *ngIf="registerForm.get('confirmPassword')?.hasError('required')">Confirm Password is required</mat-error>
+                  <mat-error *ngIf="registerForm.get('confirmPassword')?.hasError('notMatching')">Passwords must match</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                  <mat-label>Date of Birth</mat-label>
+                  <input matInput formControlName="dateOfBirth" [matDatepicker]="picker" type="text">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-error *ngIf="registerForm.get('dateOfBirth')?.hasError('required')">Date of Birth is required</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                  <mat-label>Gender</mat-label>
+                  <mat-select formControlName="gender">
+                    <mat-option value="male">Male</mat-option>
+                    <mat-option value="female">Female</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <div class="d-grid">
+                  <button mat-raised-button color="accent" [disabled]="registerForm.invalid" class="mt-3" style="margin-right: 10px" type="submit">Register</button>
+                </div>
+                <div *ngIf="validationErrors" class="alert alert-danger mt-3">
+                  <ul>
+                    <li *ngFor="let error of validationErrors">{{ error }}</li>
+                  </ul>
+                </div>
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

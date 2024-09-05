@@ -1,5 +1,6 @@
 ﻿using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Services.Interfaces;
+using FashionClothesAndTrends.WebAPI.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -78,6 +79,38 @@ public class UsersController : BaseApiController
         {
             var users = await _userService.SearchUsersByNameAsync(name);
             return Ok(users);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [Authorize]
+    [HttpGet("address")]
+    public async Task<ActionResult<AddressDto>> GetUserAddress()
+    {
+        try
+        {
+            var userName = User.GetUserName();
+            var adressDto = await _userService.GetUserAddress(userName);
+            return Ok(adressDto);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [Authorize]
+    [HttpPut("address")]
+    public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto address)
+    {
+        try
+        {
+            var userName = User.GetUserName();
+            var adressDto = await _userService.UpdateUserAddress(address, userName);
+            return Ok(adressDto);
         }
         catch (Exception ex)
         {

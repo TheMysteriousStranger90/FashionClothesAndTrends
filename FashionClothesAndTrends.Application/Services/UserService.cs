@@ -5,6 +5,7 @@ using FashionClothesAndTrends.Application.Exceptions;
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.Application.UoW;
 using FashionClothesAndTrends.Domain.Entities;
+using Stripe;
 
 namespace FashionClothesAndTrends.Application.Services;
 
@@ -19,6 +20,30 @@ public class UserService : IUserService
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _photoService = photoService;
+    }
+
+    public async Task<AddressDto> GetUserAddress(string userName)
+    {
+        var user = await _unitOfWork.UserRepository.GetUserByUserName(userName);
+        if (user == null) throw new NotFoundException("Not Found!");
+
+        return _mapper.Map<ShippingAddress, AddressDto>(user.Address);
+    }
+
+    public async Task<AddressDto> UpdateUserAddress(AddressDto address, string userName)
+    {
+        var user = await _unitOfWork.UserRepository.GetUserByUserName(userName);
+        if (user == null) throw new NotFoundException("Not Found!");
+
+        user.Address = _mapper.Map<AddressDto, ShippingAddress>(address);
+
+        var result = await _unitOfWork.UserManager.UpdateAsync(user);
+        if (!result.Succeeded)
+        {
+            throw new Exception("Failed to update user address");
+        }
+
+        return _mapper.Map<AddressDto>(user.Address);
     }
 
     public async Task<UserDto> GetUserByUsernameAsync(string userName)
@@ -44,7 +69,7 @@ public class UserService : IUserService
 
         return _mapper.Map<UserDto>(user);
     }
-    
+
     public async Task<IReadOnlyList<UserDto>> GetAllUsersAsync()
     {
         var users = await _unitOfWork.UserRepository.GetAllUsersAsync();
