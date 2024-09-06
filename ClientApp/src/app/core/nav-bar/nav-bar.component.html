@@ -1,0 +1,46 @@
+<mat-toolbar color="primary" class="d-flex flex-row align-items-center justify-content-between p-3 px-4 mb-3 fixed-top shadow-sm">
+  <img src="/assets/images/logo.png" alt="logo" class="logo" style="max-height: 60px;" routerLink="/">
+
+    <nav class="my-2 text-uppercase fs-4">
+      <a mat-button
+         routerLink="/"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{exact: true}"
+      >Home</a>
+      <a mat-button routerLink="/shop" routerLinkActive="active">Shop</a>
+    </nav>
+
+    <div class="d-flex align-items-center">
+      <a routerLink="/basket" class="position-relative">
+        <mat-icon class="me-4">shopping_cart</mat-icon>
+        <div *ngIf="(basketService.basketSource$ | async) as basket" class="cart-no fa-2x">
+          {{getCount(basket.items)}}
+        </div>
+      </a>
+
+    <div class="align-end" *ngIf="(accountService.currentUser$ | async) === null">
+      <button mat-button routerLink="/account/login">Login</button>
+      <button mat-button routerLink="/account/register">Sign up</button>
+    </div>
+
+    <div *ngIf="accountService.currentUser$ | async as user">
+      <mat-menu #appMenu="matMenu">
+        <button mat-menu-item *appHasRole="['Administrator']" routerLink="/admin/admin-panel">
+          <mat-icon>person</mat-icon>
+          <span>Admin</span>
+        </button>
+
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="accountService.logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+
+      <button mat-button [matMenuTriggerFor]="appMenu">
+        Welcome {{user.firstName + ' ' + user.lastName}}
+        <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>
