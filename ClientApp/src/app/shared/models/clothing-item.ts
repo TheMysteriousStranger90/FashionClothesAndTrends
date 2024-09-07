@@ -11,3 +11,5 @@ export interface ClothingItem {
   pictureUrl: string;
   brand: string;
 }
+
+export class ClothingItem implements ClothingItem {}
