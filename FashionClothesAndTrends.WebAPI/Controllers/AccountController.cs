@@ -83,8 +83,7 @@ public class AccountController : BaseApiController
             return BadRequest(ex.Message);
         }
     }
-
-    [Authorize(Policy = "RequireAdminRole")]
+    
     [HttpGet("check-email-exists")]
     public async Task<ActionResult<bool>> CheckEmailExistsAsync([FromQuery] string email)
     {
@@ -98,8 +97,7 @@ public class AccountController : BaseApiController
             return BadRequest(ex.Message);
         }
     }
-
-    [Authorize(Policy = "RequireAdminRole")]
+    
     [HttpGet("check-username-exists")]
     public async Task<ActionResult<bool>> CheckUserNameExistsAsync([FromQuery] string userName)
     {

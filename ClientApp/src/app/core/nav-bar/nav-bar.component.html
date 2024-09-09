@@ -10,13 +10,13 @@
       <a mat-button routerLink="/shop" routerLinkActive="active">Shop</a>
     </nav>
 
-    <div class="d-flex align-items-center">
-      <a routerLink="/basket" class="position-relative">
-        <mat-icon class="me-4">shopping_cart</mat-icon>
-        <div *ngIf="(basketService.basketSource$ | async) as basket" class="cart-no fa-2x">
-          {{getCount(basket.items)}}
-        </div>
-      </a>
+  <div class="d-flex align-items-center">
+    <a routerLink="/basket" class="position-relative">
+      <mat-icon class="me-4 white-icon">shopping_cart</mat-icon>
+      <div *ngIf="(basketService.basketSource$ | async) as basket" class="cart-no fa-2x">
+        {{getCount(basket.items)}}
+      </div>
+    </a>
 
     <div class="align-end" *ngIf="(accountService.currentUser$ | async) === null">
       <button mat-button routerLink="/account/login">Login</button>

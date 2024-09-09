@@ -32,6 +32,10 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
   ],
   exports: [
     NavBarComponent,
+    HasRoleDirective,
+    RolesModalComponent,
+    NgxSpinnerModule,
+    ConfirmDialogComponent
   ]
 })
 export class CoreModule { }

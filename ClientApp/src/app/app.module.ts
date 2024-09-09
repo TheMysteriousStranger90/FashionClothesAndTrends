@@ -9,6 +9,7 @@ import { GalleryModule } from 'ng-gallery';
 import { FileUploadModule } from 'ng2-file-upload';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TimeagoModule } from 'ngx-timeago';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { TimeagoModule } from 'ngx-timeago';
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
+    CoreModule,
     FormsModule,
     FileUploadModule,
     TimeagoModule.forRoot()

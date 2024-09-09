@@ -4,7 +4,7 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 @Component({
   selector: 'app-roles-modal',
   templateUrl: './roles-modal.component.html',
-  styleUrls: ['./roles-modal.component.scss']
+  styleUrls: ['./roles-modal.component.sass']
 })
 
 export class RolesModalComponent implements OnInit {
