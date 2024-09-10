@@ -11,7 +11,7 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatMenuModule} from '@angular/material/menu';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatRadioModule} from '@angular/material/radio';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
@@ -23,6 +23,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatDialogModule} from '@angular/material/dialog';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({
   declarations: [],
@@ -52,6 +53,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatTabsModule,
     MatGridListModule,
     MatDialogModule,
+    MatStepperModule,
+    FormsModule,
   ],
   exports: [
     MatFormFieldModule,
@@ -78,6 +81,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatTabsModule,
     MatGridListModule,
     MatDialogModule,
+    MatStepperModule,
+    FormsModule,
   ]
 })
 

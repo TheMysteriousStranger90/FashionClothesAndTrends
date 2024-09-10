@@ -1,0 +1,11 @@
+<div class="container" style="color: #ffffff">
+  <mat-horizontal-stepper [linear]="linearModeSelected" #stepper>
+    <mat-step *ngFor="let step of stepper.steps; let i = index" [stepControl]="step">
+      <ng-template matStepLabel>{{step.label}}</ng-template>
+      <div>
+        <button mat-button matStepperPrevious *ngIf="i > 0">Back</button>
+        <button mat-button matStepperNext *ngIf="i < stepper.steps.length - 1">Next</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>

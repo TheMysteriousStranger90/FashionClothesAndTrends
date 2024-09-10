@@ -5,11 +5,13 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import { BasketSummaryComponent } from './basket-summary/basket-summary.component';
 import { OrderTotalsComponent } from './order-totals/order-totals.component';
+import { StepperComponent } from './stepper/stepper.component';
 
 @NgModule({
   declarations: [
     BasketSummaryComponent,
-    OrderTotalsComponent
+    OrderTotalsComponent,
+    StepperComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +23,8 @@ import { OrderTotalsComponent } from './order-totals/order-totals.component';
   exports: [
     MaterialModule,
     BasketSummaryComponent,
-    OrderTotalsComponent
+    OrderTotalsComponent,
+    StepperComponent
   ]
 })
 export class SharedModule {
