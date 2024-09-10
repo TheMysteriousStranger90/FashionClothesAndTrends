@@ -55,6 +55,7 @@ import { MatStepper, MatStepperModule } from '@angular/material/stepper';
     MatDialogModule,
     MatStepperModule,
     FormsModule,
+    MatCardModule,
   ],
   exports: [
     MatFormFieldModule,
@@ -83,6 +84,7 @@ import { MatStepper, MatStepperModule } from '@angular/material/stepper';
     MatDialogModule,
     MatStepperModule,
     FormsModule,
+    MatCardModule,
   ]
 })
 
