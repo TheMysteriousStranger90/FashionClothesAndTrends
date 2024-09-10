@@ -1,7 +1,9 @@
+import { Guid } from "guid-typescript";
+
 export interface DeliveryMethod {
   shortName: string;
   deliveryTime: string;
   description: string;
   price: number;
-  id: string;
+  id: Guid;
 }

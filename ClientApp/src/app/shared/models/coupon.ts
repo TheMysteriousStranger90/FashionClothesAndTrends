@@ -1,5 +1,7 @@
+import { Guid } from "guid-typescript";
+
 export interface Coupon {
-  id: string;
+  id: Guid;
   code: string;
   discountPercentage: number;
   expiryDate: Date;

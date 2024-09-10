@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { OrderHistory } from '../shared/models/order-history';
+import { Guid } from 'guid-typescript';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class OrdersHistoryService {
     return this.http.get<OrderHistory[]>(`${this.baseUrl}orderhistory/${userId}`);
   }
 
-  getOrderHistoryById(id: string): Observable<OrderHistory> {
+  getOrderHistoryById(id: Guid): Observable<OrderHistory> {
     return this.http.get<OrderHistory>(`${this.baseUrl}orderhistory/order/${id}`);
   }
 }

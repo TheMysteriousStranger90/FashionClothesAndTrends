@@ -1,3 +1,4 @@
+import { Guid } from "guid-typescript";
 import { Address } from "./address";
 
 export interface OrderToCreate {
@@ -7,7 +8,7 @@ export interface OrderToCreate {
 }
 
 export interface OrderItem {
-  clothingItemId: string;
+  clothingItemId: Guid;
   clothingItemName: string;
   pictureUrl: string;
   price: number;
