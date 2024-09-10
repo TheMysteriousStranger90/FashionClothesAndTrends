@@ -1,15 +1,18 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { authGuard } from './core/guards/auth.guard';
-import { HomeComponent } from './home/home.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {authGuard} from './core/guards/auth.guard';
+import {HomeComponent} from './home/home.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent, data: {breadcrumb: 'Home'}},
-
-  {path: 'basket', loadChildren: () => import('./basket/basket.module').then(m => m.BasketModule),
+  {
+    path: 'shop', loadChildren: () => import('./shop/shop.module').then(m => m.ShopModule),
+    data: {breadcrumb: 'Shop'}
+  },
+  {
+    path: 'basket', loadChildren: () => import('./basket/basket.module').then(m => m.BasketModule),
     data: {breadcrumb: 'Basket'}
   },
-
   {
     path: 'orders',
     canActivate: [authGuard],
@@ -32,4 +35,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
