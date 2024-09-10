@@ -1,0 +1,23 @@
+<mat-card class="order-summary-card">
+  <mat-card-header class="order-summary-header">
+    <mat-card-title>Order summary</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content class="order-summary-content">
+    <p class="order-summary-note">Shipping costs will be calculated based on choices made during checkout</p>
+    <ul class="order-summary-list" *ngIf="(basketService.basketTotalSource$ | async) as totals">
+      <li class="order-summary-item">
+        <span class="order-summary-label">Order subtotal</span>
+        <span class="order-summary-value">{{totals.subtotal | currency}}</span>
+      </li>
+      <li class="order-summary-item">
+        <span class="order-summary-label">Shipping and handling</span>
+        <span class="order-summary-value">{{totals.shipping | currency}}</span>
+      </li>
+      <li class="order-summary-item">
+        <span class="order-summary-label">Total</span>
+        <span class="order-summary-value">{{totals.total | currency}}</span>
+      </li>
+    </ul>
+  </mat-card-content>
+</mat-card>
