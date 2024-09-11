@@ -1,6 +1,6 @@
-<div class="container mt-5" style="color: #9f7aea;">
+<div class="container mt-5 basket-container">
   <div *ngIf="(basketService.basketSource$ | async) === null">
-    <p>There are no items in your basket</p>
+    <p class="no-items-message">There are no items in your basket</p>
   </div>
 
   <ng-container *ngIf="(basketService.basketSource$ | async) as basket">
@@ -16,7 +16,7 @@
         <div class="col-6 offset-6">
           <app-order-totals></app-order-totals>
           <div class="d-grid">
-            <button mat-raised-button color="primary" routerLink="/checkout" class="py-2" style="background-color: #9f7aea; color: #212121;">
+            <button mat-raised-button color="primary" routerLink="/checkout" class="py-2 checkout-button">
               Proceed to checkout
             </button>
           </div>
