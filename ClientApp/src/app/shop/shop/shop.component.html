@@ -37,6 +37,14 @@
           <app-clothing-item [product]="product"></app-clothing-item>
         </div>
       </div>
+
+
+      <mat-paginator [length]="totalCount"
+                     [pageSize]="clothingParams.pageSize"
+                     [pageIndex]="clothingParams.pageIndex - 1"
+                     [pageSizeOptions]="[3, 6, 12]"
+                     (page)="onPageChanged($event)">
+      </mat-paginator>
     </section>
   </div>
 </div>

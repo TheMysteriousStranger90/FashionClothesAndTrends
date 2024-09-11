@@ -4,6 +4,8 @@ import {ShopService} from '../shop.service';
 import {Brand} from 'src/app/shared/models/brand';
 import {ClothingItem} from 'src/app/shared/models/clothing-item';
 import {Guid} from 'guid-typescript';
+import { MatSelectChange } from '@angular/material/select';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-shop',
@@ -62,18 +64,24 @@ export class ShopComponent implements OnInit {
     this.getProducts();
   }
 
-  onSortSelected(event: any) {
+  onSortSelected(event: MatSelectChange) {
     const params = this.shopService.getShopParams();
-    params.sort = event.target.value;
+    params.sort = event.value;
+    
+    params.pageIndex = 1;
+    
     this.shopService.setShopParams(params);
     this.clothingParams = params;
     this.getProducts();
   }
 
-  onPageChanged(event: any) {
+  onPageChanged(event: PageEvent) {
     const params = this.shopService.getShopParams();
-    if (params.pageIndex !== event) {
-      params.pageIndex = event;
+    if (params.pageIndex !== event.pageIndex + 1 || params.pageSize !== event.pageSize) {
+      
+      params.pageIndex = event.pageIndex + 1;
+      
+      params.pageSize = event.pageSize;
       this.shopService.setShopParams(params);
       this.clothingParams = params;
       this.getProducts();
