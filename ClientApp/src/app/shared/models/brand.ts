@@ -1,7 +1,7 @@
 import { Guid } from "guid-typescript";
 
 export interface Brand {
-  id: Guid;
+  id: string;
   name: string;
   description: string;
 }

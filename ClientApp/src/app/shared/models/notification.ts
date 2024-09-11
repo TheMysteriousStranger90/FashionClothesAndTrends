@@ -1,7 +1,6 @@
-import { Guid } from "guid-typescript";
 
 export interface Notification {
-  id: Guid;
+  id: string;
   text: string;
   isRead: boolean;
   createdAt: Date;

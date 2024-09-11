@@ -1,7 +1,6 @@
-import { Guid } from "guid-typescript";
 
 export interface ClothingPhoto {
-  id: Guid;
+  id: string;
   url: string;
   isMain: boolean;
 }

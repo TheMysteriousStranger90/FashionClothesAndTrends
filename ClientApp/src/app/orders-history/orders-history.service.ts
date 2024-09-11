@@ -18,7 +18,7 @@ export class OrdersHistoryService {
     return this.http.get<OrderHistory[]>(`${this.baseUrl}orderhistory/${userId}`);
   }
 
-  getOrderHistoryById(id: Guid): Observable<OrderHistory> {
+  getOrderHistoryById(id: string): Observable<OrderHistory> {
     return this.http.get<OrderHistory>(`${this.baseUrl}orderhistory/order/${id}`);
   }
 }

@@ -8,7 +8,7 @@ export interface OrderToCreate {
 }
 
 export interface OrderItem {
-  clothingItemId: Guid;
+  clothingItemId: string;
   clothingItemName: string;
   pictureUrl: string;
   price: number;

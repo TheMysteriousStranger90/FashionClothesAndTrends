@@ -1,13 +1,12 @@
-import { Guid } from "guid-typescript";
 
 export interface Wishlist {
-  id: Guid;
+  id: string;
   name: string;
   wishListItems: WishlistItem[];
 }
 
 export interface WishlistItem {
-  id: Guid;
+  id: string;
   clothingItemName: string;
   clothingItemId: string;
   pictureUrl: string;

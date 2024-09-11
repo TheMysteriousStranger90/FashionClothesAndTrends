@@ -24,7 +24,7 @@ export class FavoritesComponent implements OnInit {
     });
   }
 
-  removeFavorite(clothingItemId: Guid) {
+  removeFavorite(clothingItemId: string) {
     this.favoritesService.removeFavorite(clothingItemId).subscribe({
       next: () => this.favoriteItems = this.favoriteItems.filter(item => item.clothingItemId !== clothingItemId),
       error: (error) => console.error(error)

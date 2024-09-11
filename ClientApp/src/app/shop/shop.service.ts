@@ -30,7 +30,7 @@ export class ShopService {
     return this.clothingParams;
   }
 
-  getClothing(id: Guid) {
+  getClothing(id: string) {
     const clothing = [...this.clothingCache.values()]
       .reduce((acc, paginatedResult) => {
         return {...acc, ...paginatedResult.data.find(x => x.id === id)}

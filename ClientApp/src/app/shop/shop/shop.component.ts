@@ -43,14 +43,17 @@ export class ShopComponent implements OnInit {
   }
 
 
+
   getBrands() {
     this.shopService.getBrands().subscribe({
-      next: response => this.brands = [{id: Guid.create(), name: 'All', description: ''}, ...response],
+      next: response => {
+        this.brands = [{id: '', name: 'All', description: ''}, ...response]
+      },
       error: error => console.log(error)
-    });
+    })
   }
 
-  onBrandSelected(brandId: Guid) {
+  onBrandSelected(brandId: string) {
     const params = this.shopService.getShopParams();
     params.clothingBrandId = brandId;
     params.pageIndex = 1;

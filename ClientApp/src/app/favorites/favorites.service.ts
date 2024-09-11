@@ -14,11 +14,11 @@ export class FavoritesService {
 
   constructor(private http: HttpClient) { }
 
-  addFavorite(clothingItemId: Guid): Observable<void> {
+  addFavorite(clothingItemId: string): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}favorites/${clothingItemId}`, {});
   }
 
-  removeFavorite(clothingItemId: Guid): Observable<void> {
+  removeFavorite(clothingItemId: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}favorites/${clothingItemId}`);
   }
 
@@ -26,7 +26,7 @@ export class FavoritesService {
     return this.http.get<FavoriteItem[]>(`${this.baseUrl}favorites/user`);
   }
 
-  isFavorite(clothingItemId: Guid): Observable<boolean> {
+  isFavorite(clothingItemId: string): Observable<boolean> {
     return this.http.get<boolean>(`${this.baseUrl}favorites/${clothingItemId}/isFavorite`);
   }
 }

@@ -11,6 +11,7 @@
         </mat-select>
       </mat-form-field>
 
+
       <h5 class="text ms-3 brands-header">BRANDS</h5>
       <mat-nav-list>
         <mat-list-item *ngFor="let brand of brands" (click)="onBrandSelected(brand.id)" [class.active]="brand.id === clothingParams.clothingBrandId">
