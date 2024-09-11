@@ -1,1 +1,41 @@
-<p>shop works!</p>
+<div class="container mt-5 shop-container">
+  <div class="row" *ngIf="brands.length > 0">
+    <section class="col-3">
+      <h5 class="text ms-3 sort-header">SORT</h5>
+      <mat-form-field appearance="fill" class="mb-4">
+        <mat-label>Sort</mat-label>
+        <mat-select (selectionChange)="onSortSelected($event)">
+          <mat-option *ngFor="let sort of sortOptions" [value]="sort.value">
+            {{ sort.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <h5 class="text ms-3 brands-header">BRANDS</h5>
+      <mat-nav-list>
+        <mat-list-item *ngFor="let brand of brands" (click)="onBrandSelected(brand.id)" [class.active]="brand.id === clothingParams.clothingBrandId">
+          {{ brand.name }}
+        </mat-list-item>
+      </mat-nav-list>
+    </section>
+
+    <section class="col-9">
+      <div class="d-flex justify-content-between align-items-center pb-2 search-container">
+        <div class="d-flex mt-2">
+          <mat-form-field appearance="fill" class="me-2">
+            <mat-label>Search</mat-label>
+            <input matInput (keyup.enter)="onSearch()" #search>
+          </mat-form-field>
+          <button mat-raised-button color="primary" (click)="onSearch()" class="mx-2 search-button">Search</button>
+          <button mat-raised-button color="primary" (click)="onReset()" class="reset-button">Reset</button>
+        </div>
+      </div>
+
+      <div class="row row-cols-3 g-3 mb-4">
+        <div class="col" *ngFor="let product of products">
+          <app-clothing-item [product]="product"></app-clothing-item>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

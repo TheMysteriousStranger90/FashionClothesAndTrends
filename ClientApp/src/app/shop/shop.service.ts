@@ -97,7 +97,7 @@ export class ShopService {
       })
     );
   }
-  
+
   addClothingBrand(clothingBrand: Brand): Observable<void> {
     return this.http.post<void>(this.baseUrl + 'clothing/brands', clothingBrand);
   }

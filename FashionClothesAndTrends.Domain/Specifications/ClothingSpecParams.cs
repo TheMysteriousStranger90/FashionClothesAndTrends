@@ -20,8 +20,8 @@ public class ClothingSpecParams
     public Size? Size { get; set; }
     public Category? Category { get; set; }
     
-    public string Sort { get; set; }
-    private string _search;
+    public string Sort { get; set; } = "name";
+    private string _search = "";
 
     public string Search
     {
