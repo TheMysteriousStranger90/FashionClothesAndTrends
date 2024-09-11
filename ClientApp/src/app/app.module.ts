@@ -12,12 +12,14 @@ import { TimeagoModule } from 'ngx-timeago';
 import { CoreModule } from './core/core.module';
 import { HomeComponent } from './home/home.component';
 import { RatingComponent } from './rating/rating.component';
+import { FavoritesComponent } from './favorites/favorites.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    RatingComponent
+    RatingComponent,
+    FavoritesComponent
   ],
   imports: [
     BrowserModule,
