@@ -1,15 +1,5 @@
-.mat-card.mat-elevation-z8
-  padding-top: 80px
-
-button
-  background-color: #9f7aea
-  color: #3a3a3a
-  margin-right: 10px
-
 .spacing
   margin-right: 10px
-
-
 
 .header
   display: flex
@@ -22,43 +12,38 @@ button
   align-items: center
   margin-right: 20px
 
+
 .search-section
   display: flex
   align-items: center
+  margin-right: 10px
 
 .main-content
   display: flex
+  align-items: flex-start
 
 .sidebar
-  width: 20% // Adjust the width as needed
+  width: 20%
 
-.brand-list
-  padding: 0
-  list-style: none
+.product-list
+  flex: 1
+  margin-left: 20px
 
 mat-list-item
   cursor: pointer
   padding: 0.5rem 1rem
-  border-radius: 4px
+  border-radius: 15px
   transition: background-color 0.3s ease
   background-color: #000000
   color: #ffffff
-
-  &:hover
-    background-color: #333333
-
+  
   &.active
     background-color: #ff0000
     color: #ffffff
 
-.content
-  margin-left: 22% // Adjust the margin to match the sidebar width
-
-
-
-
-
-
+.brand-list
+  padding: 5px
+  list-style: none
 
 .row
   display: flex
@@ -69,9 +54,18 @@ mat-list-item
   flex: 0 0 auto
   width: 30%
   margin: 10px
+  
+mat-label
+  color: #ffffff
 
+mat-option
+  background-color: #000000
+  color: #ffffff
 
 mat-paginator
   margin-top: 70px
   background-color: #222
   color: #ffffff
+
+.mat-elevation-z8
+  background-color: #ffffff

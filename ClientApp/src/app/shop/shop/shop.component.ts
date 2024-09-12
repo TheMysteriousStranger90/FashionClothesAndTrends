@@ -81,7 +81,7 @@ export class ShopComponent implements OnInit {
   onGenderSelected(event: MatSelectChange) {
     const params = this.shopService.getShopParams();
     params.gender = event.value;
-    params.pageIndex = 1; // Reset to first page on filter change
+    params.pageIndex = 1;
     this.shopService.setShopParams(params);
     this.clothingParams = params;
     this.getProducts();
@@ -90,7 +90,7 @@ export class ShopComponent implements OnInit {
   onCategorySelected(event: MatSelectChange) {
     const params = this.shopService.getShopParams();
     params.category = event.value;
-    params.pageIndex = 1; // Reset to first page on filter change
+    params.pageIndex = 1;
     this.shopService.setShopParams(params);
     this.clothingParams = params;
     this.getProducts();
@@ -99,7 +99,7 @@ export class ShopComponent implements OnInit {
   onSizeSelected(event: MatSelectChange) {
     const params = this.shopService.getShopParams();
     params.size = event.value;
-    params.pageIndex = 1; // Reset to first page on filter change
+    params.pageIndex = 1;
     this.shopService.setShopParams(params);
     this.clothingParams = params;
     this.getProducts();

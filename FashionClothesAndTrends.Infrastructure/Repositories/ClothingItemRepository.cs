@@ -6,18 +6,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FashionClothesAndTrends.Infrastructure.Repositories;
 
-public class ClothingItemRepository : IClothingItemRepository
+public class ClothingItemRepository : GenericRepository<ClothingItem>, IClothingItemRepository
 {
-    private readonly ApplicationDbContext _context;
-
-    public ClothingItemRepository(ApplicationDbContext context)
+    public ClothingItemRepository(ApplicationDbContext context) : base(context)
     {
-        _context = context;
     }
 
     public async Task<ClothingItem> GetClothingByIdAsync(Guid id)
     {
         return await _context.ClothingItems
+            .Include(c => c.ClothingItemPhotos) 
             .Include(c => c.ClothingBrand)
             .Include(c => c.Ratings)
             .Include(c => c.Comments)
@@ -28,6 +26,7 @@ public class ClothingItemRepository : IClothingItemRepository
     public async Task<IReadOnlyList<ClothingItem>> GetClothingAsync()
     {
         return await _context.ClothingItems
+            .Include(c => c.ClothingItemPhotos) 
             .Include(c => c.ClothingBrand)
             .ToListAsync();
     }
@@ -41,6 +40,7 @@ public class ClothingItemRepository : IClothingItemRepository
     {
         return await _context.ClothingItems
             .Where(c => c.Gender == gender)
+            .Include(c => c.ClothingItemPhotos) 
             .Include(c => c.ClothingBrand)
             .ToListAsync();
     }
@@ -49,6 +49,7 @@ public class ClothingItemRepository : IClothingItemRepository
     {
         return await _context.ClothingItems
             .Where(c => c.Size == size)
+            .Include(c => c.ClothingItemPhotos) 
             .Include(c => c.ClothingBrand)
             .ToListAsync();
     }
@@ -57,6 +58,7 @@ public class ClothingItemRepository : IClothingItemRepository
     {
         return await _context.ClothingItems
             .Where(c => c.Category == category)
+            .Include(c => c.ClothingItemPhotos) 
             .Include(c => c.ClothingBrand)
             .ToListAsync();
     }
@@ -81,6 +83,7 @@ public class ClothingItemRepository : IClothingItemRepository
         }
 
         return await query
+            .Include(c => c.ClothingItemPhotos) 
             .Include(c => c.ClothingBrand)
             .ToListAsync();
     }

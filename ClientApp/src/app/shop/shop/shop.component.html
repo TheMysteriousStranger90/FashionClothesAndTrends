@@ -2,8 +2,7 @@
   <mat-card-content>
     <div class="header">
       <div class="sort-section">
-        <h5 class="text ms-3 sort-header">SORT</h5>
-        <mat-form-field appearance="fill" class="mb-4">
+        <mat-form-field appearance="fill" class="spacing">
           <mat-label>Sort</mat-label>
           <mat-select (selectionChange)="onSortSelected($event)">
             <mat-option *ngFor="let sort of sortOptions" [value]="sort.value">
@@ -14,7 +13,7 @@
       </div>
 
       <div class="filter-section">
-        <mat-form-field appearance="fill" class="mb-4">
+        <mat-form-field appearance="fill" class="spacing">
           <mat-label>Gender</mat-label>
           <mat-select (selectionChange)="onGenderSelected($event)" [(value)]="clothingParams.gender">
             <mat-option [value]="null">All</mat-option>
@@ -24,7 +23,7 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="mb-4">
+        <mat-form-field appearance="fill" class="spacing">
           <mat-label>Category</mat-label>
           <mat-select (selectionChange)="onCategorySelected($event)" [(value)]="clothingParams.category">
             <mat-option [value]="null">All</mat-option>
@@ -66,15 +65,17 @@
           </mat-nav-list>
         </section>
       </div>
+
+      <div class="product-list">
+        <div class="row" *ngIf="products.length > 0">
+          <div class="col-2" *ngFor="let product of products">
+            <app-clothing-item [product]="product"></app-clothing-item>
+          </div>
+        </div>
+      </div>
     </div>
   </mat-card-content>
 </mat-card>
-
-<div class="row" *ngIf="products.length > 0">
-  <div class="col-2" *ngFor="let product of products">
-    <app-clothing-item [product]="product"></app-clothing-item>
-  </div>
-</div>
 
 <mat-paginator [length]="totalCount"
                [pageSize]="clothingParams.pageSize"

@@ -4,22 +4,31 @@ namespace FashionClothesAndTrends.Domain.Specifications
 {
     public class ClothingItemsWithTypesAndBrandsSpecification : BaseSpecification<ClothingItem>
     {
-        public ClothingItemsWithTypesAndBrandsSpecification(ClothingSpecParams clothingParams) 
-            : base(x => 
-                (string.IsNullOrEmpty(clothingParams.Search) || x.Name.ToLower().Contains(clothingParams.Search)) &&
-                (!clothingParams.ClothingBrandId.HasValue || x.ClothingBrandId == clothingParams.ClothingBrandId) &&
-                (!clothingParams.Gender.HasValue || x.Gender == clothingParams.Gender) &&
-                (!clothingParams.Size.HasValue || x.Size == clothingParams.Size) &&
-                (!clothingParams.Category.HasValue || x.Category == clothingParams.Category)
+        public ClothingItemsWithTypesAndBrandsSpecification(Guid id)
+            : base(x => x.Id == id)
+        {
+            AddInclude(x => x.ClothingItemPhotos);
+            AddInclude(x => x.ClothingBrand);
+        }
+
+        public ClothingItemsWithTypesAndBrandsSpecification(ClothingSpecParams clothingSpecParams)
+            : base(x =>
+                (string.IsNullOrEmpty(clothingSpecParams.Search) ||
+                 x.Name.ToLower().Contains(clothingSpecParams.Search)) &&
+                (!clothingSpecParams.ClothingBrandId.HasValue ||
+                 x.ClothingBrandId == clothingSpecParams.ClothingBrandId) &&
+                (!clothingSpecParams.Gender.HasValue || x.Gender == clothingSpecParams.Gender) &&
+                (!clothingSpecParams.Size.HasValue || x.Size == clothingSpecParams.Size) &&
+                (!clothingSpecParams.Category.HasValue || x.Category == clothingSpecParams.Category)
             )
         {
+            AddInclude(x => x.ClothingItemPhotos);
             AddInclude(x => x.ClothingBrand);
-            AddOrderBy(x => x.Name);
-            ApplyPaging(clothingParams.PageSize * (clothingParams.PageIndex - 1), clothingParams.PageSize);
+            ApplyPaging(clothingSpecParams.PageSize * (clothingSpecParams.PageIndex - 1), clothingSpecParams.PageSize);
 
-            if (!string.IsNullOrEmpty(clothingParams.Sort))
+            if (!string.IsNullOrEmpty(clothingSpecParams.Sort))
             {
-                switch (clothingParams.Sort)
+                switch (clothingSpecParams.Sort)
                 {
                     case "priceAsc":
                         AddOrderBy(p => p.Price);
@@ -32,12 +41,6 @@ namespace FashionClothesAndTrends.Domain.Specifications
                         break;
                 }
             }
-        }
-
-        public ClothingItemsWithTypesAndBrandsSpecification(Guid id) 
-            : base(x => x.Id == id)
-        {
-            AddInclude(x => x.ClothingBrand);
         }
     }
 }
