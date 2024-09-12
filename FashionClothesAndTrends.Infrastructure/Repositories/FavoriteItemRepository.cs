@@ -15,6 +15,7 @@ public class FavoriteItemRepository : GenericRepository<FavoriteItem>, IFavorite
     {
         return await _context.FavoriteItems
             .Include(f => f.ClothingItem)
+            .Include(f => f.User)
             .Where(f => f.UserId == userId)
             .ToListAsync();
     }
@@ -29,6 +30,7 @@ public class FavoriteItemRepository : GenericRepository<FavoriteItem>, IFavorite
     {
         return await _context.FavoriteItems
             .Include(f => f.ClothingItem)
+            .Include(f => f.User)
             .FirstOrDefaultAsync(f => f.ClothingItemId == clothingItemId && f.UserId == userId);
     }
 }

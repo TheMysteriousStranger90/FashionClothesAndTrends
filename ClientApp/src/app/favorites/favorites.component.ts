@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FavoriteItem } from '../shared/models/favorite-item';
-import { FavoritesService } from './favorites.service';
-import { Guid } from 'guid-typescript';
+import {Component, OnInit} from '@angular/core';
+import {FavoriteItemDto} from '../shared/models/favorite-item';
+import {FavoritesService} from './favorites.service';
+import {Guid} from 'guid-typescript';
 
 @Component({
   selector: 'app-favorites',
@@ -9,9 +9,10 @@ import { Guid } from 'guid-typescript';
   styleUrls: ['./favorites.component.sass']
 })
 export class FavoritesComponent implements OnInit {
-  favoriteItems: FavoriteItem[] = [];
+  favoriteItems: FavoriteItemDto[] = [];
 
-  constructor(private favoritesService: FavoritesService) { }
+  constructor(private favoritesService: FavoritesService) {
+  }
 
   ngOnInit(): void {
     this.loadFavorites();
@@ -19,15 +20,22 @@ export class FavoritesComponent implements OnInit {
 
   loadFavorites() {
     this.favoritesService.getFavoritesByUserId().subscribe({
-      next: (favorites) => this.favoriteItems = favorites,
-      error: (error) => console.error(error)
+      next: (favorites) => {
+        this.favoriteItems = favorites;
+        this.favoriteItems.forEach(item => {
+        });
+      },
+      error: (error) => console.error('Error loading favorites:', error)
     });
   }
 
   removeFavorite(clothingItemId: string) {
+    console.log('Removing favorite with ID:', clothingItemId);
     this.favoritesService.removeFavorite(clothingItemId).subscribe({
-      next: () => this.favoriteItems = this.favoriteItems.filter(item => item.clothingItemId !== clothingItemId),
-      error: (error) => console.error(error)
+      next: () => {
+        this.favoriteItems = this.favoriteItems.filter(item => item.clothingItemDtoId !== clothingItemId);
+      },
+      error: (error) => console.error('Error removing favorite:', error)
     });
   }
 }

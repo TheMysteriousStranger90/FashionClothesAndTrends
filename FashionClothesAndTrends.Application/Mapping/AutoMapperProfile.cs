@@ -53,7 +53,10 @@ public class AutoMapperProfile : Profile
         CreateMap<Coupon, CouponDto>().ReverseMap();
         
         CreateMap<FavoriteItem, FavoriteItemDto>()
-            .ForPath(dest => dest.ClothingItemDto.Name, opt => opt.MapFrom(src => src.ClothingItem.Name))
+            .ForMember(dest => dest.ClothingItemDto, opt => opt.MapFrom(src => src.ClothingItem))
+            .ForMember(dest => dest.UserDto, opt => opt.MapFrom(src => src.User))
+            .ForMember(dest => dest.ClothingItemDtoId, opt => opt.MapFrom(src => src.ClothingItemId)) 
+            .ForMember(dest => dest.UserDtoId, opt => opt.MapFrom(src => src.UserId))
             .ReverseMap();
         
         CreateMap<LikeDislike, LikeDislikeDto>()

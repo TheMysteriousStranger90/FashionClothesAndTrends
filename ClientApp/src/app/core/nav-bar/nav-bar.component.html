@@ -25,10 +25,19 @@
     </div>
 
     <div *ngIf="accountService.currentUser$ | async as user">
+      <button mat-button [matMenuTriggerFor]="appMenu">
+        Welcome {{user.firstName + ' ' + user.lastName}}
+        <mat-icon>arrow_drop_down</mat-icon>
+      </button>
       <mat-menu #appMenu="matMenu">
         <button mat-menu-item *appHasRole="['Administrator']" routerLink="/admin/admin-panel">
           <mat-icon>person</mat-icon>
           <span>Admin</span>
+        </button>
+
+        <button mat-menu-item routerLink="/favorites">
+          <mat-icon>favorite</mat-icon>
+          <span>Favorites</span>
         </button>
 
         <mat-divider></mat-divider>
@@ -37,11 +46,6 @@
           <span>Logout</span>
         </button>
       </mat-menu>
-
-      <button mat-button [matMenuTriggerFor]="appMenu">
-        Welcome {{user.firstName + ' ' + user.lastName}}
-        <mat-icon>arrow_drop_down</mat-icon>
-      </button>
     </div>
   </div>
 </mat-toolbar>
