@@ -1,50 +1,52 @@
-<div class="container mt-5 shop-container">
-  <div class="row" *ngIf="brands.length > 0">
-    <section class="col-3">
-      <h5 class="text ms-3 sort-header">SORT</h5>
-      <mat-form-field appearance="fill" class="mb-4">
-        <mat-label>Sort</mat-label>
-        <mat-select (selectionChange)="onSortSelected($event)">
-          <mat-option *ngFor="let sort of sortOptions" [value]="sort.value">
-            {{ sort.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-
-      <h5 class="text ms-3 brands-header">BRANDS</h5>
-      <mat-nav-list>
-        <mat-list-item *ngFor="let brand of brands" (click)="onBrandSelected(brand.id)" [class.active]="brand.id === clothingParams.clothingBrandId">
-          {{ brand.name }}
-        </mat-list-item>
-      </mat-nav-list>
-    </section>
-
-    <section class="col-9">
-      <div class="d-flex justify-content-between align-items-center pb-2 search-container">
-        <div class="d-flex mt-2">
-          <mat-form-field appearance="fill" class="me-2">
-            <mat-label>Search</mat-label>
-            <input matInput (keyup.enter)="onSearch()" #search>
-          </mat-form-field>
-          <button mat-raised-button color="primary" (click)="onSearch()" class="mx-2 search-button">Search</button>
-          <button mat-raised-button color="primary" (click)="onReset()" class="reset-button">Reset</button>
-        </div>
+<mat-card class="mat-elevation-z8">
+  <mat-card-content>
+    <div class="header">
+      <div class="sort-section">
+        <h5 class="text ms-3 sort-header">SORT</h5>
+        <mat-form-field appearance="fill" class="mb-4">
+          <mat-label>Sort</mat-label>
+          <mat-select (selectionChange)="onSortSelected($event)">
+            <mat-option *ngFor="let sort of sortOptions" [value]="sort.value">
+              {{ sort.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
 
-      <div class="row row-cols-3 g-3 mb-4">
-        <div class="col" *ngFor="let product of products">
-          <app-clothing-item [product]="product"></app-clothing-item>
-        </div>
+      <div class="search-section">
+        <mat-form-field class="spacing">
+          <input matInput (keyup.enter)="onSearch()" placeholder="Search" #search>
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="onSearch()">Search</button>
+        <button mat-raised-button color="accent" (click)="onReset()">Reset</button>
       </div>
+    </div>
 
+    <div class="main-content">
+      <div class="sidebar">
+        <section class="col-3">
+          <h5 class="text ms-3 brands-header">BRANDS</h5>
+          <mat-nav-list class="brand-list">
+            <mat-list-item my-3 *ngFor="let brand of brands" (click)="onBrandSelected(brand.id)"
+                           [class.active]="brand.id === clothingParams.clothingBrandId">
+              {{ brand.name }}
+            </mat-list-item>
+          </mat-nav-list>
+        </section>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
 
-      <mat-paginator [length]="totalCount"
-                     [pageSize]="clothingParams.pageSize"
-                     [pageIndex]="clothingParams.pageIndex - 1"
-                     [pageSizeOptions]="[3, 6, 12]"
-                     (page)="onPageChanged($event)">
-      </mat-paginator>
-    </section>
+<div class="row" *ngIf="products.length > 0">
+  <div class="col-2" *ngFor="let product of products">
+    <app-clothing-item [product]="product"></app-clothing-item>
   </div>
 </div>
+
+<mat-paginator [length]="totalCount"
+               [pageSize]="clothingParams.pageSize"
+               [pageIndex]="clothingParams.pageIndex - 1"
+               [pageSizeOptions]="[3, 6, 12]"
+               (page)="onPageChanged($event)">
+</mat-paginator>
