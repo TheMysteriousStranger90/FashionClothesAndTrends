@@ -13,6 +13,38 @@
         </mat-form-field>
       </div>
 
+      <div class="filter-section">
+        <mat-form-field appearance="fill" class="mb-4">
+          <mat-label>Gender</mat-label>
+          <mat-select (selectionChange)="onGenderSelected($event)" [(value)]="clothingParams.gender">
+            <mat-option [value]="null">All</mat-option>
+            <mat-option *ngFor="let gender of genderOptions" [value]="gender">
+              {{ gender }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="mb-4">
+          <mat-label>Category</mat-label>
+          <mat-select (selectionChange)="onCategorySelected($event)" [(value)]="clothingParams.category">
+            <mat-option [value]="null">All</mat-option>
+            <mat-option *ngFor="let category of categoryOptions" [value]="category">
+              {{ category }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="mb-4">
+          <mat-label>Size</mat-label>
+          <mat-select (selectionChange)="onSizeSelected($event)" [(value)]="clothingParams.size">
+            <mat-option [value]="null">All</mat-option>
+            <mat-option *ngFor="let size of sizeOptions" [value]="size">
+              {{ size }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
       <div class="search-section">
         <mat-form-field class="spacing">
           <input matInput (keyup.enter)="onSearch()" placeholder="Search" #search>

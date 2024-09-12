@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ClothingParams} from 'src/app/shared/models/clothing-params';
+import {Category, ClothingParams, Gender, Size} from 'src/app/shared/models/clothing-params';
 import {ShopService} from '../shop.service';
 import {Brand} from 'src/app/shared/models/brand';
 import {ClothingItem} from 'src/app/shared/models/clothing-item';
@@ -23,6 +23,9 @@ export class ShopComponent implements OnInit {
     {name: 'Price: Low to high', value: 'priceAsc'},
     {name: 'Price: High to low', value: 'priceDesc'},
   ];
+  genderOptions = [null, ...Object.values(Gender)];
+  categoryOptions = [null, ...Object.values(Category)];
+  sizeOptions = [null, ...Object.values(Size)];
   totalCount = 0;
 
   constructor(private shopService: ShopService) {
@@ -67,9 +70,36 @@ export class ShopComponent implements OnInit {
   onSortSelected(event: MatSelectChange) {
     const params = this.shopService.getShopParams();
     params.sort = event.value;
-    
+
     params.pageIndex = 1;
-    
+
+    this.shopService.setShopParams(params);
+    this.clothingParams = params;
+    this.getProducts();
+  }
+
+  onGenderSelected(event: MatSelectChange) {
+    const params = this.shopService.getShopParams();
+    params.gender = event.value;
+    params.pageIndex = 1; // Reset to first page on filter change
+    this.shopService.setShopParams(params);
+    this.clothingParams = params;
+    this.getProducts();
+  }
+
+  onCategorySelected(event: MatSelectChange) {
+    const params = this.shopService.getShopParams();
+    params.category = event.value;
+    params.pageIndex = 1; // Reset to first page on filter change
+    this.shopService.setShopParams(params);
+    this.clothingParams = params;
+    this.getProducts();
+  }
+
+  onSizeSelected(event: MatSelectChange) {
+    const params = this.shopService.getShopParams();
+    params.size = event.value;
+    params.pageIndex = 1; // Reset to first page on filter change
     this.shopService.setShopParams(params);
     this.clothingParams = params;
     this.getProducts();
@@ -78,9 +108,9 @@ export class ShopComponent implements OnInit {
   onPageChanged(event: PageEvent) {
     const params = this.shopService.getShopParams();
     if (params.pageIndex !== event.pageIndex + 1 || params.pageSize !== event.pageSize) {
-      
+
       params.pageIndex = event.pageIndex + 1;
-      
+
       params.pageSize = event.pageSize;
       this.shopService.setShopParams(params);
       this.clothingParams = params;
