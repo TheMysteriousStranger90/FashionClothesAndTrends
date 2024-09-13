@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Rating } from '../shared/models/rating';
 import { Observable } from 'rxjs';
 import { Guid } from 'guid-typescript';
+import { Rating } from '../models/rating';
 
 @Injectable({
   providedIn: 'root'

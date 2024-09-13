@@ -11,7 +11,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TimeagoModule } from 'ngx-timeago';
 import { CoreModule } from './core/core.module';
 import { HomeComponent } from './home/home.component';
-import { RatingComponent } from './rating/rating.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
@@ -20,10 +19,10 @@ import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
   declarations: [
     AppComponent,
     HomeComponent,
-    RatingComponent,
     FavoritesComponent
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
     GalleryModule,

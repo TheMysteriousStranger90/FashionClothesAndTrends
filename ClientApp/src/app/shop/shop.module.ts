@@ -1,12 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ShopComponent } from './shop/shop.component';
-import { ClothingItemComponent } from './clothing-item/clothing-item.component';
-import { ClothingDetailsComponent } from './clothing-details/clothing-details.component';
-import { SharedModule } from '../shared/shared.module';
-import { ShopRoutingModule } from './shop-routing.module';
-
-
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ShopComponent} from './shop/shop.component';
+import {ClothingItemComponent} from './clothing-item/clothing-item.component';
+import {ClothingDetailsComponent} from './clothing-details/clothing-details.component';
+import {SharedModule} from '../shared/shared.module';
+import {ShopRoutingModule} from './shop-routing.module';
 
 @NgModule({
   declarations: [
@@ -20,4 +18,5 @@ import { ShopRoutingModule } from './shop-routing.module';
     ShopRoutingModule
   ]
 })
-export class ShopModule { }
+export class ShopModule {
+}

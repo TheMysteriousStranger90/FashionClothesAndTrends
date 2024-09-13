@@ -1,1 +1,48 @@
-<p>clothing-details works!</p>
+<div class="container">
+  <div class="row" *ngIf="product">
+
+    <div class="col-6">
+      <mat-card>
+        <img mat-card-image [src]="product.pictureUrl" alt="{{product.name}}" class="w-50" style="border: 2px solid black;">
+      </mat-card>
+
+      Average: {{averageRating ? (averageRating | number: '1.1-1') : 'N/A'}} | Your vote:
+      <app-rating [selectedRate]="userRating ? userRating : 0" (onRating)="onRating($event)"></app-rating>
+    </div>
+
+    <div class="col-6 mt-5" style="color: #ffffff;">
+      <h2>{{product.name}}</h2>
+      <p style="font-size: 2em;">{{product.price | currency}}</p>
+      <h5 class="text mb-3" style="color: #9f7aea" *ngIf="quantityInBasket > 0">
+        You have {{quantityInBasket}} of this item in your basket
+      </h5>
+    </div>
+
+    <div class="d-flex justify-content-start align-items-center mt-5">
+      <button mat-icon-button (click)="decrementQuantity()" [disabled]="quantity <= 1">
+        <mat-icon>remove_circle</mat-icon>
+      </button>
+      <span class="font-weight-bold mx-2" style="font-size: 1.5em; color: #ffffff">
+        {{quantity}}
+      </span>
+      <button mat-icon-button (click)="incrementQuantity()">
+        <mat-icon>add_circle</mat-icon>
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        class="ms-4"
+        (click)="updateBasket()"
+        [disabled]="quantity === quantityInBasket"
+      >{{buttonText}}</button>
+    </div>
+
+    <mat-card class="mt-5">
+      <mat-card-content>
+        <h4>Description</h4>
+        <p>{{product.description}}</p>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>

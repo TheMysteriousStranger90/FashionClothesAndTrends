@@ -13,9 +13,7 @@ const routes: Routes = [
     runGuardsAndResolvers: 'always',
     canActivate: [authGuard],
     children: [
-
       {path: 'favorites', component: FavoritesComponent},
-
       {
         path: 'orders',
         canActivate: [authGuard],
@@ -26,7 +24,6 @@ const routes: Routes = [
         canActivate: [authGuard],
         loadChildren: () => import('./orders-history/orders-history.module').then(m => m.OrdersHistoryModule)
       },
-
     ]
   },
   {

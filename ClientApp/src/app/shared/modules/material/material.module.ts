@@ -57,7 +57,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatStepperModule,
     FormsModule,
     MatCardModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   exports: [
     MatFormFieldModule,

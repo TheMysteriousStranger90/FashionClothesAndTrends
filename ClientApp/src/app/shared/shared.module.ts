@@ -6,12 +6,14 @@ import {RouterModule} from '@angular/router';
 import { BasketSummaryComponent } from './basket-summary/basket-summary.component';
 import { OrderTotalsComponent } from './order-totals/order-totals.component';
 import { StepperComponent } from './stepper/stepper.component';
+import { RatingComponent } from './rating/rating.component';
 
 @NgModule({
   declarations: [
     BasketSummaryComponent,
     OrderTotalsComponent,
-    StepperComponent
+    StepperComponent,
+    RatingComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +26,8 @@ import { StepperComponent } from './stepper/stepper.component';
     MaterialModule,
     BasketSummaryComponent,
     OrderTotalsComponent,
-    StepperComponent
+    StepperComponent,
+    RatingComponent
   ]
 })
 export class SharedModule {
