@@ -17,7 +17,7 @@ public class RatingService : IRatingService
         _mapper = mapper;
     }
     
-    public async Task AddRatingAsync(Guid clothingItemId, RatingDto ratingDto)
+    public async Task AddRatingAsync(RatingDto ratingDto)
     {
         if (ratingDto == null)
         {
@@ -25,7 +25,7 @@ public class RatingService : IRatingService
         }
 
         var rating = _mapper.Map<Rating>(ratingDto);
-        await _unitOfWork.RatingRepository.AddRatingToClothingItemAsync(clothingItemId, rating);
+        await _unitOfWork.RatingRepository.AddRatingToClothingItemAsync(rating);
     }
 
     public async Task<double?> GetAverageRatingAsync(Guid clothingItemId)
@@ -37,5 +37,11 @@ public class RatingService : IRatingService
     {
         var user = await _unitOfWork.UserRepository.GetUserByUserName(ratingDto.Username);
         await _unitOfWork.RatingRepository.UpdateRatingAsync(user.Id, ratingDto.ClothingItemId, ratingDto.Score);
+    }
+    
+    public async Task<RatingDto?> GetUserRatingAsync(string userId, Guid clothingItemId)
+    {
+        var rating = await _unitOfWork.RatingRepository.GetUserRatingAsync(userId, clothingItemId);
+        return rating != null ? _mapper.Map<RatingDto>(rating) : null;
     }
 }

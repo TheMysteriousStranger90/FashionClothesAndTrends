@@ -40,49 +40,32 @@ mat-menu
   background-color: #222
   color: white
 
-  .container-fluid
-    display: flex
-    justify-content: space-between
-    align-items: center
-
-    .logo
-      max-height: 60px
-
-    button
-      margin-right: 10px
-
-      &:hover
-        background-color: #222
-        color: white
-
-      &.active
-        border-bottom: 2px solid white
-
-    .flex-spacer
-      flex-grow: 1
-
-    div
-      display: flex
-      justify-content: flex-end
-
-      button
-        margin-left: 10px
-
-    .right-align
-      margin-left: auto
-
-    div:last-child
-      margin-left: auto
-
-    mat-menu
-      background-color: #222
-      color: white
-
 .white-icon
   color: white
 
+.cart-no
+  position: absolute
+  top: 2px
+  right: 12px
+  background-color: red
+  color: white 
+  border-radius: 50%
+  width: 15px
+  height: 15px
+  display: flex
+  align-items: center
+  justify-content: center
+  font-size: 12px
 
-  .shop-container
+  &.active
+    background-color: #ff0000
+    color: #ffffff
+
+.align-end
+  display: flex
+  align-items: center
+
+.shop-container
   margin-top: 2rem
 
 .sort-header, .brands-header

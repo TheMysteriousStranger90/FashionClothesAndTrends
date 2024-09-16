@@ -21,7 +21,7 @@ export class ClothingDetailsComponent implements OnInit {
   quantityInBasket = 0;
   user?: User;
 
-  averageRating: number | null | undefined;
+  averageRating: number | undefined;
   userRating: number | undefined;
 
   constructor(private accountService: AccountService, private ratingService: RatingService, private shopService: ShopService, private activatedRoute: ActivatedRoute, private bcService: BreadcrumbService, private basketService: BasketService) {
@@ -35,7 +35,7 @@ export class ClothingDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadProduct()
+    this.loadProduct();
   }
 
   loadProduct() {
@@ -54,6 +54,7 @@ export class ClothingDetailsComponent implements OnInit {
               }
             }
           });
+          this.loadRatings(id);
         },
         error: error => console.log(error)
       });
@@ -95,6 +96,15 @@ export class ClothingDetailsComponent implements OnInit {
       },
       error: error => console.log(error)
     });
+
+    if (this.user) {
+      this.ratingService.getUserRating(this.user.id, clothingItemId).subscribe({
+        next: userRating => {
+          this.userRating = userRating ? userRating.score : undefined;
+        },
+        error: error => console.log(error)
+      });
+    }
   }
 
   onRating(rating: number) {
@@ -105,7 +115,7 @@ export class ClothingDetailsComponent implements OnInit {
         clothingItemId: this.product.id,
         score: rating
       };
-      
+
       this.ratingService.updateRating(newRating).subscribe({
         next: () => {
           console.log('Rating updated successfully');

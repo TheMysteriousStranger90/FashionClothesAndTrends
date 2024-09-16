@@ -22,7 +22,11 @@ export class RatingService {
     return this.http.put<void>(`${this.baseUrl}rating`, rating);
   }
 
-  getAverageRating(clothingItemId: string): Observable<number | null> {
-    return this.http.get<number | null>(`${this.baseUrl}rating/clothing/${clothingItemId}/average`);
+  getAverageRating(clothingItemId: string): Observable<number> {
+    return this.http.get<number>(`${this.baseUrl}rating/clothing/${clothingItemId}/average`);
+  }
+
+  getUserRating(userId: string, clothingItemId: string): Observable<Rating | null> {
+    return this.http.get<Rating | null>(`${this.baseUrl}rating/user-rating/${clothingItemId}`);
   }
 }

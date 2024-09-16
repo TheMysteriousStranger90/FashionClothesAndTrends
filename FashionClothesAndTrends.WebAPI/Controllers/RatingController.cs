@@ -1,6 +1,7 @@
 ﻿using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.WebAPI.Errors;
+using FashionClothesAndTrends.WebAPI.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +22,7 @@ public class RatingController : BaseApiController
     {
         try
         {
-            await _ratingService.AddRatingAsync(ratingDto.ClothingItemId, ratingDto);
+            await _ratingService.AddRatingAsync(ratingDto);
             return Ok();
         }
         catch (ArgumentNullException ex)
@@ -55,6 +56,23 @@ public class RatingController : BaseApiController
         {
             await _ratingService.UpdateRatingAsync(ratingDto);
             return Ok();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse(500, "An error occurred while processing your request"));
+        }
+    }
+
+    [HttpGet("user-rating/{clothingItemId}")]
+    public async Task<ActionResult<RatingDto?>> GetUserRating(Guid clothingItemId)
+    {
+        try
+        {
+            var userId = User.GetUserId();
+            if (userId == null) return Unauthorized();
+
+            var rating = await _ratingService.GetUserRatingAsync(userId, clothingItemId);
+            return Ok(rating);
         }
         catch (Exception ex)
         {
