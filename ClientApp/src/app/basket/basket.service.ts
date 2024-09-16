@@ -27,7 +27,7 @@ export class BasketService {
         map(basket => {
           this.basketSource.next(basket);
         })
-      );
+      )
   }
 
   setShippingPrice(deliveryMethod: DeliveryMethod) {
@@ -40,7 +40,7 @@ export class BasketService {
         this.basketSource.next(basket);
         this.calculateTotals();
       }
-    });
+    })
   }
 
   setBasket(basket: Basket) {
@@ -49,7 +49,7 @@ export class BasketService {
         this.basketSource.next(basket);
         this.calculateTotals();
       }
-    });
+    })
   }
 
   getCurrentBasketValue() {
@@ -69,7 +69,7 @@ export class BasketService {
     const item = basket.items.find(x => x.id === id);
     if (item) {
       item.quantity -= quantity;
-      if (item.quantity <= 0) {
+      if (item.quantity === 0) {
         basket.items = basket.items.filter(x => x.id !== id);
       }
       if (basket.items.length > 0) this.setBasket(basket);
@@ -80,9 +80,9 @@ export class BasketService {
   deleteBasket(basket: Basket) {
     return this.http.delete(this.baseUrl + 'basket?id=' + basket.id).subscribe({
       next: () => {
-        this.deleteLocalBasket();
+        this.deleteLocalBasket()
       }
-    });
+    })
   }
 
   deleteLocalBasket() {
@@ -115,7 +115,7 @@ export class BasketService {
       quantity: 0,
       pictureUrl: item.pictureUrl,
       brand: item.brand,
-    };
+    }
   }
 
   private calculateTotals(shipping = 0) {
