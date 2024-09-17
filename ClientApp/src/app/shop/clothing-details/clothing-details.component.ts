@@ -7,7 +7,7 @@ import { ClothingItem } from 'src/app/shared/models/clothing-item';
 import { take } from 'rxjs';
 import { AccountService } from 'src/app/account/account.service';
 import { User } from 'src/app/shared/models/user';
-import { Rating } from 'src/app/shared/models/rating';
+import { RatingDto } from 'src/app/shared/models/rating';
 import { RatingService } from 'src/app/shared/rating/rating.service';
 import { CommentService } from 'src/app/core/services/comment.service';
 import {FormBuilder, FormGroup } from '@angular/forms';
@@ -42,8 +42,6 @@ export class ClothingDetailsComponent implements OnInit {
     this.commentForm = this.fb.group({
       text: ['']
     });
-
-
   }
 
 
@@ -104,6 +102,7 @@ export class ClothingDetailsComponent implements OnInit {
     return this.quantityInBasket === 0 ? 'Add to basket' : 'Update basket';
   }
 
+
   loadRatings() {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (!id) {
@@ -130,7 +129,7 @@ export class ClothingDetailsComponent implements OnInit {
 
   onRating(rating: number) {
     if (this.product && this.user) {
-      const newRating: Rating = {
+      const newRating: RatingDto = {
         userId: this.user.id,
         username: this.user.username,
         clothingItemId: this.product.id,
@@ -155,8 +154,6 @@ export class ClothingDetailsComponent implements OnInit {
       });
     }
   }
-
-
 
 
   loadComments(): void {

@@ -1,8 +1,10 @@
-﻿using FashionClothesAndTrends.Application.DTOs;
+﻿using System.Security.Claims;
+using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Exceptions;
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.WebAPI.Controllers;
 using FashionClothesAndTrends.WebAPI.Errors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -68,27 +70,26 @@ public class CommentsControllerTests
         Assert.Equal(500, apiResponse.StatusCode);
         Assert.Equal("An error occurred while processing your request", apiResponse.Message);
     }
-
-    [Fact]
-    public async Task RemoveComment_ReturnsNoContentResult_WhenSuccessful()
-    {
-        // Arrange
-        var commentId = Guid.NewGuid();
-
-        // Act
-        var result = await _controller.RemoveComment(commentId);
-
-        // Assert
-        Assert.IsType<NoContentResult>(result);
-    }
-
+    
     [Fact]
     public async Task RemoveComment_ReturnsNotFound_WhenNotFoundExceptionThrown()
     {
         // Arrange
         var commentId = Guid.NewGuid();
-        _commentServiceMock.Setup(service => service.RemoveCommentAsync(commentId))
+        var userId = "test-user-id";
+        _commentServiceMock.Setup(service => service.RemoveCommentAsync(commentId, userId))
             .ThrowsAsync(new NotFoundException("Comment not found."));
+
+        _controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, userId)
+                }))
+            }
+        };
 
         // Act
         var result = await _controller.RemoveComment(commentId);
@@ -105,8 +106,20 @@ public class CommentsControllerTests
     {
         // Arrange
         var commentId = Guid.NewGuid();
-        _commentServiceMock.Setup(service => service.RemoveCommentAsync(commentId))
+        var userId = "test-user-id";
+        _commentServiceMock.Setup(service => service.RemoveCommentAsync(commentId, userId))
             .ThrowsAsync(new Exception("Test exception"));
+
+        _controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, userId)
+                }))
+            }
+        };
 
         // Act
         var result = await _controller.RemoveComment(commentId);

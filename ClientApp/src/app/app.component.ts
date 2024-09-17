@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from './account/account.service';
 import { User } from './shared/models/user';
+import { BasketService } from './basket/basket.service';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +11,10 @@ import { User } from './shared/models/user';
 export class AppComponent implements OnInit {
   title = 'Fashion Clothes And Trends';
 
-  constructor(private accountService: AccountService) {}
+  constructor(private accountService: AccountService, private basketService: BasketService,) {}
 
   ngOnInit(): void {
+    //this.loadBasket();
     this.setCurrentUser();
   }
 
@@ -21,5 +23,10 @@ export class AppComponent implements OnInit {
     if (!userString) return;
     const user: User = JSON.parse(userString);
     this.accountService.setCurrentUser(user);
+  }
+
+  loadBasket() {
+    const basketId = localStorage.getItem('basket_id');
+    if (basketId) this.basketService.getBasket(basketId);
   }
 }

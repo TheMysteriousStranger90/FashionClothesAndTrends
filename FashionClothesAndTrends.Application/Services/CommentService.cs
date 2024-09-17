@@ -36,16 +36,28 @@ public class CommentService : ICommentService
         await _unitOfWork.CommentRepository.AddCommentToClothingItemAsync(comment);
     }
 
-    public async Task RemoveCommentAsync(Guid commentId)
+    public async Task RemoveCommentAsync(Guid commentId, string userId)
     {
         var comment = await _unitOfWork.CommentRepository.GetByIdAsync(commentId);
         if (comment == null)
         {
             throw new NotFoundException("Comment not found.");
         }
+        
+        var currentUser = await _unitOfWork.UserRepository.GetUserByIdAsync(userId);
+        if (currentUser == null)
+        {
+            throw new NotFoundException("User not found.");
+        }
 
-        _unitOfWork.CommentRepository.Remove(comment);
-        await _unitOfWork.SaveAsync();
+        var isAdmin = await _unitOfWork.UserManager.IsInRoleAsync(currentUser, "Administrator");
+        
+        if (comment.UserId != currentUser.Id && !isAdmin)
+        {
+            throw new UnauthorizedAccessException("You do not have permission to delete this comment.");
+        }
+        
+        await _unitOfWork.CommentRepository.RemoveCommentAsync(comment);
     }
 
     public async Task<IEnumerable<CommentDto>> GetCommentsForClothingItemAsync(Guid clothingItemId)

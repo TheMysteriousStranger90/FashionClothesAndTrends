@@ -2,6 +2,7 @@
 using FashionClothesAndTrends.Application.Exceptions;
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.WebAPI.Errors;
+using FashionClothesAndTrends.WebAPI.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,7 +41,10 @@ public class CommentsController : BaseApiController
     {
         try
         {
-            await _commentService.RemoveCommentAsync(commentId);
+            var userId = User.GetUserId();
+            if (userId == null) return Unauthorized();
+            
+            await _commentService.RemoveCommentAsync(commentId, userId);
             return NoContent();
         }
         catch (NotFoundException ex)
