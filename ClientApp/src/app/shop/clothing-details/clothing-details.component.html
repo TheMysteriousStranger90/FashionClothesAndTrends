@@ -1,6 +1,5 @@
 <div class="container">
   <div class="row" *ngIf="product">
-
     <div class="col-6">
       <mat-card>
         <img mat-card-image [src]="product.pictureUrl" alt="{{product.name}}" class="w-50" style="border: 2px solid black;">
@@ -10,10 +9,17 @@
       <app-rating [selectedRate]="userRating ? userRating : 0" (onRating)="onRating($event)"></app-rating>
     </div>
 
-    <div class="col-6 mt-5" style="color: #ffffff;">
+    <mat-card class="mt-5 fixed-size-card">
+      <mat-card-content>
+        <h4>Description</h4>
+        <p>{{product.description}}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="col-6 mt-5" style="color: #222;">
       <h2>{{product.name}}</h2>
       <p style="font-size: 2em;">{{product.price | currency}}</p>
-      <h5 class="text mb-3" style="color: #9f7aea" *ngIf="quantityInBasket > 0">
+      <h5 class="text mb-3" style="color: #222" *ngIf="quantityInBasket > 0">
         You have {{quantityInBasket}} of this item in your basket
       </h5>
     </div>
@@ -22,7 +28,7 @@
       <button mat-icon-button (click)="decrementQuantity()" [disabled]="quantity <= 1">
         <mat-icon>remove_circle</mat-icon>
       </button>
-      <span class="font-weight-bold mx-2" style="font-size: 1.5em; color: #ffffff">
+      <span class="font-weight-bold mx-2" style="font-size: 1.5em; color: #222">
         {{quantity}}
       </span>
       <button mat-icon-button (click)="incrementQuantity()">
@@ -36,13 +42,5 @@
         [disabled]="quantity === quantityInBasket"
       >{{buttonText}}</button>
     </div>
-
-    <mat-card class="mt-5">
-      <mat-card-content>
-        <h4>Description</h4>
-        <p>{{product.description}}</p>
-      </mat-card-content>
-    </mat-card>
-
   </div>
 </div>

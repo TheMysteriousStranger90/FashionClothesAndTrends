@@ -1,0 +1,141 @@
+// Variables
+$secondary-color: #ffffff
+$accent-color: #ff4081
+$background-color: #222
+$border-color: #000
+$font-family: 'Roboto', sans-serif
+
+
+@mixin flex-center
+  display: flex
+  justify-content: center
+  align-items: center
+
+
+body
+  background-color: $background-color
+  color: $secondary-color
+  font-family: $font-family
+
+
+.container
+  padding: -20px
+  max-width: 600px
+  margin: 0 auto
+
+
+.row
+  display: flex
+  flex-wrap: wrap
+  margin: -40px
+
+  & > div
+    padding: 10px
+
+
+
+
+
+mat-card
+  background-color: $background-color
+  border: 1px solid $border-color
+  border-radius: 8px
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+  overflow: hidden
+
+  img
+    border-radius: 8px
+
+
+h2
+  font-size: 2.5em
+  margin-bottom: 10px
+
+
+p
+  font-size: 1.2em
+  margin-bottom: 20px
+
+
+h4
+  font-size: 1.8em
+  margin-bottom: 10px
+
+
+h5
+  font-size: 1.5em
+  margin-bottom: 10px
+
+
+button
+  &.mat-icon-button
+    color: $secondary-color
+
+  &.mat-raised-button
+    background-color: $accent-color
+    color: $secondary-color
+    margin-left: 10px
+
+    &:disabled
+      background-color: black
+
+
+app-rating
+  display: flex
+  align-items: center
+
+  mat-icon
+    cursor: pointer
+    color: $accent-color
+
+    &.checked
+      color: $accent-color
+
+.d-flex
+  @include flex-center
+  margin-top: 20px
+
+  .font-weight-bold
+    font-size: 1.5em
+    color: $secondary-color
+    margin: 0 10px
+
+
+mat-card-content
+  background-color: #222
+  color: #ffffff
+  padding: 20px
+  border-radius: 8px
+
+
+// Fixed Size Card
+.fixed-size-card
+  width: 90%
+  height: 300px
+
+
+// Responsive Styles
+@media (max-width: 768px)
+.col-6
+  flex: 0 20 50%
+  max-width: 80%
+
+
+h2
+  font-size: 2em
+
+
+p
+  font-size: 1em
+
+
+h4
+  font-size: 1.5em
+
+
+h5
+  font-size: 1.2em
+
+
+.font-weight-bold
+  font-size: 1.2em
