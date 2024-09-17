@@ -43,4 +43,37 @@
       >{{buttonText}}</button>
     </div>
   </div>
+
+  <div class="row mt-5 comments-section">
+    <form (ngSubmit)="addComment()" [formGroup]="commentForm">
+      <mat-card class="mt-5 fixed-size-card" style="color: #ffffff;">
+        <mat-card-content>
+        <mat-label>ADD YOUR COMMENT:</mat-label>
+        <mat-form-field>
+          <textarea matInput rows="6" name="text" required  formControlName="text" maxlength="800"></textarea>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Add</button>
+        </mat-card-content>
+      </mat-card>
+    </form>
+  </div>
+
+  <div class="row mt-5 comments-section">
+    <mat-accordion class="accordion" multi="true" *ngIf="comments.length > 0">
+      <mat-expansion-panel *ngFor="let comment of comments">
+        <mat-action-row>
+          <button (click)="removeComment(comment.id)" mat-button color="primary">DELETE</button>
+        </mat-action-row>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <p>{{ comment.username }}</p>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-panel-description>
+          <p>{{ comment.text }}</p>
+        </mat-panel-description>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <h3 class="info-text mat-body-3" *ngIf="comments.length <= 0">NO COMMENTS...</h3>
+  </div>
 </div>

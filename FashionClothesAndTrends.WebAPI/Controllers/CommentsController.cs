@@ -63,7 +63,7 @@ public class CommentsController : BaseApiController
         }
         catch (NotFoundException ex)
         {
-            return NotFound(new ApiResponse(404, ex.Message));
+            return NotFound(new ApiResponse(404, "No comments found for this item."));
         }
         catch (Exception ex)
         {
@@ -81,7 +81,7 @@ public class CommentsController : BaseApiController
         }
         catch (NotFoundException ex)
         {
-            return NotFound(new ApiResponse(404, ex.Message));
+            return NotFound(new ApiResponse(404, "No comments found for this user."));
         }
         catch (Exception ex)
         {

@@ -25,10 +25,15 @@ public class CommentService : ICommentService
         {
             throw new ArgumentNullException(nameof(commentDto));
         }
+        
+        var user = await _unitOfWork.UserManager.FindByIdAsync(commentDto.UserId);
+        if (user == null)
+        {
+            throw new NotFoundException("User not found.");
+        }
 
         var comment = _mapper.Map<Comment>(commentDto);
-        await _unitOfWork.CommentRepository.AddAsync(comment);
-        await _unitOfWork.SaveAsync();
+        await _unitOfWork.CommentRepository.AddCommentToClothingItemAsync(comment);
     }
 
     public async Task RemoveCommentAsync(Guid commentId)

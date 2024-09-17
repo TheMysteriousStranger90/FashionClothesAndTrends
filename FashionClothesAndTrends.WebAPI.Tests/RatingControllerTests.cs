@@ -22,7 +22,7 @@ public class RatingControllerTests
         public async Task AddRating_ReturnsOkResult_WhenSuccessful()
         {
             // Arrange
-            var ratingDto = new RatingDto { ClothingItemId = Guid.NewGuid(), Score = 5, UserId = "test_user" };
+            var ratingDto = new RatingDto { ClothingItemId = Guid.NewGuid(), Score = 5, UserId = "test_user", Username = "test_user123"};
 
             // Act
             var result = await _controller.AddRating(ratingDto);
@@ -36,7 +36,7 @@ public class RatingControllerTests
         {
             // Arrange
             var ratingDto = new RatingDto { ClothingItemId = Guid.NewGuid(), Score = 5, UserId = "test_user" };
-            _ratingServiceMock.Setup(service => service.AddRatingAsync(ratingDto.ClothingItemId, ratingDto))
+            _ratingServiceMock.Setup(service => service.AddRatingAsync(ratingDto))
                 .ThrowsAsync(new ArgumentNullException(nameof(ratingDto)));
 
             // Act
@@ -54,7 +54,7 @@ public class RatingControllerTests
         {
             // Arrange
             var ratingDto = new RatingDto { ClothingItemId = Guid.NewGuid(), Score = 5, UserId = "test_user" };
-            _ratingServiceMock.Setup(service => service.AddRatingAsync(ratingDto.ClothingItemId, ratingDto))
+            _ratingServiceMock.Setup(service => service.AddRatingAsync(ratingDto))
                 .ThrowsAsync(new Exception("Test exception"));
 
             // Act

@@ -11,6 +11,20 @@ public class CommentRepository : GenericRepository<Comment>, ICommentRepository
     {
     }
 
+    public async Task AddCommentToClothingItemAsync(Comment comment)
+    {
+        var _comment = new Comment
+        {
+            UserId = comment.UserId,
+            ClothingItem = comment.ClothingItem,
+            ClothingItemId = comment.ClothingItemId,
+            Text = comment.Text,
+            CreatedAt = DateTime.Now
+        };
+        await _context.Comments.AddAsync(_comment);
+        await _context.SaveChangesAsync();
+    }
+
     public IQueryable<Comment> GetCommentsForClothingItem(Guid clothingItemId)
     {
         return _context.Comments.Where(c => c.ClothingItemId == clothingItemId);

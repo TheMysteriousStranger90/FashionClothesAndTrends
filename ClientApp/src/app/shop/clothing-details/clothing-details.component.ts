@@ -9,6 +9,9 @@ import { AccountService } from 'src/app/account/account.service';
 import { User } from 'src/app/shared/models/user';
 import { Rating } from 'src/app/shared/models/rating';
 import { RatingService } from 'src/app/shared/rating/rating.service';
+import { CommentService } from 'src/app/core/services/comment.service';
+import {FormBuilder, FormGroup } from '@angular/forms';
+import { Comment } from '../../shared/models/comment';
 
 @Component({
   selector: 'app-clothing-details',
@@ -24,7 +27,10 @@ export class ClothingDetailsComponent implements OnInit {
   averageRating: number | undefined;
   userRating: number | undefined;
 
-  constructor(private accountService: AccountService, private ratingService: RatingService, private shopService: ShopService, private activatedRoute: ActivatedRoute, private bcService: BreadcrumbService, private basketService: BasketService) {
+  commentForm: FormGroup;
+  comments: Comment[] = [];
+
+  constructor(private accountService: AccountService, private ratingService: RatingService, private shopService: ShopService, private activatedRoute: ActivatedRoute, private bcService: BreadcrumbService, private basketService: BasketService, private commentService: CommentService, private fb: FormBuilder,) {
     this.bcService.set('@productDetails', ' ')
 
     this.accountService.currentUser$.pipe(take(1)).subscribe({
@@ -32,10 +38,19 @@ export class ClothingDetailsComponent implements OnInit {
         if (user) this.user = user;
       }
     })
+
+    this.commentForm = this.fb.group({
+      text: ['']
+    });
+
+
   }
+
 
   ngOnInit(): void {
     this.loadProduct();
+    this.loadComments();
+    this.loadRatings()
   }
 
   loadProduct() {
@@ -54,7 +69,7 @@ export class ClothingDetailsComponent implements OnInit {
               }
             }
           });
-          this.loadRatings(id);
+          this.loadRatings();
         },
         error: error => console.log(error)
       });
@@ -89,8 +104,14 @@ export class ClothingDetailsComponent implements OnInit {
     return this.quantityInBasket === 0 ? 'Add to basket' : 'Update basket';
   }
 
-  loadRatings(clothingItemId: string) {
-    this.ratingService.getAverageRating(clothingItemId).subscribe({
+  loadRatings() {
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if (!id) {
+      console.error('Product ID is undefined');
+      return;
+    }
+
+    this.ratingService.getAverageRating(id).subscribe({
       next: averageRating => {
         this.averageRating = averageRating;
       },
@@ -98,7 +119,7 @@ export class ClothingDetailsComponent implements OnInit {
     });
 
     if (this.user) {
-      this.ratingService.getUserRating(this.user.id, clothingItemId).subscribe({
+      this.ratingService.getUserRating(this.user.id, id).subscribe({
         next: userRating => {
           this.userRating = userRating ? userRating.score : undefined;
         },
@@ -119,19 +140,85 @@ export class ClothingDetailsComponent implements OnInit {
       this.ratingService.updateRating(newRating).subscribe({
         next: () => {
           console.log('Rating updated successfully');
-          this.loadRatings(this.product!.id);
+          this.loadRatings();
         },
         error: error => {
           console.log('Error updating rating:', error);
           this.ratingService.addRating(newRating).subscribe({
             next: () => {
               console.log('Rating added successfully');
-              this.loadRatings(this.product!.id);
+              this.loadRatings();
             },
             error: error => console.log('Error adding rating:', error)
           });
         }
       });
     }
+  }
+
+
+
+
+  loadComments(): void {
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if (id) {
+      this.commentService.getCommentsForClothingItem(id).subscribe(
+        (comments) => {
+          this.comments = comments;
+        },
+        (error) => {
+          console.error('Error fetching comments', error);
+        }
+      );
+    }
+  }
+
+  addComment(): void {
+    if (!this.commentForm.valid) {
+      return;
+    }
+
+    const comment = this.commentForm.value;
+    comment.clothingItemId = this.product?.id;
+    comment.userId = this.user?.id;
+    comment.username = this.user?.username;
+
+    this.commentForm.reset();
+
+    this.commentService.addComment(comment).subscribe(
+      (c) => {
+        this.comments.unshift(c);
+        this.loadComments();
+      },
+      (error) => {
+        console.error('Error adding comment', error);
+      }
+    );
+  }
+
+  removeComment(commentId: string): void {
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if (!id) {
+      console.error('Product ID is undefined');
+      return;
+    }
+
+    this.commentService.removeComment(commentId).subscribe(
+      () => {
+        this.commentService.getCommentsForClothingItem(id).subscribe(
+          (comments) => {
+            this.comments = comments;
+            this.comments.reverse();
+            this.loadComments();
+          },
+          (error) => {
+            console.error('Error fetching comments', error);
+          }
+        );
+      },
+      (error) => {
+        console.error('Error removing comment', error);
+      }
+    );
   }
 }

@@ -49,6 +49,10 @@ public class AutoMapperProfile : Profile
         CreateMap<Comment, CommentDto>()
             .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.UserName))
             .ReverseMap();
+
+        CreateMap<LikeDislike, LikeDislikeDto>()
+            .ForPath(dest => dest.UserDto.Username, opt => opt.MapFrom(src => src.User.UserName))
+            .ReverseMap();
         
         CreateMap<Coupon, CouponDto>().ReverseMap();
         

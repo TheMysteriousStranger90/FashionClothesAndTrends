@@ -156,7 +156,7 @@ public class CommentsControllerTests
         var notFoundResult = Assert.IsType<NotFoundObjectResult>(result.Result);
         var apiResponse = Assert.IsType<ApiResponse>(notFoundResult.Value);
         Assert.Equal(404, apiResponse.StatusCode);
-        Assert.Equal("No comments found for this clothing item.", apiResponse.Message);
+        Assert.Equal("No comments found for this item.", apiResponse.Message);
     }
 
     [Fact]
