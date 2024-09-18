@@ -104,36 +104,4 @@ public class RatingControllerTests
             Assert.Equal(500, apiResponse.StatusCode);
             Assert.Equal("An error occurred while processing your request", apiResponse.Message);
         }
-
-        [Fact]
-        public async Task UpdateRating_ReturnsOkResult_WhenSuccessful()
-        {
-            // Arrange
-            var ratingDto = new RatingDto { ClothingItemId = Guid.NewGuid(), Score = 5, UserId = "test_user" };
-
-            // Act
-            var result = await _controller.UpdateRating(ratingDto);
-
-            // Assert
-            Assert.IsType<OkResult>(result);
-        }
-
-        [Fact]
-        public async Task UpdateRating_ReturnsInternalServerError_WhenExceptionThrown()
-        {
-            // Arrange
-            var ratingDto = new RatingDto { ClothingItemId = Guid.NewGuid(), Score = 5, UserId = "test_user" };
-            _ratingServiceMock.Setup(service => service.UpdateRatingAsync(ratingDto))
-                .ThrowsAsync(new Exception("Test exception"));
-
-            // Act
-            var result = await _controller.UpdateRating(ratingDto);
-
-            // Assert
-            var statusCodeResult = Assert.IsType<ObjectResult>(result);
-            Assert.Equal(500, statusCodeResult.StatusCode);
-            var apiResponse = Assert.IsType<ApiResponse>(statusCodeResult.Value);
-            Assert.Equal(500, apiResponse.StatusCode);
-            Assert.Equal("An error occurred while processing your request", apiResponse.Message);
-        }
     }

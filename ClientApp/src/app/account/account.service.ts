@@ -24,6 +24,7 @@ export class AccountService {
         const user = response;
         if (user) {
           this.setCurrentUser(user);
+          this.router.navigateByUrl('/shop');
         }
       }),
       catchError(error => {
@@ -38,6 +39,7 @@ export class AccountService {
       map(user => {
         if (user) {
           this.setCurrentUser(user);
+          this.router.navigateByUrl('/shop');
         }
       }),
       catchError(error => {
@@ -50,7 +52,7 @@ export class AccountService {
   logout() {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/shop');
   }
 
   confirmEmail(userName: string) {

@@ -23,7 +23,7 @@ public class LikesControllerTests
     public async Task AddLikeDislike_ReturnsOkResult_WhenSuccessful()
     {
         // Arrange
-        var likeDislikeDto = new LikeDislikeDto { IsLike = true, CommentId = Guid.NewGuid(), UserDtoId = "test_user" };
+        var likeDislikeDto = new LikeDislikeDto { IsLike = true, CommentId = Guid.NewGuid(), UserId = "test_user" };
 
         // Act
         var result = await _controller.AddLikeDislike(likeDislikeDto);
@@ -36,7 +36,7 @@ public class LikesControllerTests
     public async Task AddLikeDislike_ReturnsBadRequest_WhenArgumentNullExceptionThrown()
     {
         // Arrange
-        var likeDislikeDto = new LikeDislikeDto { IsLike = true, CommentId = Guid.NewGuid(), UserDtoId = "test_user" };
+        var likeDislikeDto = new LikeDislikeDto { IsLike = true, CommentId = Guid.NewGuid(), UserId = "test_user" };
         _likeDislikeServiceMock.Setup(service => service.AddLikeDislikeAsync(likeDislikeDto))
             .ThrowsAsync(new ArgumentNullException(nameof(likeDislikeDto)));
 
@@ -54,7 +54,7 @@ public class LikesControllerTests
     public async Task AddLikeDislike_ReturnsInternalServerError_WhenExceptionThrown()
     {
         // Arrange
-        var likeDislikeDto = new LikeDislikeDto { IsLike = true, CommentId = Guid.NewGuid(), UserDtoId = "test_user" };
+        var likeDislikeDto = new LikeDislikeDto { IsLike = true, CommentId = Guid.NewGuid(), UserId = "test_user" };
         _likeDislikeServiceMock.Setup(service => service.AddLikeDislikeAsync(likeDislikeDto))
             .ThrowsAsync(new Exception("Test exception"));
 
@@ -126,8 +126,8 @@ public class LikesControllerTests
         var userId = "test_user";
         var likesDislikes = new List<LikeDislikeDto>
         {
-            new LikeDislikeDto { IsLike = true, CommentId = Guid.NewGuid(), UserDtoId = userId },
-            new LikeDislikeDto { IsLike = false, CommentId = Guid.NewGuid(), UserDtoId = userId }
+            new LikeDislikeDto { IsLike = true, CommentId = Guid.NewGuid(), UserId = userId },
+            new LikeDislikeDto { IsLike = false, CommentId = Guid.NewGuid(), UserId = userId }
         };
         _likeDislikeServiceMock.Setup(service => service.GetLikesDislikesByUserIdAsync(userId))
             .ReturnsAsync(likesDislikes);
@@ -185,8 +185,8 @@ public class LikesControllerTests
         var commentId = Guid.NewGuid();
         var likesDislikes = new List<LikeDislikeDto>
         {
-            new LikeDislikeDto { IsLike = true, CommentId = commentId, UserDtoId = "test_user" },
-            new LikeDislikeDto { IsLike = false, CommentId = commentId, UserDtoId = "test_user" }
+            new LikeDislikeDto { IsLike = true, CommentId = commentId, UserId = "test_user" },
+            new LikeDislikeDto { IsLike = false, CommentId = commentId, UserId = "test_user" }
         };
         _likeDislikeServiceMock.Setup(service => service.GetLikesDislikesByCommentIdAsync(commentId))
             .ReturnsAsync(likesDislikes);

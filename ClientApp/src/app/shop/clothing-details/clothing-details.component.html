@@ -62,22 +62,27 @@
     <mat-accordion class="accordion" multi="true" *ngIf="comments.length > 0">
       <mat-expansion-panel *ngFor="let comment of comments">
         <mat-action-row>
-          <button (click)="removeComment(comment.id)" mat-button color="primary">DELETE</button>
-          <button (click)="likeComment(comment.id)" mat-button color="primary">
-            <mat-icon>thumb_up</mat-icon> {{ comment.likesCount }}
-          </button>
-          <button (click)="dislikeComment(comment.id)" mat-button color="primary">
-            <mat-icon>thumb_down</mat-icon> {{ comment.dislikesCount }}
-          </button>
+          <div class="action-buttons">
+            <button (click)="likeComment(comment.id)" mat-button color="primary">
+              <mat-icon>thumb_up</mat-icon> {{ comment.likesCount }}
+            </button>
+            <button (click)="dislikeComment(comment.id)" mat-button color="primary">
+              <mat-icon>thumb_down</mat-icon> {{ comment.dislikesCount }}
+            </button>
+            <button (click)="removeComment(comment.id)" mat-button color="primary">DELETE</button>
+          </div>
+          <div class="comment-time">
+            <p class="text-muted">{{ comment.timeAgo }}</p>
+          </div>
         </mat-action-row>
         <mat-expansion-panel-header>
           <mat-panel-title>
             <p>{{ comment.username }}</p>
           </mat-panel-title>
+          <mat-panel-description>
+            <p>{{ comment.text }}</p>
+          </mat-panel-description>
         </mat-expansion-panel-header>
-        <mat-panel-description>
-          <p>{{ comment.text }}</p>
-        </mat-panel-description>
       </mat-expansion-panel>
     </mat-accordion>
     <h3 class="info-text mat-body-3" *ngIf="comments.length <= 0">NO COMMENTS...</h3>
