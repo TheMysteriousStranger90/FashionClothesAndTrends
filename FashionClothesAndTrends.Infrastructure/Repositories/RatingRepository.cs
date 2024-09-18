@@ -13,16 +13,40 @@ public class RatingRepository : GenericRepository<Rating>, IRatingRepository
 
     public async Task AddRatingToClothingItemAsync(Rating rating)
     {
-        var _rating = new Rating
+        var existingRating = await _context.Ratings
+            .FirstOrDefaultAsync(r => r.UserId == rating.UserId && r.ClothingItemId == rating.ClothingItemId);
+
+        if (existingRating != null)
         {
-            UserId = rating.UserId,
-            ClothingItem = rating.ClothingItem,
-            ClothingItemId = rating.ClothingItemId,
-            Score = rating.Score,
-            CreatedAt = DateTime.Now
-        };
-        await _context.Ratings.AddAsync(_rating);
+            existingRating.Score = rating.Score;
+            existingRating.LastUpdatedAt = DateTime.Now;
+        }
+        else
+        {
+            var _rating = new Rating
+            {
+                UserId = rating.UserId,
+                ClothingItem = rating.ClothingItem,
+                ClothingItemId = rating.ClothingItemId,
+                Score = rating.Score,
+                CreatedAt = DateTime.Now
+            };
+            await _context.Ratings.AddAsync(_rating);
+        }
         await _context.SaveChangesAsync();
+    }
+    
+    public async Task UpdateRatingAsync(string userId, Guid clothingItemId, int value)
+    {
+        var rating = await _context.Ratings
+            .FirstOrDefaultAsync(r => r.UserId == userId && r.ClothingItemId == clothingItemId);
+
+        if (rating != null)
+        {
+            rating.Score = value;
+            rating.CreatedAt = DateTime.Now;
+            await _context.SaveChangesAsync();
+        }
     }
 
     public async Task<IEnumerable<Rating>> GetRatingsByUserIdAsync(string userId)
@@ -51,18 +75,6 @@ public class RatingRepository : GenericRepository<Rating>, IRatingRepository
         }
 
         return ratings.Average(r => r.Score);
-    }
-    
-    public async Task UpdateRatingAsync(string userId, Guid clothingItemId, int value)
-    {
-        var rating = await _context.Ratings
-            .FirstOrDefaultAsync(r => r.UserId == userId && r.ClothingItemId == clothingItemId);
-
-        if (rating != null)
-        {
-            rating.Score = value;
-            await _context.SaveChangesAsync();
-        }
     }
     
     public async Task<Rating?> GetUserRatingAsync(string userId, Guid clothingItemId)

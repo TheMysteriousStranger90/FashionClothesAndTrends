@@ -1,19 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { BasketService } from 'src/app/basket/basket.service';
-import { BreadcrumbService } from 'xng-breadcrumb';
-import { ShopService } from '../shop.service';
-import { ClothingItem } from 'src/app/shared/models/clothing-item';
-import { take } from 'rxjs';
-import { AccountService } from 'src/app/account/account.service';
-import { User } from 'src/app/shared/models/user';
-import { RatingDto } from 'src/app/shared/models/rating';
-import { RatingService } from 'src/app/shared/rating/rating.service';
-import { CommentService } from 'src/app/core/services/comment.service';
-import {FormBuilder, FormGroup } from '@angular/forms';
-import { Comment } from '../../shared/models/comment';
-import { LikeService } from 'src/app/core/services/like.service';
-import { LikeDislike } from 'src/app/shared/models/like-dislike';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {BasketService} from 'src/app/basket/basket.service';
+import {BreadcrumbService} from 'xng-breadcrumb';
+import {ShopService} from '../shop.service';
+import {ClothingItem} from 'src/app/shared/models/clothing-item';
+import {take} from 'rxjs';
+import {AccountService} from 'src/app/account/account.service';
+import {User} from 'src/app/shared/models/user';
+import {Rating} from 'src/app/shared/models/rating';
+import {RatingService} from 'src/app/shared/rating/rating.service';
+import {CommentService} from 'src/app/core/services/comment.service';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Comment} from '../../shared/models/comment';
+import {LikeService} from 'src/app/core/services/like.service';
+import {LikeDislike} from 'src/app/shared/models/like-dislike';
 
 @Component({
   selector: 'app-clothing-details',
@@ -45,7 +45,6 @@ export class ClothingDetailsComponent implements OnInit {
       text: ['']
     });
   }
-
 
   ngOnInit(): void {
     this.loadProduct();
@@ -104,7 +103,6 @@ export class ClothingDetailsComponent implements OnInit {
     return this.quantityInBasket === 0 ? 'Add to basket' : 'Update basket';
   }
 
-
   loadRatings() {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (!id) {
@@ -131,32 +129,22 @@ export class ClothingDetailsComponent implements OnInit {
 
   onRating(rating: number) {
     if (this.product && this.user) {
-      const newRating: RatingDto = {
+      const newRating: Rating = {
         userId: this.user.id,
         username: this.user.username,
         clothingItemId: this.product.id,
         score: rating
       };
 
-      this.ratingService.updateRating(newRating).subscribe({
+      this.ratingService.addRating(newRating).subscribe({
         next: () => {
-          console.log('Rating updated successfully');
+          console.log('Rating added/updated successfully');
           this.loadRatings();
         },
-        error: error => {
-          console.log('Error updating rating:', error);
-          this.ratingService.addRating(newRating).subscribe({
-            next: () => {
-              console.log('Rating added successfully');
-              this.loadRatings();
-            },
-            error: error => console.log('Error adding rating:', error)
-          });
-        }
+        error: error => console.error('Error adding/updating rating:', error)
       });
     }
   }
-
 
   loadComments(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -231,8 +219,6 @@ export class ClothingDetailsComponent implements OnInit {
     );
   }
 
-
-
   likeComment(commentId: string): void {
     if (this.user) {
       const likeDislike: LikeDislike = {
@@ -270,6 +256,4 @@ export class ClothingDetailsComponent implements OnInit {
       });
     }
   }
-
-
 }

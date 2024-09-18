@@ -33,12 +33,6 @@ public class RatingService : IRatingService
         return await _unitOfWork.RatingRepository.GetAverageRatingByClothingItemIdAsync(clothingItemId);
     }
     
-    public async Task UpdateRatingAsync(RatingDto ratingDto)
-    {
-        var user = await _unitOfWork.UserRepository.GetUserByUserName(ratingDto.Username);
-        await _unitOfWork.RatingRepository.UpdateRatingAsync(user.Id, ratingDto.ClothingItemId, ratingDto.Score);
-    }
-    
     public async Task<RatingDto?> GetUserRatingAsync(string userId, Guid clothingItemId)
     {
         var rating = await _unitOfWork.RatingRepository.GetUserRatingAsync(userId, clothingItemId);

@@ -1,5 +1,5 @@
 
-export interface RatingDto {
+export interface Rating {
   userId: string;
   username: string;
   clothingItemId: string;
