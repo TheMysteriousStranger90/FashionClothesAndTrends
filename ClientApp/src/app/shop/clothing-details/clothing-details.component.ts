@@ -12,6 +12,8 @@ import { RatingService } from 'src/app/shared/rating/rating.service';
 import { CommentService } from 'src/app/core/services/comment.service';
 import {FormBuilder, FormGroup } from '@angular/forms';
 import { Comment } from '../../shared/models/comment';
+import { LikeService } from 'src/app/core/services/like.service';
+import { LikeDislike } from 'src/app/shared/models/like-dislike';
 
 @Component({
   selector: 'app-clothing-details',
@@ -30,7 +32,7 @@ export class ClothingDetailsComponent implements OnInit {
   commentForm: FormGroup;
   comments: Comment[] = [];
 
-  constructor(private accountService: AccountService, private ratingService: RatingService, private shopService: ShopService, private activatedRoute: ActivatedRoute, private bcService: BreadcrumbService, private basketService: BasketService, private commentService: CommentService, private fb: FormBuilder,) {
+  constructor(private accountService: AccountService, private ratingService: RatingService, private shopService: ShopService, private activatedRoute: ActivatedRoute, private bcService: BreadcrumbService, private basketService: BasketService, private commentService: CommentService, private likeService: LikeService, private fb: FormBuilder,) {
     this.bcService.set('@productDetails', ' ')
 
     this.accountService.currentUser$.pipe(take(1)).subscribe({
@@ -162,6 +164,16 @@ export class ClothingDetailsComponent implements OnInit {
       this.commentService.getCommentsForClothingItem(id).subscribe(
         (comments) => {
           this.comments = comments;
+          this.comments.forEach(comment => {
+            this.likeService.getLikesCount(comment.id).subscribe({
+              next: (count) => comment.likesCount = count,
+              error: (error) => console.error('Error fetching likes count', error)
+            });
+            this.likeService.getDislikesCount(comment.id).subscribe({
+              next: (count) => comment.dislikesCount = count,
+              error: (error) => console.error('Error fetching dislikes count', error)
+            });
+          });
         },
         (error) => {
           console.error('Error fetching comments', error);
@@ -218,4 +230,46 @@ export class ClothingDetailsComponent implements OnInit {
       }
     );
   }
+
+
+
+  likeComment(commentId: string): void {
+    if (this.user) {
+      const likeDislike: LikeDislike = {
+        isLike: true,
+        commentId: commentId,
+        userId: this.user.id,
+        username: this.user?.username,
+        comment: this.comments.find(c => c.id === commentId)!
+      };
+
+      this.likeService.addLikeDislike(likeDislike).subscribe({
+        next: () => {
+          this.loadComments();
+        },
+        error: error => console.error('Error liking comment', error)
+      });
+    }
+  }
+
+  dislikeComment(commentId: string): void {
+    if (this.user) {
+      const likeDislike: LikeDislike = {
+        isLike: false,
+        commentId: commentId,
+        userId: this.user.id,
+        username: this.user?.username,
+        comment: this.comments.find(c => c.id === commentId)!
+      };
+
+      this.likeService.addLikeDislike(likeDislike).subscribe({
+        next: () => {
+          this.loadComments();
+        },
+        error: error => console.error('Error disliking comment', error)
+      });
+    }
+  }
+
+
 }

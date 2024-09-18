@@ -88,4 +88,32 @@ public class LikesController : BaseApiController
             return StatusCode(500, new ApiResponse(500, "An error occurred while processing your request"));
         }
     }
+    
+    [HttpGet("comments/{commentId}/likes")]
+    public async Task<ActionResult<int>> GetLikesCount(Guid commentId)
+    {
+        try
+        {
+            var count = await _likeDislikeService.CountLikesAsync(commentId);
+            return Ok(count);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse(500, "An error occurred while processing your request"));
+        }
+    }
+
+    [HttpGet("comments/{commentId}/dislikes")]
+    public async Task<ActionResult<int>> GetDislikesCount(Guid commentId)
+    {
+        try
+        {
+            var count = await _likeDislikeService.CountDislikesAsync(commentId);
+            return Ok(count);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse(500, "An error occurred while processing your request"));
+        }
+    }
 }

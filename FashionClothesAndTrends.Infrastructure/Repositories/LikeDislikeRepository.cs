@@ -11,6 +11,20 @@ public class LikeDislikeRepository : GenericRepository<LikeDislike>, ILikeDislik
     {
     }
 
+    public async Task AddLikeToCommentAsync(LikeDislike likeDislike)
+    {
+        var _likeDislike = new LikeDislike
+        {
+            UserId = likeDislike.UserId,
+            Comment = likeDislike.Comment,
+            CommentId = likeDislike.CommentId,
+            IsLike = likeDislike.IsLike,
+            CreatedAt = DateTime.Now,
+        };
+        await _context.LikesDislikes.AddAsync(_likeDislike);
+        await _context.SaveChangesAsync();
+    }
+
     public async Task<IEnumerable<LikeDislike>> GetLikesDislikesByUserIdAsync(string userId)
     {
         return await _context.LikesDislikes
@@ -24,4 +38,18 @@ public class LikeDislikeRepository : GenericRepository<LikeDislike>, ILikeDislik
         return await _context.LikesDislikes
             .Where(ld => ld.CommentId == commentId)
             .ToListAsync();    }
+    
+    public async Task<int> CountLikesAsync(Guid commentId)
+    {
+        return await _context.LikesDislikes
+            .Where(ld => ld.CommentId == commentId && ld.IsLike)
+            .CountAsync();
+    }
+
+    public async Task<int> CountDislikesAsync(Guid commentId)
+    {
+        return await _context.LikesDislikes
+            .Where(ld => ld.CommentId == commentId && !ld.IsLike)
+            .CountAsync();
+    }
 }

@@ -7,5 +7,7 @@ export interface Comment {
   userId: string;
   createdAt: Date;
   timeAgo?: string;
+  likesCount?: number;
+  dislikesCount?: number;
   likesDislikes: LikeDislike[];
 }

@@ -26,8 +26,7 @@ public class LikeDislikeService : ILikeDislikeService
         }
 
         var likeDislike = _mapper.Map<LikeDislike>(likeDislikeDto);
-        await _unitOfWork.LikeDislikeRepository.AddAsync(likeDislike);
-        await _unitOfWork.SaveAsync();
+        await _unitOfWork.LikeDislikeRepository.AddLikeToCommentAsync(likeDislike);
     }
 
     public async Task RemoveLikeDislikeAsync(Guid likeDislikeId)
@@ -62,5 +61,15 @@ public class LikeDislikeService : ILikeDislikeService
         }
 
         return _mapper.Map<IEnumerable<LikeDislikeDto>>(likesDislikes);
+    }
+    
+    public async Task<int> CountLikesAsync(Guid commentId)
+    {
+        return await _unitOfWork.LikeDislikeRepository.CountLikesAsync(commentId);
+    }
+
+    public async Task<int> CountDislikesAsync(Guid commentId)
+    {
+        return await _unitOfWork.LikeDislikeRepository.CountDislikesAsync(commentId);
     }
 }
