@@ -8,6 +8,6 @@ public interface IWishlistService
     Task<WishlistDto?> GetWishlistByNameAsync(string userId, string name);
     Task<WishlistDto> CreateWishlistAsync(string userId, string name);
     Task<bool> DeleteWishlistAsync(Guid wishlistId);
-    Task<WishlistItemDto> AddItemToWishlistAsync(Guid wishlistId, Guid clothingItemId);
+    Task<WishlistItemDto> AddItemToWishlistAsync(string userId, Guid clothingItemId, string? wishlistName = null);
     Task<bool> RemoveItemFromWishlistAsync(Guid wishlistId, Guid itemId);
 }

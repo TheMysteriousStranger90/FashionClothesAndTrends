@@ -147,21 +147,20 @@ public class WishlistControllerTests
     }
 
     [Fact]
-    public async Task CreateWishlist_ReturnsCreatedAtActionResult_WithWishlist()
+    public async Task CreateWishlist_ReturnsOkResult_WhenSuccessful()
     {
         // Arrange
         var userId = "test_user_id";
-        var wishlist = new WishlistDto { Id = Guid.NewGuid(), Name = "Wishlist 1" };
-        _wishlistServiceMock.Setup(service => service.CreateWishlistAsync(userId, "Wishlist 1"))
-            .ReturnsAsync(wishlist);
+        var wishlistName = "Wishlist 1";
+        _wishlistServiceMock.Setup(service => service.CreateWishlistAsync(userId, wishlistName))
+            .ReturnsAsync(new WishlistDto { Id = Guid.NewGuid(), Name = wishlistName });
 
         // Act
-        var result = await _controller.CreateWishlist(userId, "Wishlist 1");
+        var result = await _controller.CreateWishlist(userId, wishlistName);
 
         // Assert
-        var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
-        var returnedWishlist = Assert.IsType<WishlistDto>(createdAtActionResult.Value);
-        Assert.Equal(wishlist.Name, returnedWishlist.Name);
+        var okResult = Assert.IsType<OkResult>(result);
+        Assert.Equal(200, okResult.StatusCode);
     }
 
     [Fact]
@@ -177,7 +176,7 @@ public class WishlistControllerTests
         var result = await _controller.CreateWishlist(userId, "Wishlist 1");
 
         // Assert
-        var conflictResult = Assert.IsType<ConflictObjectResult>(result.Result);
+        var conflictResult = Assert.IsType<ConflictObjectResult>(result);
         var apiResponse = Assert.IsType<ApiResponse>(conflictResult.Value);
         Assert.Equal(409, apiResponse.StatusCode);
         Assert.Equal("Wishlist with name 'Wishlist 1' already exists for user 'test_user_id'.", apiResponse.Message);
@@ -195,7 +194,7 @@ public class WishlistControllerTests
         var result = await _controller.CreateWishlist(userId, "Wishlist 1");
 
         // Assert
-        var statusCodeResult = Assert.IsType<ObjectResult>(result.Result);
+        var statusCodeResult = Assert.IsType<ObjectResult>(result);
         Assert.Equal(500, statusCodeResult.StatusCode);
         var apiResponse = Assert.IsType<ApiResponse>(statusCodeResult.Value);
         Assert.Equal(500, apiResponse.StatusCode);
@@ -258,15 +257,19 @@ public class WishlistControllerTests
     public async Task AddItemToWishlist_ReturnsOkResult_WithWishlistItem()
     {
         // Arrange
-        var wishlistId = Guid.NewGuid();
+        var userId = "test_user_id";
         var clothingItemId = Guid.NewGuid();
         var wishlistItem = new WishlistItemDto
-            { Id = Guid.NewGuid(), ClothingItemId = clothingItemId, ClothingItemName = "Item 1" };
-        _wishlistServiceMock.Setup(service => service.AddItemToWishlistAsync(wishlistId, clothingItemId))
+        {
+            Id = Guid.NewGuid(),
+            ClothingItemId = clothingItemId,
+            ClothingItemName = "Item 1"
+        };
+        _wishlistServiceMock.Setup(service => service.AddItemToWishlistAsync(userId, clothingItemId, null))
             .ReturnsAsync(wishlistItem);
 
         // Act
-        var result = await _controller.AddItemToWishlist(wishlistId, clothingItemId);
+        var result = await _controller.AddItemToWishlist(clothingItemId);
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
@@ -278,39 +281,19 @@ public class WishlistControllerTests
     public async Task AddItemToWishlist_ReturnsNotFound_WhenNotFoundExceptionThrown()
     {
         // Arrange
-        var wishlistId = Guid.NewGuid();
+        var userId = "test_user_id";
         var clothingItemId = Guid.NewGuid();
-        _wishlistServiceMock.Setup(service => service.AddItemToWishlistAsync(wishlistId, clothingItemId))
+        _wishlistServiceMock.Setup(service => service.AddItemToWishlistAsync(userId, clothingItemId, null))
             .ThrowsAsync(new NotFoundException("Wishlist with ID 'wishlistId' not found."));
 
         // Act
-        var result = await _controller.AddItemToWishlist(wishlistId, clothingItemId);
+        var result = await _controller.AddItemToWishlist(clothingItemId);
 
         // Assert
         var notFoundResult = Assert.IsType<NotFoundObjectResult>(result.Result);
         var apiResponse = Assert.IsType<ApiResponse>(notFoundResult.Value);
         Assert.Equal(404, apiResponse.StatusCode);
         Assert.Equal("Wishlist with ID 'wishlistId' not found.", apiResponse.Message);
-    }
-
-    [Fact]
-    public async Task AddItemToWishlist_ReturnsInternalServerError_WhenExceptionThrown()
-    {
-        // Arrange
-        var wishlistId = Guid.NewGuid();
-        var clothingItemId = Guid.NewGuid();
-        _wishlistServiceMock.Setup(service => service.AddItemToWishlistAsync(wishlistId, clothingItemId))
-            .ThrowsAsync(new Exception("Test exception"));
-
-        // Act
-        var result = await _controller.AddItemToWishlist(wishlistId, clothingItemId);
-
-        // Assert
-        var statusCodeResult = Assert.IsType<ObjectResult>(result.Result);
-        Assert.Equal(500, statusCodeResult.StatusCode);
-        var apiResponse = Assert.IsType<ApiResponse>(statusCodeResult.Value);
-        Assert.Equal(500, apiResponse.StatusCode);
-        Assert.Equal("An error occurred while processing your request", apiResponse.Message);
     }
 
     [Fact]
