@@ -28,9 +28,9 @@
       </mat-expansion-panel-header>
       <mat-card>
         <mat-list>
-          <mat-list-item *ngFor="let item of wishlist.wishListItems">
+          <mat-list-item *ngFor="let item of wishlist.items">
             {{item.clothingItemName}}
-            <button mat-icon-button color="warn" (click)="removeItemFromWishlist(wishlist.id, item.id)">
+            <button mat-raised-button color="primary"  (click)="removeItemFromWishlist(wishlist.id, item.id)">
               <mat-icon>delete</mat-icon>
             </button>
           </mat-list-item>

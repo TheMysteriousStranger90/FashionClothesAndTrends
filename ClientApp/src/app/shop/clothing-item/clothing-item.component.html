@@ -11,6 +11,9 @@
       <button mat-icon-button color="primary" (click)="toggleFavorite()" class="me-2 cart-button" matTooltip="{{ isFavorite ? 'Remove from Favorites' : 'Add to Favorites' }}">
         <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
       </button>
+      <button mat-icon-button color="primary" (click)="addToWishlist()" class="me-2 cart-button" matTooltip="Add to Wishlist">
+        <mat-icon>playlist_add</mat-icon>
+      </button>
       <button mat-raised-button color="primary" [routerLink]="['/shop', product.id]" class="view-button" matTooltip="View Details">
         View
       </button>

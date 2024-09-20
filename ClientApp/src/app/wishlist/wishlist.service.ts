@@ -30,8 +30,8 @@ export class WishlistService {
     return this.http.delete<void>(`${this.baseUrl}wishlist/${wishlistId}`);
   }
 
-  addItemToWishlist(clothingItemId: string, wishlistName?: string): Observable<WishlistItem> {
-    return this.http.post<WishlistItem>(`${this.baseUrl}wishlist/items`, {clothingItemId, wishlistName});
+  addItemToWishlist(clothingItemId: string, wishlistId: string): Observable<WishlistItem> {
+    return this.http.post<WishlistItem>(`${this.baseUrl}wishlist/${wishlistId}/items/${clothingItemId}`, {});
   }
 
   removeItemFromWishlist(wishlistId: string, itemId: string): Observable<void> {

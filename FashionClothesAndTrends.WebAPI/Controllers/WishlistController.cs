@@ -93,13 +93,13 @@ public class WishlistController : BaseApiController
         }
     }
 
-    [HttpPost("items")]
-    public async Task<ActionResult<WishlistItemDto>> AddItemToWishlist(Guid clothingItemId, string? wishlistName = null)
+    [HttpPost("{wishlistId}/items/{clothingItemId}")]
+    public async Task<ActionResult<WishlistItemDto>> AddItemToWishlist(Guid wishlistId, Guid clothingItemId)
     {
         try
         {
             var userId = User.GetUserId();
-            var wishlistItem = await _wishlistService.AddItemToWishlistAsync(userId, clothingItemId, wishlistName);
+            var wishlistItem = await _wishlistService.AddItemToWishlistAsync(userId, clothingItemId, wishlistId);
             return Ok(wishlistItem);
         }
         catch (NotFoundException ex)

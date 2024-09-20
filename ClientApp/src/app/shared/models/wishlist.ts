@@ -4,7 +4,7 @@ export interface Wishlist {
   name: string;
   userId: string;
   username: string;
-  wishListItems: WishlistItem[];
+  items: WishlistItem[];
 }
 
 export interface WishlistItem {

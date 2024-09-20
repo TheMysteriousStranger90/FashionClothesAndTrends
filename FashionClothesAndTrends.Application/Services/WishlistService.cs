@@ -61,11 +61,19 @@ public class WishlistService : IWishlistService
     }
 
     public async Task<WishlistItemDto> AddItemToWishlistAsync(string userId, Guid clothingItemId,
-        string? wishlistName = null)
+        Guid? wishlistId = null)
     {
         Wishlist wishlist;
 
-        if (string.IsNullOrEmpty(wishlistName))
+        if (wishlistId.HasValue)
+        {
+            wishlist = await _unitOfWork.WishlistRepository.GetByIdAsync(wishlistId.Value);
+            if (wishlist == null)
+            {
+                throw new NotFoundException($"Wishlist with ID '{wishlistId}' not found for user '{userId}'.");
+            }
+        }
+        else
         {
             wishlist = await _unitOfWork.WishlistRepository.GetWishlistByNameAsync(userId, "Default");
             if (wishlist == null)
@@ -77,14 +85,6 @@ public class WishlistService : IWishlistService
                     Items = new List<WishlistItem>()
                 };
                 await _unitOfWork.WishlistRepository.AddAsync(wishlist);
-            }
-        }
-        else
-        {
-            wishlist = await _unitOfWork.WishlistRepository.GetWishlistByNameAsync(userId, wishlistName);
-            if (wishlist == null)
-            {
-                throw new NotFoundException($"Wishlist with name '{wishlistName}' not found for user '{userId}'.");
             }
         }
 
