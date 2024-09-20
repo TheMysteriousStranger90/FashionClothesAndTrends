@@ -50,14 +50,20 @@ export class WishlistComponent implements OnInit {
   loadWishlists(): void {
     this.wishlistService.getWishlistsByUserId().subscribe({
       next: (wishlists) => {
-        console.log('API Response:', wishlists);
         this.wishlists = wishlists.map(wishlist => ({
           ...wishlist,
           wishListItems: wishlist.items
         }));
-        console.log('Mapped Wishlists:', this.wishlists);
-        const defaultWishlist = this.wishlists.find(w => w.name === 'Default');
-        this.sharedService.setDefaultWishlistId(defaultWishlist?.id || null);
+        
+        let currentDefaultWishlistId = this.sharedService.getDefaultWishlistId();
+
+        if (!currentDefaultWishlistId) {
+          const defaultWishlist = this.wishlists.find(w => w.name === 'Default');
+          currentDefaultWishlistId = defaultWishlist?.id || null;
+          this.sharedService.setDefaultWishlistId(currentDefaultWishlistId);
+        }
+
+        this.defaultWishlistId = currentDefaultWishlistId;
       },
       error: (error) => console.error('Error loading wishlists:', error)
     });
@@ -72,6 +78,12 @@ export class WishlistComponent implements OnInit {
 
     this.wishlistService.createWishlist(wishlistName).subscribe(() => {
       this.loadWishlists();
+      
+      const currentDefaultWishlistId = this.sharedService.getDefaultWishlistId();
+      if (this.defaultWishlistId !== currentDefaultWishlistId) {
+        this.defaultWishlistId = currentDefaultWishlistId;
+      }
+
       this.addWishlistForm.reset();
     });
   }
