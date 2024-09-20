@@ -25,6 +25,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatDialogModule} from '@angular/material/dialog';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [],
@@ -58,6 +59,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     FormsModule,
     MatCardModule,
     MatTooltipModule,
+    MatCheckboxModule
   ],
   exports: [
     MatFormFieldModule,
@@ -87,7 +89,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatStepperModule,
     FormsModule,
     MatCardModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatCheckboxModule
   ]
 })
 

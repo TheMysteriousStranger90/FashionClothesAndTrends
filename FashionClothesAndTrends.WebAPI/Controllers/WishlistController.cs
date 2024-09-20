@@ -18,11 +18,12 @@ public class WishlistController : BaseApiController
         _wishlistService = wishlistService;
     }
 
-    [HttpPost]
-    public async Task<ActionResult> CreateWishlist(string userId, string wishlistName)
+    [HttpPost("{wishlistName}")]
+    public async Task<ActionResult> CreateWishlist(string wishlistName)
     {
         try
         {
+            var userId = User.GetUserId();
             await _wishlistService.CreateWishlistAsync(userId, wishlistName);
             return Ok();
         }
@@ -36,7 +37,7 @@ public class WishlistController : BaseApiController
         }
     }
 
-    [HttpGet("user/{userId}")]
+    [HttpGet("user")]
     public async Task<ActionResult<IEnumerable<WishlistDto>>> GetWishlistsByUserId()
     {
         try

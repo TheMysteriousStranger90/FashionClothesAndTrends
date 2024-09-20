@@ -1,1 +1,41 @@
-<p>wishlist works!</p>
+<div class="container vh-100">
+  <h2>Wishlists</h2>
+
+  <form [formGroup]="addWishlistForm" (ngSubmit)="addWishlist()">
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <mat-form-field appearance="fill" class="bg-primary text-white">
+        <mat-label class="text-white">Wishlist Name</mat-label>
+        <input matInput id="wishlistName" formControlName="name" placeholder="Enter wishlist name" class="text-white">
+      </mat-form-field>
+      <div style="display: flex; justify-content: flex-start;">
+        <button mat-raised-button color="primary" type="submit" [disabled]="addWishlistForm.invalid">Add Wishlist</button>
+      </div>
+    </div>
+  </form>
+
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let wishlist of wishlists">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{wishlist.name}}
+        </mat-panel-title>
+        <mat-panel-description>
+          <button mat-icon-button color="warn" (click)="deleteWishlist(wishlist.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <mat-checkbox [checked]="wishlist.id === defaultWishlistId" (change)="setDefaultWishlist(wishlist.id)">Default</mat-checkbox>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-card>
+        <mat-list>
+          <mat-list-item *ngFor="let item of wishlist.wishListItems">
+            {{item.clothingItemName}}
+            <button mat-icon-button color="warn" (click)="removeItemFromWishlist(wishlist.id, item.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-list-item>
+        </mat-list>
+      </mat-card>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

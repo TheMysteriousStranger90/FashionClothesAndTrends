@@ -14,27 +14,27 @@ export class WishlistService {
   constructor(private http: HttpClient) {
   }
 
-  createWishlist(userId: string, wishlistName: string): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/wishlist`, {userId, wishlistName});
+  createWishlist(wishlistName: string): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}wishlist/${wishlistName}`, {});
   }
 
-  getWishlistsByUserId(userId: string): Observable<Wishlist[]> {
-    return this.http.get<Wishlist[]>(`${this.baseUrl}/wishlist/user/${userId}`);
+  getWishlistsByUserId(): Observable<Wishlist[]> {
+    return this.http.get<Wishlist[]>(`${this.baseUrl}wishlist/user/`);
   }
 
   getWishlistByName(userId: string, wishlistName: string): Observable<Wishlist> {
-    return this.http.get<Wishlist>(`${this.baseUrl}/wishlist/user/${userId}/name/${wishlistName}`);
+    return this.http.get<Wishlist>(`${this.baseUrl}wishlist/user/${userId}/name/${wishlistName}`);
   }
 
   deleteWishlist(wishlistId: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/wishlist/${wishlistId}`);
+    return this.http.delete<void>(`${this.baseUrl}wishlist/${wishlistId}`);
   }
 
   addItemToWishlist(clothingItemId: string, wishlistName?: string): Observable<WishlistItem> {
-    return this.http.post<WishlistItem>(`${this.baseUrl}/wishlist/items`, {clothingItemId, wishlistName});
+    return this.http.post<WishlistItem>(`${this.baseUrl}wishlist/items`, {clothingItemId, wishlistName});
   }
 
   removeItemFromWishlist(wishlistId: string, itemId: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/wishlist/${wishlistId}/items/${itemId}`);
+    return this.http.delete<void>(`${this.baseUrl}wishlist/${wishlistId}/items/${itemId}`);
   }
 }
