@@ -35,6 +35,11 @@ const routes: Routes = [
         canActivate: [authGuard],
         loadChildren: () => import('./orders-history/orders-history.module').then(m => m.OrdersHistoryModule)
       },
+      {
+        path: 'wishlist',
+        canActivate: [authGuard],
+        loadChildren: () => import('./wishlist/wishlist.module').then(m => m.WishlistModule)
+      },
     ]
   },
   {path: '**', redirectTo: '', pathMatch: 'full'},

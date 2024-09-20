@@ -69,7 +69,8 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.UserName))
             .ReverseMap();
 
-        CreateMap<Wishlist, WishlistDto>().ReverseMap();
+        CreateMap<Wishlist, WishlistDto>().ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.UserName))
+            .ReverseMap();
         CreateMap<WishlistItem, WishlistItemDto>()
             .ForMember(dest => dest.ClothingItemName, opt => opt.MapFrom(src => src.ClothingItem.Name))
             .ForMember(dest => dest.PictureUrl,
