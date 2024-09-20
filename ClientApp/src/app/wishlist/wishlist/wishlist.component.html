@@ -1,7 +1,7 @@
 <div class="container vh-100">
   <h2>Wishlists</h2>
 
-  <form [formGroup]="addWishlistForm" (ngSubmit)="addWishlist()">
+  <form [formGroup]="addWishlistForm" (ngSubmit)="addWishlist()" class="form-margin-bottom">
     <div style="display: flex; flex-direction: column; gap: 20px;">
       <mat-form-field appearance="fill" class="bg-primary text-white">
         <mat-label class="text-white">Wishlist Name</mat-label>

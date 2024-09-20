@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { AccountService } from './account/account.service';
-import { User } from './shared/models/user';
-import { BasketService } from './basket/basket.service';
+import {Component, OnInit} from '@angular/core';
+import {AccountService} from './account/account.service';
+import {User} from './shared/models/user';
+import {BasketService} from './basket/basket.service';
 
 @Component({
   selector: 'app-root',
@@ -11,11 +11,12 @@ import { BasketService } from './basket/basket.service';
 export class AppComponent implements OnInit {
   title = 'Fashion Clothes And Trends';
 
-  constructor(private accountService: AccountService, private basketService: BasketService,) {}
+  constructor(private accountService: AccountService, private basketService: BasketService,) {
+  }
 
   ngOnInit(): void {
-    this.loadBasket();
     this.setCurrentUser();
+    this.loadBasket();
   }
 
   setCurrentUser() {
