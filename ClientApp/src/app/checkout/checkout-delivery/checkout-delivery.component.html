@@ -1,1 +1,20 @@
-<p>checkout-delivery works!</p>
+<div class="mt-4" *ngIf="checkoutForm" [formGroup]="checkoutForm">
+  <div class="row" formGroupName="deliveryForm">
+    <mat-radio-group formControlName="deliveryMethod" class="col-12">
+      <div class="col-6 form-group mb-3" *ngFor="let method of deliveryMethods">
+        <mat-radio-button
+          (click)="setShippingPrice(method)"
+          value="{{method.id}}"
+          id="{{method.id}}"
+          class="w-100"
+        >
+          <label for="{{method.id}}" class="form-check-label ms-2 mb-3">
+            <strong>{{method.shortName}} - {{method.price | currency}}</strong>
+            <br>
+            <span class="label-description">{{method.description}}</span>
+          </label>
+        </mat-radio-button>
+      </div>
+    </mat-radio-group>
+  </div>
+</div>

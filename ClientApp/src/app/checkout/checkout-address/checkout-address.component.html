@@ -1,1 +1,92 @@
-<p>checkout-address works!</p>
+<div class="mt-4" *ngIf="checkoutForm" [formGroup]="checkoutForm">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 style="color: whitesmoke">Shipping Address</h4>
+  </div>
+
+  <div class="row" formGroupName="addressForm">
+    <div class="form-group col-6">
+      <mat-form-field class="w-100">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName" placeholder="First Name">
+        <mat-error *ngIf="checkoutForm.get('addressForm.firstName')?.hasError('required')">
+          First Name is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group col-6">
+      <mat-form-field class="w-100">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName" placeholder="Last Name">
+        <mat-error *ngIf="checkoutForm.get('addressForm.lastName')?.hasError('required')">
+          Last Name is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group col-6">
+      <mat-form-field class="w-100">
+        <mat-label>Country</mat-label>
+        <input matInput formControlName="country" placeholder="Country">
+        <mat-error *ngIf="checkoutForm.get('addressForm.country')?.hasError('required')">
+          Country is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group col-6">
+      <mat-form-field class="w-100">
+        <mat-label>City</mat-label>
+        <input matInput formControlName="city" placeholder="City">
+        <mat-error *ngIf="checkoutForm.get('addressForm.city')?.hasError('required')">
+          City is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group col-6">
+      <mat-form-field class="w-100">
+        <mat-label>State</mat-label>
+        <input matInput formControlName="state" placeholder="State">
+        <mat-error *ngIf="checkoutForm.get('addressForm.state')?.hasError('required')">
+          State is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group col-6">
+      <mat-form-field class="w-100">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="addressLine" placeholder="Street">
+        <mat-error *ngIf="checkoutForm.get('addressForm.addressLine')?.hasError('required')">
+          Address is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group col-6">
+      <mat-form-field class="w-100">
+        <mat-label>Postal Code</mat-label>
+        <input matInput formControlName="postalCode" placeholder="Postal Code">
+        <mat-error *ngIf="checkoutForm.get('addressForm.postalCode')?.hasError('required')">
+          Postal Code is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end mt-3">
+    <button mat-raised-button color="primary" style="margin: 2px"
+            (click)="saveUserAddress()"
+            [disabled]="!checkoutForm.get('addressForm')?.valid ||
+                !checkoutForm.get('addressForm')?.dirty">
+      Save as default address
+    </button>
+  </div>
+</div>
+
+<div class="d-flex justify-content-between flex-row mb-5">
+  <button mat-raised-button color="primary" routerLink="/basket" style="margin: 10px">
+    <mat-icon>arrow_back</mat-icon> Back to Basket
+  </button>
+</div>

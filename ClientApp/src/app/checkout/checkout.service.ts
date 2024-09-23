@@ -19,7 +19,7 @@ export class CheckoutService {
   }
 
   getDeliveryMethods() {
-    return this.http.get<DeliveryMethod[]>(this.baseUrl + 'orders/deliveryMethods').pipe(
+    return this.http.get<DeliveryMethod[]>(this.baseUrl + 'orders/delivery-methods').pipe(
       map(dm => {
         return dm.sort((a, b) => b.price - a.price)
       })
