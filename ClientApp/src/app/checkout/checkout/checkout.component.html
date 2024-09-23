@@ -1,1 +1,51 @@
-<p>checkout works!</p>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-8">
+      <mat-horizontal-stepper [linear]="true" #appStepper>
+        <mat-step [stepControl]="addressForm" [completed]="addressForm.valid">
+          <form [formGroup]="addressForm">
+            <ng-template matStepLabel>Address</ng-template>
+            <app-checkout-address [checkoutForm]="checkoutForm"></app-checkout-address>
+            <div>
+              <button mat-button matStepperNext>Next</button>
+            </div>
+          </form>
+        </mat-step>
+
+        <mat-step [stepControl]="deliveryForm" [completed]="deliveryForm.valid">
+          <form [formGroup]="deliveryForm">
+            <ng-template matStepLabel>Delivery</ng-template>
+            <app-checkout-delivery [checkoutForm]="checkoutForm"></app-checkout-delivery>
+            <div>
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-button matStepperNext>Next</button>
+            </div>
+          </form>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>Review</ng-template>
+          <app-checkout-review [appStepper]="appStepper"></app-checkout-review>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </mat-step>
+
+        <mat-step [stepControl]="paymentForm" [completed]="paymentForm.valid">
+          <form [formGroup]="paymentForm">
+            <ng-template matStepLabel>Payment</ng-template>
+            <app-checkout-payment [checkoutForm]="checkoutForm"></app-checkout-payment>
+            <div>
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-button type="submit" [disabled]="checkoutForm.invalid">Submit Order</button>
+            </div>
+          </form>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+    <div class="col-4">
+      <app-order-totals></app-order-totals>
+    </div>
+  </div>
+</div>

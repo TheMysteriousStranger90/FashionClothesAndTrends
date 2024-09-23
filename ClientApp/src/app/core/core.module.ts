@@ -10,6 +10,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { BreadcrumbModule } from 'xng-breadcrumb';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
     NavBarComponent,
   ],
   imports: [
+    BreadcrumbModule,
     MatDialogModule,
     FormsModule,
     NgxSpinnerModule,

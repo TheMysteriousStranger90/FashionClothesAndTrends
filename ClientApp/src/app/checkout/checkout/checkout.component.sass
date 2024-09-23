@@ -1,0 +1,45 @@
+.row
+  display: flex
+  justify-content: space-between
+
+.col-8
+  flex: 0 0 50%
+  max-width: 50%
+
+.col-4
+  flex: 0 0 40%
+  max-width: 50%
+
+mat-horizontal-stepper, app-order-totals
+  background-color: #222
+  padding: 1.5rem
+  border-radius: 5rem
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
+  color: #ffffff
+
+mat-step
+  padding: 1.5rem 0
+
+form
+  display: flex
+  flex-direction: column
+
+button
+  margin-top: 1rem
+  color: #ffffff
+
+button[matStepperNext], button[matStepperPrevious]
+  margin-right: 1rem
+  background-color: #000000
+  color: #ffffff
+  &:hover
+    background-color: lighten(#000000, 10%)
+
+button[type="submit"]
+  background-color: #000000
+  color: #ffffff
+  &:hover
+    background-color: lighten(#000000, 10%)
+  &:disabled
+    background-color: #6c757d
+    cursor: not-allowed
