@@ -4,7 +4,8 @@ namespace FashionClothesAndTrends.Application.Services.Interfaces;
 
 public interface IOrderHistoryService
 {
-    Task<OrderHistoryDto> CreateOrderHistoryAsync(OrderDto order);
-    Task<IReadOnlyList<OrderHistoryDto>> GetOrderHistoriesForUserAsync(string userId);
-    Task<OrderHistoryDto> GetOrderHistoryByIdAsync(Guid id);
+    Task CreateOrderHistoryAsync(OrderHistoryDto order, string userId);
+    Task<IReadOnlyList<OrderHistoryToReturnDto>> GetOrderHistoriesForUserAsync(string userId);
+    Task<OrderHistoryToReturnDto> GetOrderHistoryByIdAsync(Guid id);
+    Task<IReadOnlyList<OrderHistoryToReturnDto>> GatAllOrderHistoriesAsync();
 }

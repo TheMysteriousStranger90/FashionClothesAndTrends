@@ -1,1 +1,66 @@
-<p>checkout-payment works!</p>
+<div class="mt-4" *ngIf="checkoutForm" [formGroup]="checkoutForm">
+
+  <div class="checkout-payment" formGroupName="paymentForm">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Payment Information</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form>
+          <div class="row" formGroupName="paymentForm">
+            <div class="form-group col-6">
+              <mat-form-field class="w-100">
+                <mat-label>Name on Card</mat-label>
+                <input matInput formControlName="nameOnCard" placeholder="Name on Card">
+                <mat-error *ngIf="checkoutForm.get('paymentForm.nameOnCard')?.hasError('required')">
+                  Name on card is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+          <div #cardNumber></div>
+          <mat-error *ngIf="cardErrors">{{ cardErrors }}</mat-error>
+
+          <div class="card-fields">
+            <div #cardExpiry></div>
+            <div #cardCvc></div>
+          </div>
+
+          <div class="card-completion-status">
+            <mat-icon *ngIf="cardNumberComplete" color="primary">check_circle</mat-icon>
+            <mat-icon *ngIf="!cardNumberComplete" color="warn">warning</mat-icon>
+            <span>Card Number Complete: {{ cardNumberComplete ? 'Yes' : 'No' }}</span>
+            <mat-icon *ngIf="cardExpiryComplete" color="primary">check_circle</mat-icon>
+            <mat-icon *ngIf="!cardExpiryComplete" color="warn">warning</mat-icon>
+            <span>Expiry Complete: {{ cardExpiryComplete ? 'Yes' : 'No' }}</span>
+            <mat-icon *ngIf="cardCvcComplete" color="primary">check_circle</mat-icon>
+            <mat-icon *ngIf="!cardCvcComplete" color="warn">warning</mat-icon>
+            <span>CVC Complete: {{ cardCvcComplete ? 'Yes' : 'No' }}</span>
+          </div>
+
+          <div class="d-flex justify-content-between flex-row mb-5">
+            <button mat-raised-button color="primary" type="submit" [disabled]="loading || !paymentFormComplete" style="margin: 10px" (click)="submitOrder()">
+              <span *ngIf="loading">Processing...</span>
+              <span *ngIf="!loading" >Submit</span>
+              <mat-icon>safety_check</mat-icon> Submit order
+            </button>
+          </div>
+          </div>
+        </form>
+        
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>

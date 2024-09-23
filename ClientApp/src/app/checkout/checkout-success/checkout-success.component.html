@@ -1,1 +1,17 @@
-<p>checkout-success works!</p>
+<div class="container mt-5">
+  <mat-card class="p-4">
+    <div class="d-flex justify-content-center mb-3">
+      <mat-icon style="color: whitesmoke; font-size: 100px;">celebration</mat-icon>
+    </div>
+    <h2 style="color: whitesmoke; text-align: center;">Thank you. Your order is confirmed</h2>
+    <p class="mb-4" style="color: whitesmoke; text-align: center;">Your order has not shipped yet, but this is to be expected as we are not a real store!</p>
+    <div class="d-flex justify-content-center">
+      <button *ngIf="order" mat-raised-button color="primary" [routerLink]="['/orders', order.id]" style="margin-right: 10px;">
+        View your order
+      </button>
+      <button *ngIf="!order" mat-raised-button color="primary" routerLink="/orders" >
+        View your orders
+      </button>
+    </div>
+  </mat-card>
+</div>

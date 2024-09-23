@@ -23,6 +23,10 @@ public class OrdersHistoryController : BaseApiController
         try
         {
             var orderHistories = await _orderHistoryService.GetOrderHistoriesForUserAsync(userId);
+            if (orderHistories == null || !orderHistories.Any())
+            {
+                return NotFound(new ApiResponse(404, $"Order histories not found for user with ID '{userId}'."));
+            }
             return Ok(orderHistories);
         }
         catch (Exception ex)
@@ -42,6 +46,24 @@ public class OrdersHistoryController : BaseApiController
         catch (NotFoundException ex)
         {
             return NotFound(new ApiResponse(404, ex.Message));
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse(500, "An error occurred while processing your request"));
+        }
+    }
+    
+    [HttpGet]
+    public async Task<ActionResult<IReadOnlyList<OrderHistoryToReturnDto>>> GetAllOrderHistories()
+    {
+        try
+        {
+            var orderHistories = await _orderHistoryService.GatAllOrderHistoriesAsync();
+            if (orderHistories == null || !orderHistories.Any())
+            {
+                return NotFound(new ApiResponse(404, "Order histories not found."));
+            }
+            return Ok(orderHistories);
         }
         catch (Exception ex)
         {

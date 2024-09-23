@@ -34,10 +34,15 @@ public class Order : BaseEntity
 
     public decimal GetTotal()
     {
-        decimal discount = Coupon != null && Coupon.IsActive && Coupon.ExpiryDate > DateTime.Now
-            ? Subtotal * Coupon.DiscountPercentage / 100
-            : 0;
+        decimal discount = 0;
 
-        return Subtotal + DeliveryMethod.Price - discount;
+        if (Coupon != null && Coupon.IsActive && Coupon.ExpiryDate > DateTime.Now)
+        {
+            discount = Subtotal * Coupon.DiscountPercentage / 100;
+        }
+
+        decimal deliveryPrice = DeliveryMethod?.Price ?? 0;
+
+        return Subtotal + deliveryPrice - discount;
     }
 }

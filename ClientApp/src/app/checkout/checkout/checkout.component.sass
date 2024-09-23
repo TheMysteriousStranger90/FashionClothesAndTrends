@@ -5,10 +5,12 @@
 .col-8
   flex: 0 0 50%
   max-width: 50%
+  padding: 1.5rem
 
-.col-4
-  flex: 0 0 40%
+col-4
   max-width: 50%
+  padding: 1.5rem
+  border-radius: 5rem
 
 mat-horizontal-stepper, app-order-totals
   background-color: #222
@@ -30,14 +32,14 @@ button
 
 button[matStepperNext], button[matStepperPrevious]
   margin-right: 1rem
-  background-color: #000000
-  color: #ffffff
+  background-color: #ffffff
+  color: #000000
   &:hover
     background-color: lighten(#000000, 10%)
 
 button[type="submit"]
-  background-color: #000000
-  color: #ffffff
+  background-color: #ffffff
+  color: #000000
   &:hover
     background-color: lighten(#000000, 10%)
   &:disabled

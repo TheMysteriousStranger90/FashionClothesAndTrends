@@ -9,7 +9,7 @@ namespace FashionClothesAndTrends.Application.Mapping;
 
 public class AutoMapperProfile : Profile
 {
-    public AutoMapperProfile()
+ public AutoMapperProfile()
     {
         CreateMap<User, LoginDto>().ReverseMap();
         CreateMap<User, RegisterDto>().ReverseMap();
@@ -76,14 +76,20 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.PictureUrl,
                 opt => opt.MapFrom(src => src.ClothingItem.ClothingItemPhotos.FirstOrDefault(x => x.IsMain).Url))
             .ReverseMap();
-
-        CreateMap<OrderHistory, OrderHistoryDto>().ReverseMap();
-        CreateMap<OrderItemHistory, OrderItemHistoryDto>().ReverseMap();
-
+        
         CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
         CreateMap<DateTime?, DateTime?>()
             .ConvertUsing(d => d.HasValue ? DateTime.SpecifyKind(d.Value, DateTimeKind.Utc) : null);
 
         CreateMap<ClothingBrand, ClothingBrandDto>().ReverseMap();
+        
+        CreateMap<AddressDto, AddressAggregate>().ReverseMap();
+        CreateMap<OrderDto, Order>().ReverseMap();
+        CreateMap<OrderToReturnDto, Order>().ReverseMap();
+        CreateMap<UserDto, User>().ReverseMap();
+        CreateMap<OrderHistory, OrderHistoryDto>().ReverseMap();
+        CreateMap<OrderHistory, OrderHistoryToReturnDto>().ReverseMap();
+        CreateMap<OrderItemHistory, OrderItemHistoryDto>().ReverseMap();
+        CreateMap<OrderHistoryToReturnDto, OrderHistory>().ReverseMap();
     }
 }

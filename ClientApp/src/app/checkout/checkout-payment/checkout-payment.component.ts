@@ -51,7 +51,7 @@ export class CheckoutPaymentComponent implements OnInit {
           this.cardNumberComplete = event.complete;
           if (event.error) this.cardErrors = event.error.message;
           else this.cardErrors = null;
-        })
+        });
 
         this.cardExpiry = elements.create('cardExpiry');
         this.cardExpiry.mount(this.cardExpiryElement?.nativeElement);
@@ -59,7 +59,7 @@ export class CheckoutPaymentComponent implements OnInit {
           this.cardExpiryComplete = event.complete;
           if (event.error) this.cardErrors = event.error.message;
           else this.cardErrors = null;
-        })
+        });
 
         this.cardCvc = elements.create('cardCvc');
         this.cardCvc.mount(this.cardCvcElement?.nativeElement);
@@ -67,16 +67,15 @@ export class CheckoutPaymentComponent implements OnInit {
           this.cardCvcComplete = event.complete;
           if (event.error) this.cardErrors = event.error.message;
           else this.cardErrors = null;
-        })
+        });
       }
-    })
+    });
   }
 
   get paymentFormComplete() {
-    return this.checkoutForm?.get('paymentForm')?.valid
-      && this.cardNumberComplete
+    return  this.cardNumberComplete
       && this.cardExpiryComplete
-      && this.cardCvcComplete
+      && this.cardCvcComplete;
   }
 
   async submitOrder() {
@@ -88,14 +87,14 @@ export class CheckoutPaymentComponent implements OnInit {
       const paymentResult = await this.confirmPaymentWithStripe(basket);
       if (paymentResult.paymentIntent) {
         this.basketService.deleteBasket(basket);
-        const navigationExtras: NavigationExtras = {state: createdOrder};
+        const navigationExtras: NavigationExtras = { state: createdOrder };
         this.router.navigate(['checkout/success'], navigationExtras);
       } else {
         this.toastr.error(paymentResult.error.message);
       }
     } catch (error: any) {
       console.log(error);
-      this.toastr.error(error.message)
+      this.toastr.error(error.message);
     } finally {
       this.loading = false;
     }
@@ -129,6 +128,6 @@ export class CheckoutPaymentComponent implements OnInit {
       basketId: basket.id,
       deliveryMethodId: deliveryMethodId,
       shipToAddress: shipToAddress
-    }
+    };
   }
 }

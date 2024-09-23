@@ -3,6 +3,7 @@ using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Exceptions;
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.Application.UoW;
+using FashionClothesAndTrends.Domain.Entities.Enums;
 using FashionClothesAndTrends.Domain.Entities.OrderAggregate;
 
 namespace FashionClothesAndTrends.Application.Services;
@@ -18,53 +19,63 @@ public class OrderHistoryService : IOrderHistoryService
         _mapper = mapper;
     }
 
-    public async Task<OrderHistoryDto> CreateOrderHistoryAsync(OrderDto orderDto)
+    public async Task CreateOrderHistoryAsync(OrderHistoryDto orderHistoryDto, string userId)
     {
-        var order = _mapper.Map<Order>(orderDto);
+        if (orderHistoryDto == null)
+        {
+            throw new ArgumentNullException(nameof(orderHistoryDto));
+        }
 
         var orderHistory = new OrderHistory
         {
-            OrderDate = order.OrderDate.DateTime,
-            TotalAmount = order.GetTotal(),
-            Status = order.Status,
-            ShippingAddress = _mapper.Map<string>(order.ShipToAddress.AddressLine),
-            UserId = order.BuyerEmail,
-            OrderItems = order.OrderItems.Select(item => new OrderItemHistory
+            OrderDate = orderHistoryDto.OrderDate,
+            TotalAmount = orderHistoryDto.TotalAmount,
+            Status = Enum.Parse<OrderStatus>(orderHistoryDto.Status),
+            ShippingAddress = orderHistoryDto.ShippingAddress,
+            UserId = userId,
+            OrderItems = orderHistoryDto.OrderItems.Select(item => new OrderItemHistory
             {
-                ClothingItemId = item.ItemOrdered.ClothingItemId,
-                ClothingItemName = item.ItemOrdered.ClothingItemName,
+                ClothingItemId = item.ClothingItemId,
+                ClothingItemName = item.ClothingItemName,
                 Quantity = item.Quantity,
-                PriceAtPurchase = item.Price
+                PriceAtPurchase = item.PriceAtPurchase
             }).ToList()
         };
 
-        _unitOfWork.GenericRepository<OrderHistory>().Add(orderHistory);
-        var result = await _unitOfWork.SaveAsync();
+        await _unitOfWork.OrderHistoryRepository.AddAsync(orderHistory);
+        await _unitOfWork.SaveAsync();
+    }
 
-        if (result <= 0)
+    public async Task<IReadOnlyList<OrderHistoryToReturnDto>> GetOrderHistoriesForUserAsync(string userId)
+    {
+        var orderHistories = await _unitOfWork.OrderHistoryRepository.GetOrderHistoryByUserIdAsync(userId);
+        if (orderHistories == null)
         {
-            throw new InternalServerException("Failed to save the order history.");
+            throw new NotFoundException($"Order histories not found.");
         }
 
-        return _mapper.Map<OrderHistoryDto>(orderHistory);
+        return _mapper.Map<IReadOnlyList<OrderHistoryToReturnDto>>(orderHistories);
     }
 
-    public async Task<IReadOnlyList<OrderHistoryDto>> GetOrderHistoriesForUserAsync(string userId)
+    public async Task<OrderHistoryToReturnDto> GetOrderHistoryByIdAsync(Guid id)
     {
-        var orderHistories = await _unitOfWork.GenericRepository<OrderHistory>().ListAllAsync();
-        var res = orderHistories.Where(u => u.UserId == userId).ToList();
-
-        return _mapper.Map<IReadOnlyList<OrderHistoryDto>>(res);
-    }
-
-    public async Task<OrderHistoryDto> GetOrderHistoryByIdAsync(Guid id)
-    {
-        var orderHistory = await _unitOfWork.GenericRepository<OrderHistory>().GetByIdAsync(id);
+        var orderHistory = await _unitOfWork.OrderHistoryRepository.GetByIdAsync(id);
         if (orderHistory == null)
         {
             throw new NotFoundException($"Order history with ID '{id}' not found.");
         }
 
-        return _mapper.Map<OrderHistoryDto>(orderHistory);
+        return _mapper.Map<OrderHistoryToReturnDto>(orderHistory);
+    }
+
+    public async Task<IReadOnlyList<OrderHistoryToReturnDto>> GatAllOrderHistoriesAsync()
+    {
+        var orderHistories = await _unitOfWork.OrderHistoryRepository.ListAllAsync();
+        if (orderHistories == null)
+        {
+            throw new NotFoundException($"Order histories not found.");
+        }
+
+        return _mapper.Map<IReadOnlyList<OrderHistoryToReturnDto>>(orderHistories);
     }
 }

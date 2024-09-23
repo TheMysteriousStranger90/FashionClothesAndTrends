@@ -19,14 +19,13 @@ public class OrdersControllerTests
     private readonly Mock<IMapper> _mapperMock;
     private readonly OrdersController _controller;
 
-    public OrdersControllerTests()
+      public OrdersControllerTests()
     {
         _orderServiceMock = new Mock<IOrderService>();
         _userServiceMock = new Mock<IUserService>();
         _mapperMock = new Mock<IMapper>();
         _controller = new OrdersController(_orderServiceMock.Object, _userServiceMock.Object, _mapperMock.Object);
-
-        // Set up the user context
+        
         var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
         {
             new Claim(ClaimTypes.Email, "test@example.com")
@@ -39,10 +38,31 @@ public class OrdersControllerTests
     }
 
     [Fact]
+    public async Task CreateOrder_ReturnsBadRequest_WhenAddressMappingFails()
+    {
+        // Arrange
+        var orderDto = new OrderDto { ShipToAddress = new AddressDto() };
+        _mapperMock.Setup(m => m.Map<AddressDto, AddressAggregate>(It.IsAny<AddressDto>()))
+            .Returns((AddressAggregate)null);
+
+        // Act
+        var result = await _controller.CreateOrder(orderDto);
+
+        // Assert
+        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result.Result);
+        var apiResponse = Assert.IsType<ApiResponse>(badRequestResult.Value);
+        Assert.Equal(400, apiResponse.StatusCode);
+        Assert.Equal("Address mapping failed", apiResponse.Message);
+    }
+
+    [Fact]
     public async Task CreateOrder_ReturnsBadRequest_WhenOrderCreationFails()
     {
         // Arrange
-        var orderDto = new OrderDto();
+        var orderDto = new OrderDto { ShipToAddress = new AddressDto() };
+        var address = new AddressAggregate();
+        _mapperMock.Setup(m => m.Map<AddressDto, AddressAggregate>(It.IsAny<AddressDto>()))
+            .Returns(address);
         _orderServiceMock.Setup(service => service.CreateOrderAsync(It.IsAny<string>(), It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<AddressAggregate>()))
             .ReturnsAsync((Order)null);
 

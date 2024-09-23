@@ -1,1 +1,10 @@
-<p>checkout-review works!</p>
+<div class="mt-4">
+  <app-basket-summary [isBasket]="true"></app-basket-summary>
+  
+  <div class="d-flex justify-content-between flex-row mb-5">
+    <button mat-raised-button color="primary" style="margin: 10px" (click)="createPaymentIntent()">
+      <mat-icon>arrow_forward</mat-icon> Go to Payment
+    </button>
+  </div>
+</div>
+

@@ -16,7 +16,7 @@ public interface IUnitOfWork : IDisposable
     IRatingRepository RatingRepository { get; }
     IWishlistRepository WishlistRepository { get; }
     IPhotoRepository PhotoRepository { get; }
-
+    IOrderHistoryRepository OrderHistoryRepository { get; }
     IUserRepository UserRepository { get; }
     UserManager<User> UserManager { get; }
     SignInManager<User> SignInManager { get; }
