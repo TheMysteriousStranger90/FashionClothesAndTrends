@@ -84,8 +84,7 @@ public class AutoMapperProfile : Profile
         CreateMap<ClothingBrand, ClothingBrandDto>().ReverseMap();
         
         CreateMap<AddressDto, AddressAggregate>().ReverseMap();
-        CreateMap<OrderDto, Order>().ReverseMap();
-        CreateMap<OrderToReturnDto, Order>().ReverseMap();
+
         CreateMap<UserDto, User>().ReverseMap();
         CreateMap<OrderHistory, OrderHistoryDto>().ReverseMap();
         CreateMap<OrderHistory, OrderHistoryToReturnDto>().ReverseMap();
