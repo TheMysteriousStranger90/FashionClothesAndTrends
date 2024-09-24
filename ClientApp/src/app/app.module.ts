@@ -1,19 +1,19 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
-import { SharedModule } from './shared/shared.module';
-import {HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { GalleryModule } from 'ng-gallery';
-import { FileUploadModule } from 'ng2-file-upload';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TimeagoModule } from 'ngx-timeago';
-import { CoreModule } from './core/core.module';
-import { HomeComponent } from './home/home.component';
-import { FavoritesComponent } from './favorites/favorites.component';
-import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
-import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {FormsModule} from '@angular/forms';
+import {SharedModule} from './shared/shared.module';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {GalleryModule} from 'ng-gallery';
+import {FileUploadModule} from 'ng2-file-upload';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {TimeagoModule} from 'ngx-timeago';
+import {CoreModule} from './core/core.module';
+import {HomeComponent} from './home/home.component';
+import {FavoritesComponent} from './favorites/favorites.component';
+import {JwtInterceptor} from './core/interceptors/jwt.interceptor';
+import {LoadingInterceptor} from './core/interceptors/loading.interceptor';
 
 @NgModule({
   declarations: [
@@ -27,14 +27,11 @@ import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
     AppRoutingModule,
     GalleryModule,
     HttpClientModule,
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
     SharedModule,
     CoreModule,
     FormsModule,
     FileUploadModule,
-    TimeagoModule.forRoot()
+    TimeagoModule.forRoot(),
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
@@ -42,4 +39,5 @@ import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

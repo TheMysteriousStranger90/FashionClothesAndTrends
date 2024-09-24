@@ -6,9 +6,6 @@
           <form [formGroup]="addressForm">
             <ng-template matStepLabel>Address</ng-template>
             <app-checkout-address [checkoutForm]="checkoutForm"></app-checkout-address>
-            <div class="d-flex justify-content-end mt-3">
-              <button mat-button matStepperNext>Next</button>
-            </div>
           </form>
         </mat-step>
 
@@ -18,7 +15,6 @@
             <app-checkout-delivery [checkoutForm]="checkoutForm"></app-checkout-delivery>
             <div class="d-flex justify-content-between mt-3">
               <button mat-button matStepperPrevious>Back</button>
-              <button mat-button matStepperNext>Next</button>
             </div>
           </form>
         </mat-step>
@@ -37,7 +33,6 @@
             <app-checkout-payment [checkoutForm]="checkoutForm"></app-checkout-payment>
             <div class="d-flex justify-content-between mt-3">
               <button mat-button matStepperPrevious>Back</button>
-              <button mat-button type="submit" [disabled]="checkoutForm.invalid">Submit Order</button>
             </div>
           </form>
         </mat-step>
