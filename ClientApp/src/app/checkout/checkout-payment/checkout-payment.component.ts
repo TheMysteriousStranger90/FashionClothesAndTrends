@@ -22,7 +22,7 @@ import {CheckoutService} from '../checkout.service';
   styleUrls: ['./checkout-payment.component.sass']
 })
 export class CheckoutPaymentComponent implements OnInit {
-  @Input() checkoutForm?: FormGroup;
+  @Input() checkoutForm: FormGroup = new FormGroup({});
   @ViewChild('cardNumber') cardNumberElement?: ElementRef;
   @ViewChild('cardExpiry') cardExpiryElement?: ElementRef;
   @ViewChild('cardCvc') cardCvcElement?: ElementRef;
