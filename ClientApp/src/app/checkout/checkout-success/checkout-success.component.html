@@ -1,17 +1,22 @@
-<div class="container mt-5">
-  <mat-card class="p-4">
-    <div class="d-flex justify-content-center mb-3">
-      <mat-icon style="color: whitesmoke; font-size: 100px;">celebration</mat-icon>
+<div class="vh-100 gradient-custom">
+  <div class="container py-2 h-25">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-4 col-md-8 col-lg-6 col-xl-5">
+        <mat-card class="bg-primary mb-3" style="border-radius: 1rem;">
+          <mat-card-content class="p-3 text-center" style="color: #FFF;">
+            <div class="d-flex justify-content-center mb-3">
+              <mat-icon style="color: whitesmoke; font-size: 100px;">celebration</mat-icon>
+            </div>
+            <h2 class="fw-bold mb-2 text-uppercase" style="color: #FFF; text-align: center;">Thank you. Your order is confirmed</h2>
+            <p class="text-50 mb-5" style="color: #FFF; text-align: center;">Your order has not shipped yet, but this is to be expected as we are not a real store!</p>
+            <div class="d-flex justify-content-center">
+              <button *ngIf="!order" mat-raised-button color="accent" routerLink="/orders" class="mt-3">
+                View your orders
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
     </div>
-    <h2 style="color: whitesmoke; text-align: center;">Thank you. Your order is confirmed</h2>
-    <p class="mb-4" style="color: whitesmoke; text-align: center;">Your order has not shipped yet, but this is to be expected as we are not a real store!</p>
-    <div class="d-flex justify-content-center">
-      <button *ngIf="order" mat-raised-button color="primary" [routerLink]="['/orders', order.id]" style="margin-right: 10px;">
-        View your order
-      </button>
-      <button *ngIf="!order" mat-raised-button color="primary" routerLink="/orders" >
-        View your orders
-      </button>
-    </div>
-  </mat-card>
+  </div>
 </div>
