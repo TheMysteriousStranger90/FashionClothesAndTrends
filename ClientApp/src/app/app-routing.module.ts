@@ -42,7 +42,7 @@ const routes: Routes = [
         loadChildren: () => import('./orders/orders.module').then(m => m.OrdersModule)
       },
       {
-        path: 'orderhistory',
+        path: 'orders-history',
         loadChildren: () => import('./orders-history/orders-history.module').then(m => m.OrdersHistoryModule)
       },
     ]

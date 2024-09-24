@@ -44,6 +44,16 @@
           <span>Wishlist</span>
         </button>
 
+        <button mat-menu-item routerLink="/orders">
+          <mat-icon>shopping_cart</mat-icon>
+          <span>Orders</span>
+        </button>
+
+        <button mat-menu-item routerLink="/orders-history">
+          <mat-icon>history</mat-icon>
+          <span>Order History</span>
+        </button>
+
         <mat-divider></mat-divider>
         <button mat-menu-item (click)="accountService.logout()">
           <mat-icon>exit_to_app</mat-icon>

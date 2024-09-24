@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Order, OrderUpdateDto } from '../shared/models/order';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { OrderToReturn } from '../shared/models/order-to-return';
 
 @Injectable({
   providedIn: 'root'
@@ -13,21 +14,21 @@ export class OrdersService {
 
   constructor(private http: HttpClient) { }
 
-  getOrdersForUser() {
-    return this.http.get<Order[]>(this.baseUrl + 'orders');
-  }
-  getOrderDetailed(id: number) {
-    return this.http.get<Order>(this.baseUrl + 'orders/' + id);
+  getOrdersForUser(): Observable<OrderToReturn[]> {
+    return this.http.get<OrderToReturn[]>(this.baseUrl + 'orders');
   }
 
+  getOrderDetailed(id: string): Observable<OrderToReturn> {
+    return this.http.get<OrderToReturn>(this.baseUrl + 'orders/' + id);
+  }
 
-  getOrdersByUserEmail(userName: string): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.baseUrl}orders/user-orders`, {
+  getOrdersByUserEmail(userName: string): Observable<OrderToReturn[]> {
+    return this.http.get<OrderToReturn[]>(`${this.baseUrl}orders/user-orders`, {
       params: { userName }
     });
   }
 
-  updateUserOrder(orderId: string, orderUpdateDto: OrderUpdateDto): Observable<Order> {
-    return this.http.put<Order>(`${this.baseUrl}orders/${orderId}`, orderUpdateDto);
+  updateUserOrder(orderId: string, orderUpdateDto: OrderUpdateDto): Observable<OrderToReturn> {
+    return this.http.put<OrderToReturn>(`${this.baseUrl}orders/${orderId}`, orderUpdateDto);
   }
 }

@@ -1,69 +1,76 @@
-<div class="container mt-5" *ngIf="order">
-  <div class="row">
-    <div class="col-8">
-      <mat-card>
-        <mat-card-title>Order Details</mat-card-title>
-        <mat-card-content>
-          <table mat-table [dataSource]="order.orderItems" class="mat-elevation-z8" style="color: whitesmoke;">
-            <!-- Product Column -->
-            <ng-container matColumnDef="product">
-              <th mat-header-cell *matHeaderCellDef>Product</th>
-              <td mat-cell *matCellDef="let item">
-                <div class="p-2">
-                  <img src="{{item.pictureUrl}}" alt="{{item.productName}}" class="img-fluid px-2" style="max-height: 30px;">
-                  <div class="ml-3 d-inline-block align-middle">
-                    <h5 class="mb-0">{{item.productName}}</h5>
-                  </div>
-                </div>
-              </td>
-            </ng-container>
+<mat-card class="order-detailed-card">
+  <mat-card-header class="order-detailed-header">
+    <mat-card-title>Order Details</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="order-detailed-content" id="order-details">
+    <div class="container mt-5" *ngIf="order">
+      <div class="row">
+        <div class="col-8">
+          <mat-card>
+            <mat-card-content>
+              <table mat-table [dataSource]="order.orderItems" class="mat-elevation-z8" style="color: whitesmoke;">
+                <ng-container matColumnDef="product">
+                  <th mat-header-cell *matHeaderCellDef>Product</th>
+                  <td mat-cell *matCellDef="let item">
+                    <div class="p-2">
+                      <div class="ml-3 d-inline-block align-middle">
+                        <h5 class="mb-0">{{ item.clothingItemName }}</h5>
+                      </div>
+                    </div>
+                  </td>
+                </ng-container>
 
-            <!-- Price Column -->
-            <ng-container matColumnDef="price">
-              <th mat-header-cell *matHeaderCellDef>Price</th>
-              <td mat-cell *matCellDef="let item"><strong>{{item.price | currency}}</strong></td>
-            </ng-container>
+                <ng-container matColumnDef="price">
+                  <th mat-header-cell *matHeaderCellDef>Price</th>
+                  <td mat-cell *matCellDef="let item"><strong>{{ item.price | currency }}</strong></td>
+                </ng-container>
 
-            <!-- Quantity Column -->
-            <ng-container matColumnDef="quantity">
-              <th mat-header-cell *matHeaderCellDef>Quantity</th>
-              <td mat-cell *matCellDef="let item"><span class="font-weight-bold px-2">{{item.quantity}}</span></td>
-            </ng-container>
+                <ng-container matColumnDef="quantity">
+                  <th mat-header-cell *matHeaderCellDef>Quantity</th>
+                  <td mat-cell *matCellDef="let item"><span class="font-weight-bold px-2">{{ item.quantity }}</span>
+                  </td>
+                </ng-container>
 
-            <!-- Total Column -->
-            <ng-container matColumnDef="total">
-              <th mat-header-cell *matHeaderCellDef>Total</th>
-              <td mat-cell *matCellDef="let item"><strong>{{item.price * item.quantity | currency}}</strong></td>
-            </ng-container>
+                <ng-container matColumnDef="total">
+                  <th mat-header-cell *matHeaderCellDef>Total</th>
+                  <td mat-cell *matCellDef="let item"><strong>{{ item.price * item.quantity | currency }}</strong></td>
+                </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
-        </mat-card-content>
-      </mat-card>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="col-4" style="margin-top: 0.5rem; padding: 0.5rem;">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Order Summary</mat-card-title>
+            </mat-card-header>
+            <mat-card-content style="color: whitesmoke;">
+              <ul class="list-unstyled mb-1">
+                <li class="d-flex justify-content-between py-3 border-bottom">
+                  <strong class="text">Order subtotal: </strong>
+                  <strong>{{ order.subtotal | currency }}</strong>
+                </li>
+                <li class="d-flex justify-content-between py-3 border-bottom">
+                  <strong class="text">Shipping and handling: </strong>
+                  <strong>{{ order.shippingPrice | currency }}</strong>
+                </li>
+                <li class="d-flex justify-content-between py-3 border-bottom">
+                  <strong class="text">Total: </strong>
+                  <strong>{{ order.total | currency }}</strong>
+                </li>
+                <li class="d-flex justify-content-between py-3 border-bottom">
+                  <strong class="text">Date: </strong>
+                  <strong>{{ order.orderDate | date: 'medium' }}</strong>
+                </li>
+              </ul>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
     </div>
-    <div class="col-4">
-      <mat-card>
-        <mat-card-header style="background-color: #9f7aea; color: whitesmoke;">
-          <mat-card-title>Order Summary</mat-card-title>
-        </mat-card-header>
-        <mat-card-content style="color: whitesmoke;">
-          <ul class="list-unstyled mb-1">
-            <li class="d-flex justify-content-between py-3 border-bottom">
-              <strong class="text">Order subtotal</strong>
-              <strong>{{order.subtotal | currency}}</strong>
-            </li>
-            <li class="d-flex justify-content-between py-3 border-bottom">
-              <strong class="text">Shipping and handling</strong>
-              <strong>{{order.shippingPrice | currency}}</strong>
-            </li>
-            <li class="d-flex justify-content-between py-3 border-bottom">
-              <strong class="text">Total</strong>
-              <strong>{{order.total | currency}}</strong>
-            </li>
-          </ul>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </div>
-</div>
+    <button mat-raised-button color="primary" (click)="saveAsPDF()" class="search-button">Save to PDF</button>
+  </mat-card-content>
+</mat-card>
