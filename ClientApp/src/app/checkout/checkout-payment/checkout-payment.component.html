@@ -6,17 +6,6 @@
     <mat-card-content>
       <div class="row" formGroupName="paymentForm">
         <div class="form-group col-6">
-          <div class="row" formGroupName="paymentForm">
-            <div class="form-group col-6">
-              <mat-form-field class="w-100">
-                <mat-label>Name on Card</mat-label>
-                <input matInput formControlName="nameOnCard" placeholder="Name on Card">
-                <mat-error *ngIf="checkoutForm.get('paymentForm.nameOnCard')?.hasError('required')">
-                  Name on card is required.
-                </mat-error>
-              </mat-form-field>
-            </div>
-        </div>
             <div class="card-fields">
               <div #cardNumber></div>
               <mat-error *ngIf="cardErrors">{{ cardErrors }}</mat-error>
