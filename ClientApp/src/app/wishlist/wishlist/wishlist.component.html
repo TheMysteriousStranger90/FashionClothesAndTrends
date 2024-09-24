@@ -23,7 +23,7 @@
           <button mat-icon-button color="warn" (click)="deleteWishlist(wishlist.id)">
             <mat-icon>delete</mat-icon>
           </button>
-          <mat-checkbox [checked]="wishlist.id === defaultWishlistId" (change)="setDefaultWishlist(wishlist.id)">Default</mat-checkbox>
+          <mat-checkbox [checked]="wishlist.id === defaultWishlistId" (change)="setDefaultWishlist(wishlist.id)"></mat-checkbox>
         </mat-panel-description>
       </mat-expansion-panel-header>
       <mat-card>

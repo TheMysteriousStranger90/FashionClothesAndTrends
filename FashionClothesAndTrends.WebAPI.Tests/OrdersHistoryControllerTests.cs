@@ -25,11 +25,11 @@ public class OrdersHistoryControllerTests
     {
         // Arrange
         var userId = "test_user";
-        _orderHistoryServiceMock.Setup(service => service.GetOrderHistoriesForUserAsync(userId))
+        _orderHistoryServiceMock.Setup(service => service.GetOrderHistoriesByUserIdAsync(userId))
             .ThrowsAsync(new Exception("Test exception"));
 
         // Act
-        var result = await _controller.GetOrderHistoriesForUser(userId);
+        var result = await _controller.GetOrderHistoriesByUserId();
 
         // Assert
         var statusCodeResult = Assert.IsType<ObjectResult>(result.Result);
