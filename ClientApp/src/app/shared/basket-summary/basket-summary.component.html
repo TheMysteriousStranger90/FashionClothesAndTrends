@@ -18,7 +18,12 @@
 
     <ng-container matColumnDef="price">
       <th mat-header-cell *matHeaderCellDef class="header-cell">Price</th>
-      <td mat-cell *matCellDef="let item" class="cell"><strong>{{item.price | currency}}</strong></td>
+      <td mat-cell *matCellDef="let item" class="cell">
+        <strong>
+          {{ item.discount ? (item.price - (item.price * item.discount / 100)) : item.price | currency }}
+        </strong>
+        <span *ngIf="item.discount" class="discount-label">(Discounted)</span>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="quantity">
@@ -38,7 +43,11 @@
 
     <ng-container matColumnDef="total">
       <th mat-header-cell *matHeaderCellDef class="header-cell">Total</th>
-      <td mat-cell *matCellDef="let item" class="cell"><strong>{{item.price * item.quantity | currency}}</strong></td>
+      <td mat-cell *matCellDef="let item" class="cell">
+        <strong>
+          {{ item.discount ? ((item.price - (item.price * item.discount / 100)) * item.quantity) : (item.price * item.quantity) | currency }}
+        </strong>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="remove" *ngIf="isBasket">

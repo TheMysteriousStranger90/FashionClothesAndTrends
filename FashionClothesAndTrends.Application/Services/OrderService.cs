@@ -48,8 +48,9 @@ public async Task<Order> CreateOrderAsync(string buyerEmail, Guid deliveryMethod
             throw new NotFoundException($"Product item with ID '{item.Id}' not found.");
         }
 
+        var discountPrice = (decimal)(productItem.Price - (productItem.Price * (productItem.Discount / 100)));
         var itemOrdered = new ClothingItemOrdered(productItem.Id, productItem.Name, productItem.ClothingItemPhotos);
-        var orderItem = new OrderItem(itemOrdered, productItem.Price, item.Quantity);
+        var orderItem = new OrderItem(itemOrdered, discountPrice, item.Quantity);
         items.Add(orderItem);
     }
 
