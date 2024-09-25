@@ -7,6 +7,7 @@ export interface BasketItem {
   quantity: number;
   pictureUrl: string;
   brand: string;
+  discount: number | null;
 }
 
 export interface Basket {

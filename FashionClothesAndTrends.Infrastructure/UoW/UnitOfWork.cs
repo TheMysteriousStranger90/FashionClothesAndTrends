@@ -26,6 +26,7 @@ public class UnitOfWork : IUnitOfWork
     private IWishlistRepository _wishlistRepository;
     private IPhotoRepository _photoRepository;
     private IOrderHistoryRepository _orderHistoryRepository;
+    private ICouponRepository _couponRepository;
     private IUserRepository _userRepository;
 
     public UnitOfWork(
@@ -83,6 +84,9 @@ public class UnitOfWork : IUnitOfWork
     
     public IOrderHistoryRepository OrderHistoryRepository =>
         _orderHistoryRepository ??= new OrderHistoryRepository(_context);
+    
+    public ICouponRepository CouponRepository =>
+        _couponRepository ??= new CouponRepository(_context);
 
     public IUserRepository UserRepository =>
         _userRepository ??= new UserRepository(_context);

@@ -19,28 +19,50 @@ public class CouponService : ICouponService
         _mapper = mapper;
         _notificationService = notificationService;
     }
-
-    public async Task<CouponDto> CreateCouponAsync(CouponDto couponDto)
+    
+    public async Task<IEnumerable<CouponDto>> GetAllCouponsAsync()
     {
-        var coupon = _mapper.Map<Coupon>(couponDto);
-        await _unitOfWork.GenericRepository<Coupon>().AddAsync(coupon);
-        await _unitOfWork.SaveAsync();
-        return _mapper.Map<CouponDto>(coupon);
+        var coupons = await _unitOfWork.CouponRepository.GetAllCouponsAsync();
+        if (coupons == null || !coupons.Any())
+        {
+            throw new NotFoundException("No coupons found.");
+        }
+
+        var couponsDto = _mapper.Map<IEnumerable<CouponDto>>(coupons);
+        return couponsDto;
     }
 
-    public async Task ApplyCouponToClothingItemAsync(Guid clothingItemId, string couponCode)
+    public async Task CreateCouponAsync(CreateCouponDto couponDto)
+    {
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        var random = new Random();
+        var couponCode = new string(Enumerable.Repeat(chars, 10)
+            .Select(s => s[random.Next(s.Length)]).ToArray());
+        
+        var coupon = _mapper.Map<Coupon>(couponDto);
+        coupon.Code = couponCode;
+        coupon.IsActive = true;
+        
+        await _unitOfWork.CouponRepository.CreateCouponAsync(coupon);
+    }
+
+    public async Task ApplyCouponToClothingItemAsync(Guid clothingItemId, Guid couponCodeId)
     {
         var clothingItem = await _unitOfWork.ClothingItemRepository.GetClothingByIdAsync(clothingItemId);
         if (clothingItem == null) throw new NotFoundException("Clothing item not found");
 
-        var coupon = await _unitOfWork.GenericRepository<Coupon>()
-            .GetByConditionAsync(c => c.Code == couponCode && c.IsActive && c.ExpiryDate > DateTime.Now);
-        if (coupon == null) throw new NotFoundException("Coupon not found or expired");
+        var coupon = await _unitOfWork.CouponRepository.GetByIdAsync(couponCodeId);
+        if (coupon == null || !coupon.IsActive || coupon.ExpiryDate <= DateTime.Now)
+        {
+            throw new NotFoundException("Coupon not found or expired");
+        }
 
         clothingItem.Discount = coupon.DiscountPercentage;
         await _unitOfWork.SaveAsync();
 
         var wishlists = await _unitOfWork.WishlistRepository.GetWishlistsByClothingItemIdAsync(clothingItemId);
+        
+        /*
         var usersToNotify = wishlists
             .Where(w => w.Items.Any(wi => wi.ClothingItemId == clothingItemId))
             .Select(w => w.UserId)
@@ -50,5 +72,6 @@ public class CouponService : ICouponService
         {
             await _notificationService.NotifyUserAboutDiscountAsync(userId, clothingItemId);
         }
+        */
     }
 }

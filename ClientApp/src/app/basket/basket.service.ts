@@ -115,15 +115,22 @@ export class BasketService {
       quantity: 0,
       pictureUrl: item.pictureUrl,
       brand: item.brand,
-    }
+      discount: item.discount
+    };
   }
 
   private calculateTotals(shipping = 0) {
     const basket = this.getCurrentBasketValue();
     if (!basket) return;
-    const subtotal = basket.items.reduce((a, b) => (b.price * b.quantity) + a, 0);
+
+    const subtotal = basket.items.reduce((a, b) => {
+      const finalPrice = b.discount ? (b.price - (b.price * b.discount / 100)) : b.price;
+      return a + (finalPrice * b.quantity);
+    }, 0);
+
     const total = subtotal + shipping;
-    this.basketTotalSource.next({shipping, total, subtotal});
+    console.log(`Subtotal: ${subtotal}, Shipping: ${shipping}, Total: ${total}`);
+    this.basketTotalSource.next({ shipping, total, subtotal });
   }
 
   private isProduct(item: ClothingItem | BasketItem): item is ClothingItem {

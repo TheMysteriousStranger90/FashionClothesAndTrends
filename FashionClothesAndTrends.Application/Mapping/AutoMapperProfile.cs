@@ -35,7 +35,9 @@ public class AutoMapperProfile : Profile
         CreateMap<ShippingAddress, AddressDto>().ReverseMap();
         CreateMap<AddressDto, AddressAggregate>();
         CreateMap<CustomerBasketDto, CustomerBasket>();
-        CreateMap<BasketItemDto, BasketItem>();
+        
+        CreateMap<BasketItemDto, BasketItem>()
+            .ForMember(dest => dest.Discount, opt => opt.MapFrom(src => src.Discount));
 
         CreateMap<Order, OrderToReturnDto>()
             .ForMember(d => d.DeliveryMethod, o => o.MapFrom(s => s.DeliveryMethod.ShortName))
@@ -53,9 +55,7 @@ public class AutoMapperProfile : Profile
         CreateMap<LikeDislike, LikeDislikeDto>()
             .ForPath(dest => dest.Username, opt => opt.MapFrom(src => src.User.UserName))
             .ReverseMap();
-
-        CreateMap<Coupon, CouponDto>().ReverseMap();
-
+        
         CreateMap<FavoriteItem, FavoriteItemDto>()
             .ForMember(dest => dest.ClothingItemDto, opt => opt.MapFrom(src => src.ClothingItem))
             .ForMember(dest => dest.UserDto, opt => opt.MapFrom(src => src.User))
@@ -85,10 +85,13 @@ public class AutoMapperProfile : Profile
         
         CreateMap<AddressDto, AddressAggregate>().ReverseMap();
 
-        CreateMap<UserDto, User>().ReverseMap();
+        //CreateMap<UserDto, User>().ReverseMap();
         CreateMap<OrderHistory, OrderHistoryDto>().ReverseMap();
         CreateMap<OrderHistory, OrderHistoryToReturnDto>().ReverseMap();
         CreateMap<OrderItemHistory, OrderItemHistoryDto>().ReverseMap();
         CreateMap<OrderHistoryToReturnDto, OrderHistory>().ReverseMap();
+        
+        CreateMap<CreateCouponDto, Coupon>();
+        CreateMap<Coupon, CouponDto>().ReverseMap();
     }
 }

@@ -3,5 +3,5 @@
 public class ApplyCouponDto
 {
     public Guid ClothingItemId { get; set; }
-    public string CouponCode { get; set; }
+    public Guid CouponCodeId { get; set; }
 }

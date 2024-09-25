@@ -17,12 +17,12 @@ public class CouponController : BaseApiController
 
     [Authorize(Policy = "RequireAdminRole")]
     [HttpPost]
-    public async Task<ActionResult<CouponDto>> CreateCoupon([FromBody] CouponDto couponDto)
+    public async Task<ActionResult> CreateCoupon(CreateCouponDto couponDto)
     {
         try
         {
-            var createdCoupon = await _couponService.CreateCouponAsync(couponDto);
-            return Ok(createdCoupon);
+            await _couponService.CreateCouponAsync(couponDto);
+            return Ok();
         }
         catch (Exception ex)
         {
@@ -32,13 +32,28 @@ public class CouponController : BaseApiController
 
     [Authorize(Policy = "RequireAdminRole")]
     [HttpPost("apply")]
-    public async Task<ActionResult> ApplyCouponToClothingItem([FromBody] ApplyCouponDto applyCouponDto)
+    public async Task<ActionResult> ApplyCouponToClothingItem(ApplyCouponDto applyCouponDto)
     {
         try
         {
             await _couponService.ApplyCouponToClothingItemAsync(applyCouponDto.ClothingItemId,
-                applyCouponDto.CouponCode);
+                applyCouponDto.CouponCodeId);
             return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    
+    [Authorize(Policy = "RequireAdminRole")]
+    [HttpGet("all")]
+    public async Task<ActionResult<IReadOnlyList<CouponDto>>> GetAllCoupons()
+    {
+        try
+        {
+            var clothingItems = await _couponService.GetAllCouponsAsync();
+            return Ok(clothingItems);
         }
         catch (Exception ex)
         {

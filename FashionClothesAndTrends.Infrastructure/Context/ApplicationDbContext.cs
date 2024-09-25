@@ -32,6 +32,7 @@ public class ApplicationDbContext : IdentityDbContext<User, AppRole, string,
     public DbSet<WishlistItem> WishlistItems { get; set; }
     public DbSet<UserPhoto> UserPhotos { get; set; }
     public DbSet<ClothingItemPhoto> ClothingItemPhotos { get; set; }
+    public DbSet<Coupon> Coupons { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

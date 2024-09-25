@@ -24,4 +24,5 @@ public class BasketItemDto
     [Required]
     public string Brand { get; set; }
     
+    public decimal? Discount { get; set; }
 }

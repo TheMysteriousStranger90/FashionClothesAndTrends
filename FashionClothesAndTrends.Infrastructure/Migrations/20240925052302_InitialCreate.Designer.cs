@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FashionClothesAndTrends.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240828045714_InitialCreate")]
+    [Migration("20240925052302_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -188,7 +188,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("97c769ce-d72a-431b-a2b5-516ecf3b1fa1"),
+                            Id = new Guid("b705424c-d9f1-4553-ae3c-f8d7ecfc4575"),
                             Category = 2,
                             ClothingBrandId = new Guid("3d6f79a2-c462-4c28-ae5f-0ec93b7f4e01"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -201,7 +201,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("82cd5572-9c46-4b95-a5f3-88b7e9551529"),
+                            Id = new Guid("f748241c-5378-4020-96d2-0f181dfb8cf3"),
                             Category = 3,
                             ClothingBrandId = new Guid("b5d6b8f8-dad4-4f2f-8c52-2911d856b3ad"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -214,7 +214,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a8d03c89-275f-479d-9060-32d6d4cacc14"),
+                            Id = new Guid("12f0de27-9d46-4252-8f42-40031bc617b5"),
                             Category = 4,
                             ClothingBrandId = new Guid("e96c60b6-09df-4e1a-9d6c-617bdd48eaf5"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -227,7 +227,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("12dc3d88-9eba-4e1a-bfde-9e26430f7faa"),
+                            Id = new Guid("9709762d-5dd9-44fa-8ecb-3d2150052202"),
                             Category = 3,
                             ClothingBrandId = new Guid("c981db82-b2f1-48c3-9864-efc6c56a5b0e"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -240,7 +240,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b23849ec-6066-482e-9e56-f52cebd2e074"),
+                            Id = new Guid("5708d50e-4aeb-461b-adbb-9f9b87acdcfc"),
                             Category = 0,
                             ClothingBrandId = new Guid("a2c5c305-f2c2-45e7-8f7d-c489bb7f7e8a"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -253,7 +253,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b3f2dc9c-05d4-46af-98bd-3183c77a63a9"),
+                            Id = new Guid("52cc6549-df79-4e85-9df9-85afb4970672"),
                             Category = 0,
                             ClothingBrandId = new Guid("5d24a48b-6c72-4e2a-9ef2-64d0f657bfc6"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -301,8 +301,8 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a611e716-926a-4c3c-bad8-008ae812d42d"),
-                            ClothingItemId = new Guid("97c769ce-d72a-431b-a2b5-516ecf3b1fa1"),
+                            Id = new Guid("4914b710-d3da-4dc3-b93c-b4ef586a7323"),
+                            ClothingItemId = new Guid("b705424c-d9f1-4553-ae3c-f8d7ecfc4575"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsMain = true,
                             PublicId = "PublicId6",
@@ -310,8 +310,8 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("12b7ee44-d2e1-4a88-a8ef-da45ab47a857"),
-                            ClothingItemId = new Guid("82cd5572-9c46-4b95-a5f3-88b7e9551529"),
+                            Id = new Guid("093eaf5c-465d-46ea-b48a-8361e1262924"),
+                            ClothingItemId = new Guid("f748241c-5378-4020-96d2-0f181dfb8cf3"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsMain = true,
                             PublicId = "PublicId5",
@@ -319,8 +319,8 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("148643b3-a49b-49b4-9307-1ae5dfbf65e4"),
-                            ClothingItemId = new Guid("a8d03c89-275f-479d-9060-32d6d4cacc14"),
+                            Id = new Guid("08219b8e-87c5-44d0-8806-3ff7e82fe653"),
+                            ClothingItemId = new Guid("12f0de27-9d46-4252-8f42-40031bc617b5"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsMain = true,
                             PublicId = "PublicId4",
@@ -328,8 +328,8 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("95d1da08-87db-441c-9378-1d1aaef63a08"),
-                            ClothingItemId = new Guid("12dc3d88-9eba-4e1a-bfde-9e26430f7faa"),
+                            Id = new Guid("05742d28-7ebc-469f-91a0-7eaefaa150c4"),
+                            ClothingItemId = new Guid("9709762d-5dd9-44fa-8ecb-3d2150052202"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsMain = true,
                             PublicId = "PublicId3",
@@ -337,8 +337,8 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5271bdba-2476-4b7c-a52e-9a383e7e77b4"),
-                            ClothingItemId = new Guid("b23849ec-6066-482e-9e56-f52cebd2e074"),
+                            Id = new Guid("42405f02-3033-4d7f-b730-c66b6c4aab49"),
+                            ClothingItemId = new Guid("5708d50e-4aeb-461b-adbb-9f9b87acdcfc"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsMain = true,
                             PublicId = "PublicId2",
@@ -346,8 +346,8 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9c3121c4-2eba-4d17-a4d7-f011d0be7fe8"),
-                            ClothingItemId = new Guid("b3f2dc9c-05d4-46af-98bd-3183c77a63a9"),
+                            Id = new Guid("44d6db2d-e1a1-4eac-9ab1-dc79311c805b"),
+                            ClothingItemId = new Guid("52cc6549-df79-4e85-9df9-85afb4970672"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsMain = true,
                             PublicId = "PublicId1",
@@ -414,7 +414,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Coupon");
+                    b.ToTable("Coupons");
                 });
 
             modelBuilder.Entity("FashionClothesAndTrends.Domain.Entities.FavoriteItem", b =>
@@ -540,7 +540,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("2553874b-348b-42a3-ae8d-7bcbefb9579c"),
+                            Id = new Guid("203ae64f-7c6b-4c03-9deb-2eca53218352"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DeliveryTime = "1-2 Days",
                             Description = "Fastest delivery time",
@@ -549,7 +549,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("28a2b33f-5c19-4b75-9a4a-c4c6f0915271"),
+                            Id = new Guid("0b4327f1-2f2a-4eec-b5ef-3476206ea28c"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DeliveryTime = "2-5 Days",
                             Description = "Get it within 5 days",
@@ -558,7 +558,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("dee606b1-e810-46fc-9b01-bc98d3c23089"),
+                            Id = new Guid("a0854e88-0e39-43ed-bd6b-e3889fc411ed"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DeliveryTime = "5-10 Days",
                             Description = "Slower but cheap",
@@ -567,7 +567,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("88d33925-a1f6-4971-b840-137bc6a132a1"),
+                            Id = new Guid("df9b33a6-902d-4ada-bb16-ee28af859fc8"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DeliveryTime = "1-2 Weeks",
                             Description = "Free! You get what you pay for",
@@ -1143,7 +1143,7 @@ namespace FashionClothesAndTrends.Infrastructure.Migrations
                     b.HasOne("FashionClothesAndTrends.Domain.Entities.OrderAggregate.DeliveryMethod", "DeliveryMethod")
                         .WithMany()
                         .HasForeignKey("DeliveryMethodId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FashionClothesAndTrends.Domain.Entities.User", null)
