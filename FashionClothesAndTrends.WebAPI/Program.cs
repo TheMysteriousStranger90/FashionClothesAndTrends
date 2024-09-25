@@ -1,3 +1,4 @@
+using FashionClothesAndTrends.Application.Hubs;
 using FashionClothesAndTrends.Domain.Entities;
 using FashionClothesAndTrends.Infrastructure.Context;
 using FashionClothesAndTrends.Infrastructure.SeedData;
@@ -44,6 +45,7 @@ app.UseDefaultFiles();
 
 
 app.MapControllers();
+app.MapHub<DiscountNotificationHub>("/Notify");
 
 
 

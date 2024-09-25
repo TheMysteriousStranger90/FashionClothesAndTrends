@@ -57,6 +57,8 @@ public static class ApplicationServicesExtensions
         services.AddScoped<IClothingItemService, ClothingItemService>();
         services.AddScoped<ICouponService, CouponService>();
         
+        services.AddSignalR();
+        
         return services;
     }
 }

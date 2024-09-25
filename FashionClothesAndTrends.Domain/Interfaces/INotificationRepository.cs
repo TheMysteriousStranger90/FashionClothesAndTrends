@@ -6,7 +6,5 @@ public interface INotificationRepository : IGenericRepository<Notification>
 {
     Task<IReadOnlyList<Notification>> GetNotificationsByUserIdAsync(string userId);
     Task<IReadOnlyList<Notification>> GetUnreadNotificationsByUserIdAsync(string userId);
-    Task<IReadOnlyList<Notification>> GetDiscountNotificationsForWishlistAsync(Guid wishlistId);
     Task<bool> AddNotificationAsync(Notification notification);
-    Task<bool> MarkAsReadAsync(Guid notificationId); 
 }
