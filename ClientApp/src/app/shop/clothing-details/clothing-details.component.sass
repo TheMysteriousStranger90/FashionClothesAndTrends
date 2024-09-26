@@ -1,183 +1,140 @@
-// Variables
 $secondary-color: #ffffff
 $accent-color: #ff4081
 $background-color: #222
 $border-color: #000
 $font-family: 'Roboto', sans-serif
 
-
-@mixin flex-center
-  display: flex
-  justify-content: center
-  align-items: center
-
-
 body
   background-color: $background-color
   color: $secondary-color
   font-family: $font-family
 
-
 .container
-  padding: -20px
-  max-width: 600px
+  padding: 20px
+  max-width: 1200px
   margin: 0 auto
 
+.product-section
+  text-align: center
+  margin-bottom: 40px
 
-.row
-  display: flex
-  flex-wrap: wrap
-  margin: -40px
+  .product-image
+    img
+      width: 100%
+      max-width: 400px
+      border: 2px solid $border-color
+      border-radius: 8px
+      margin-bottom: 20px
 
-  & > div
-    padding: 10px
+  .product-details
+    h2
+      font-size: 2.5em
+      margin-bottom: 10px
 
+    .price
+      font-size: 2em
+      margin-bottom: 20px
 
+    .description
+      font-size: 1.2em
+      margin-bottom: 20px
 
+  .rating-section
+    margin-bottom: 20px
 
+  .quantity-controls
+    display: flex
+    justify-content: center
+    align-items: center
+    margin-top: 20px
 
-mat-card
-  background-color: $background-color
-  border: 1px solid $border-color
-  border-radius: 8px
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
-  overflow: hidden
+    .quantity 
+      font-size: 1.5em
+      margin: 0 10px
+      color: $border-color !important
 
-  img
-    border-radius: 8px
+    .add-to-basket
+      background-color: $accent-color
+      color: $secondary-color
+      margin-left: 10px
 
-
-h2
-  font-size: 2.5em
-  margin-bottom: 10px
-
-
-p
-  font-size: 1.2em
-  margin-bottom: 20px
-
-
-h4
-  font-size: 1.8em
-  margin-bottom: 10px
-
-
-h5
-  font-size: 1.5em
-  margin-bottom: 10px
-
-
-button
-  &.mat-icon-button
-    color: $secondary-color
-
-  &.mat-raised-button
-    background-color: $accent-color
-    color: $secondary-color
-    margin-left: 10px
-
-    &:disabled
-      background-color: black
-
-
-app-rating
-  display: flex
-  align-items: center
-
-  mat-icon
-    cursor: pointer
-    color: $accent-color
-
-    &.checked
-      color: $accent-color
-
-.d-flex
-  @include flex-center
-  margin-top: 20px
-
-  .font-weight-bold
-    font-size: 1.5em
-    color: $secondary-color
-    margin: 0 10px
-
-
-mat-card-content
-  background-color: #222
-  color: #ffffff
-  padding: 20px
-  border-radius: 8px
-
-
-// Fixed Size Card
-.fixed-size-card
-  width: 90%
-  height: 300px
-
-
-// Responsive Styles
-@media (max-width: 768px)
-.col-6
-  flex: 0 20 50%
-  max-width: 80%
-
-
-h2
-  font-size: 2em
-
-
-p
-  font-size: 1em
-
-
-h4
-  font-size: 1.5em
-
-
-h5
-  font-size: 1.2em
-
-
-.font-weight-bold
-  font-size: 1.2em
-
+      &:disabled
+        background-color: black
 
 .comments-section
-  margin-top: 50px
-
-mat-form-field, textarea
-  width: 100%
-
-.accordion
-  width: 100%
+  max-width: 650px
   margin: 0 auto
-  padding: 16px 16px
-  background-color:  #ffffff
-  color: #ffffff
-
-
-mat-expansion-panel-header .mat-content
-  justify-content: flex-start
-
-.info-text
   text-align: center
 
-.accordion .mat-expansion-panel-header-title,
-.accordion .mat-expansion-panel-header-description
-  flex-basis: 0
+  .comment-card 
+    background-color: $background-color
+    border: 1px solid $border-color
+    border-radius: 8px
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+    overflow: hidden
+    margin-bottom: 20px
 
-  .action-buttons
-  display: flex
-  align-items: center
+    mat-card-content 
+      background-color: $background-color
+      color: $secondary-color
+      padding: 20px
+      border-radius: 8px
+  
 
+    .full-width 
+      width: 100%
+  
 
-.comment-time
-  margin-left: auto
-  display: flex
-  align-items: center
+    .button-container 
+      display: flex
+      justify-content: flex-end
+      margin-top: 10px
+  
 
+  .comments-list
+    mat-form-field,
+    textarea
+      width: 100%
 
-.mat-action-row
-  display: flex
-  justify-content: space-between
+    .accordion
+      width: 100%
+      margin: 0 auto
+      padding: 16px 16px
+      background-color: $background-color
+      color: $secondary-color
 
+      mat-expansion-panel-header .mat-content
+        justify-content: flex-start
 
+      .action-buttons
+        display: flex
+        align-items: center
+
+      .comment-time
+        margin-left: auto
+        display: flex
+        align-items: center
+
+      .mat-action-row
+        display: flex
+        justify-content: space-between
+
+    .info-text
+      text-align: center
+
+@media (max-width: 768px)
+  .product-section
+    .product-image img
+      max-width: 100%
+
+    .product-details h2
+      font-size: 2em
+
+    .product-details .price
+      font-size: 1.5em
+
+    .quantity-controls .quantity
+      font-size: 1.2em
+
+  .comments-section
+    max-width: 100%
