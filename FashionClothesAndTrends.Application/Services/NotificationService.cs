@@ -18,9 +18,10 @@ public class NotificationService : INotificationService
         _mapper = mapper;
     }
 
-    public Task AddNotificationAsync(Notification notification)
+    public async Task AddNotificationAsync(Notification notification)
     {
-        return _unitOfWork.NotificationRepository.AddNotificationAsync(notification);
+        await _unitOfWork.NotificationRepository.AddNotificationAsync(notification);
+        await _unitOfWork.SaveAsync();
     }
 
     public async Task<IEnumerable<NotificationDto>> GetNotificationsByUserIdAsync(string userId)

@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Exceptions;
+using FashionClothesAndTrends.Application.Hubs;
+using FashionClothesAndTrends.Application.Hubs.Interfaces;
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.Application.UoW;
 using FashionClothesAndTrends.Domain.Entities;
 using FashionClothesAndTrends.Domain.Interfaces;
+using Microsoft.AspNetCore.SignalR;
 
 namespace FashionClothesAndTrends.Application.Services;
 
@@ -12,11 +15,17 @@ public class WishlistService : IWishlistService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IHubContext<DiscountNotificationHub, INotificationHub> _discountNotification;
+    private readonly INotificationService _notificationService;
 
-    public WishlistService(IUnitOfWork unitOfWork, IMapper mapper)
+    public WishlistService(IUnitOfWork unitOfWork, IMapper mapper,
+        IHubContext<DiscountNotificationHub, INotificationHub> hubContext,
+        INotificationService notificationService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _discountNotification = hubContext;
+        _notificationService = notificationService;
     }
 
     public async Task<WishlistDto> CreateWishlistAsync(string userId, string name)
@@ -46,7 +55,30 @@ public class WishlistService : IWishlistService
     public async Task<IReadOnlyList<WishlistDto>> GetWishlistsByUserIdAsync(string userId)
     {
         var wishlists = await _unitOfWork.WishlistRepository.GetWishlistsByUserIdAsync(userId);
-        return _mapper.Map<IReadOnlyList<WishlistDto>>(wishlists);
+        var wishlistDtos = _mapper.Map<IReadOnlyList<WishlistDto>>(wishlists);
+
+        foreach (var wishlist in wishlists)
+        {
+            foreach (var item in wishlist.Items)
+            {
+                if (item.ClothingItem.Discount.HasValue && item.ClothingItem.Discount.Value > 0)
+                {
+                    var notification = new Notification
+                    {
+                        Text = $"A discount of {item.ClothingItem.Discount.Value}% has been applied to an {item.ClothingItem.Name} item in your wishlist.",
+                        UserId = userId,
+                        IsRead = false,
+                        CreatedAt = DateTime.Now
+                    };
+                    
+                    await _discountNotification.Clients.Group(userId).SendMessage(notification);
+                    
+                    await _notificationService.AddNotificationAsync(notification);
+                }
+            }
+        }
+
+        return wishlistDtos;
     }
 
     public async Task<WishlistDto?> GetWishlistByNameAsync(string userId, string name)

@@ -45,7 +45,7 @@ app.UseDefaultFiles();
 
 
 app.MapControllers();
-app.MapHub<DiscountNotificationHub>("/Notify");
+app.MapHub<DiscountNotificationHub>("/notify");
 
 
 

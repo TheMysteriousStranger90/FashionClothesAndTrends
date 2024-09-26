@@ -14,12 +14,14 @@ import {HomeComponent} from './home/home.component';
 import {FavoritesComponent} from './favorites/favorites.component';
 import {JwtInterceptor} from './core/interceptors/jwt.interceptor';
 import {LoadingInterceptor} from './core/interceptors/loading.interceptor';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    FavoritesComponent
+    FavoritesComponent,
+    NotificationsComponent
   ],
   imports: [
     BrowserAnimationsModule,

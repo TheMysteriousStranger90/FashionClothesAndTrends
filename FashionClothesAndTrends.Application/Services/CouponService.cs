@@ -14,16 +14,12 @@ public class CouponService : ICouponService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
-    private readonly IHubContext<DiscountNotificationHub, INotificationHub> _discountNotification;
-    private readonly INotificationService _notificationService;
 
-    public CouponService(IUnitOfWork unitOfWork, IMapper mapper,
-        IHubContext<DiscountNotificationHub, INotificationHub> hubContext, INotificationService notificationService)
+    public CouponService(IUnitOfWork unitOfWork, IMapper mapper
+    )
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
-        _discountNotification = hubContext;
-        _notificationService = notificationService;
     }
 
     public async Task<IEnumerable<CouponDto>> GetAllCouponsAsync()
@@ -65,27 +61,5 @@ public class CouponService : ICouponService
 
         clothingItem.Discount = coupon.DiscountPercentage;
         await _unitOfWork.SaveAsync();
-
-
-        var wishlists = await _unitOfWork.WishlistRepository.GetWishlistsByClothingItemIdAsync(clothingItemId);
-        var usersToNotify = wishlists
-            .Where(w => w.Items.Any(wi => wi.ClothingItemId == clothingItemId))
-            .Select(w => w.UserId)
-            .ToList();
-
-        foreach (var userId in usersToNotify)
-        {
-            var notification = new Notification
-            {
-                Text =
-                    $"A discount of {coupon.DiscountPercentage}% has been applied to an {clothingItem.Name} item in your wishlist.",
-                UserId = userId,
-                IsRead = false
-            };
-
-            await _notificationService.AddNotificationAsync(notification);
-
-            await _discountNotification.Clients.Group(userId).SendMessage(notification);
-        }
     }
 }

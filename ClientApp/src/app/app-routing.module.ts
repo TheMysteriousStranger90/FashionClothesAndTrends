@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {authGuard} from './core/guards/auth.guard';
 import {HomeComponent} from './home/home.component';
 import {FavoritesComponent} from './favorites/favorites.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent, data: {breadcrumb: 'Home'}},
@@ -36,6 +37,10 @@ const routes: Routes = [
       {
         path: 'wishlist',
         loadChildren: () => import('./wishlist/wishlist.module').then(m => m.WishlistModule)
+      },
+      {
+        path: 'notifications',
+        component: NotificationsComponent
       },
       {
         path: 'orders',
