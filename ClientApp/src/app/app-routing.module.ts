@@ -4,6 +4,7 @@ import {authGuard} from './core/guards/auth.guard';
 import {HomeComponent} from './home/home.component';
 import {FavoritesComponent} from './favorites/favorites.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { adminGuard } from './core/guards/admin.guard';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent, data: {breadcrumb: 'Home'}},
@@ -50,6 +51,10 @@ const routes: Routes = [
         path: 'orders-history',
         loadChildren: () => import('./orders-history/orders-history.module').then(m => m.OrdersHistoryModule)
       },
+      {
+        path: 'admin', canActivate: [adminGuard],
+        loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), data: {breadcrumb: {skip: true}}
+      }
     ]
   },
   {path: '**', redirectTo: '', pathMatch: 'full'},
