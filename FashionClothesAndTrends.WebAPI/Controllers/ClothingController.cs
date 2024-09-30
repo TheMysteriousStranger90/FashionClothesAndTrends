@@ -18,8 +18,7 @@ public class ClothingController : BaseApiController
     {
         _clothingItemService = clothingItemService;
     }
-
-    [Cached(600)]
+    
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
@@ -35,7 +34,7 @@ public class ClothingController : BaseApiController
         }
     }
 
-    [Cached(600)]
+    [Cached(60)]
     [HttpGet]
     public async Task<ActionResult<Pagination<ClothingItemDto>>> GetClothingItems(
         [FromQuery] ClothingSpecParams clothingSpecParams)
@@ -50,7 +49,7 @@ public class ClothingController : BaseApiController
         }
     }
 
-    [Cached(600)]
+    [Cached(60)]
     [HttpGet("brands")]
     public async Task<ActionResult<IReadOnlyList<ClothingBrandDto>>> GetClothingBrandS()
     {

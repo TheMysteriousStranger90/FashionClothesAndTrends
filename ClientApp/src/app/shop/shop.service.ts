@@ -109,4 +109,12 @@ export class ShopService {
   getAllClothingItems(): Observable<ClothingItem[]> {
     return this.http.get<ClothingItem[]>(this.baseUrl + 'clothing/all');
   }
+
+  clearCache() {
+    this.clothingCache.clear();
+  }
+
+  updateCache(key: string, data: IPagination<ClothingItem[]>) {
+    this.clothingCache.set(key, data);
+  }
 }

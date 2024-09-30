@@ -17,8 +17,6 @@ public static class ApplicationServicesExtensions
     public static IServiceCollection AddApplicationServices(this IServiceCollection services,
         IConfiguration config)
     {
-        services.AddSingleton<IResponseCacheService, ResponseCacheService>();
-        
         services.AddDbContext<ApplicationDbContext>(options =>
         {
             options.UseSqlServer(config.GetConnectionString("DefaultConnection"));

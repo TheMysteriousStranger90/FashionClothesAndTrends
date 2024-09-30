@@ -54,10 +54,19 @@ export class ApplyCouponComponent implements OnInit {
         couponCodeId: this.selectedCoupon.id
       };
 
-      this.couponService.applyCoupon(applyCoupon).subscribe({
+      this.couponService.applyCoupon(applyCoupon, () => {
+        this.shopService.clearCache();
+        this.shopService.getClothingItems(true).subscribe({
+          next: (response) => {
+            const cacheKey = Object.values(this.shopService.getShopParams()).join('-');
+
+            this.shopService.updateCache(cacheKey, response);
+          },
+          error: (error) => console.error('Error updating cache', error)
+        });
+      }).subscribe({
         next: () => {
           console.log('Coupon applied successfully');
-          this.loadClothingItems();
         },
         error: (error) => console.error('Error applying coupon', error)
       });
