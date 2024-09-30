@@ -26,9 +26,9 @@
         {{ product.name }}
       </h6>
     </a>
-    <span class="mb-2 product-price">{{ product.price | currency }}</span>
+    <span class="mb-2 product-price" [class.strikethrough]="product.discount !== null">{{ product.price | currency }}</span>
     <span class="mb-2 product-discount" *ngIf="product.discount !== null">
-      Discount: {{ product.discount }}%
+      Discounted: {{ product.discount }}%  Price: {{ (product.price - (product.price * product.discount / 100)) | currency }}
     </span>
   </mat-card-content>
 </mat-card>
