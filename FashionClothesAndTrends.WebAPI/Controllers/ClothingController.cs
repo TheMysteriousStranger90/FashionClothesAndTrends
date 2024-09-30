@@ -94,7 +94,6 @@ public class ClothingController : BaseApiController
         }
     }
     
-    //[Authorize(Policy = "RequireAdminRole")]
     [HttpGet("all")]
     public async Task<ActionResult<IReadOnlyList<ClothingItemDto>>> GetAllClothingItems()
     {

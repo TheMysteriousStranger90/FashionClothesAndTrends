@@ -3,12 +3,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { UserManagementComponent } from './user-management/user-management.component';
 import { CreateCouponComponent } from './create-coupon/create-coupon.component';
+import { ApplyCouponComponent } from './apply-coupon/apply-coupon.component';
 
 
 const routes: Routes = [
   {path: 'admin-panel', component: AdminPanelComponent},
   {path: 'user-management', component: UserManagementComponent},
   {path: 'create-coupon', component: CreateCouponComponent},
+  {path: 'apply-coupon', component: ApplyCouponComponent},
+  
 
 ]
 

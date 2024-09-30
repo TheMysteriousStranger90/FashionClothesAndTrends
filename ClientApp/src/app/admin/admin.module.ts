@@ -6,13 +6,15 @@ import {AdminRoutingModule} from './admin-routing.module';
 import {AdminPanelComponent} from './admin-panel/admin-panel.component';
 import {UserManagementComponent} from './user-management/user-management.component';
 import { CreateCouponComponent } from './create-coupon/create-coupon.component';
+import { ApplyCouponComponent } from './apply-coupon/apply-coupon.component';
 
 
 @NgModule({
   declarations: [
     AdminPanelComponent,
     UserManagementComponent,
-    CreateCouponComponent
+    CreateCouponComponent,
+    ApplyCouponComponent
   ],
   imports: [
     CommonModule,

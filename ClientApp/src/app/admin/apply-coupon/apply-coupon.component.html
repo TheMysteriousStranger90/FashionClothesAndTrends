@@ -1,0 +1,41 @@
+<div class="vh-100">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <mat-card>
+          <mat-card-content>
+  <div *ngIf="clothingItems && clothingItems.length > 0">
+    <mat-form-field>
+      <mat-label>Select Clothing Item</mat-label>
+      <mat-select (selectionChange)="onClothingItemSelect($event.value)">
+        <mat-option *ngFor="let item of clothingItems" [value]="item">
+          {{ item.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div *ngIf="selectedClothingItem && coupons && coupons.length > 0">
+      <mat-form-field>
+        <mat-label>Select Coupon</mat-label>
+        <mat-select (selectionChange)="onCouponSelect($event.value)">
+          <mat-option *ngFor="let coupon of coupons" [value]="coupon">
+            {{ coupon.code }} - {{ coupon.discountPercentage }}%
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="applyCoupon()"
+              [disabled]="!selectedCoupon">
+        Apply Coupon
+      </button>
+    </div>
+  </div>
+  <div *ngIf="!clothingItems || clothingItems.length === 0">
+    <p>No clothing items available.</p>
+  </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
