@@ -13,8 +13,7 @@ export class RolesModalComponent implements OnInit {
   selectedRoles: any[] = [];
   roleSelections: { [role: string]: boolean } = {};
 
-  constructor(public dialogRef: MatDialogRef<RolesModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
-  }
+  constructor(public dialogRef: MatDialogRef<RolesModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit(): void {
     this.username = this.data.username;
@@ -37,5 +36,9 @@ export class RolesModalComponent implements OnInit {
         this.selectedRoles.splice(index, 1);
       }
     }
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

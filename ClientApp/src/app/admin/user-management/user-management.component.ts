@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { RolesModalComponent } from 'src/app/core/modals/roles-modal/roles-modal.component';
-import { User } from 'src/app/shared/models/user';
-import { AdminService } from '../admin.service';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {RolesModalComponent} from 'src/app/core/modals/roles-modal/roles-modal.component';
+import {User} from 'src/app/shared/models/user';
+import {AdminService} from '../admin.service';
 
 @Component({
   selector: 'app-user-management',
@@ -15,7 +15,7 @@ export class UserManagementComponent implements OnInit {
   availableRoles = [
     'Administrator',
     'Buyer',
-  ]
+  ];
 
   constructor(private adminService: AdminService, private dialog: MatDialog) {
   }
@@ -27,7 +27,7 @@ export class UserManagementComponent implements OnInit {
   getUsersWithRoles() {
     this.adminService.getUsersWithRoles().subscribe({
       next: users => this.users = users
-    })
+    });
   }
 
   addRole(roleName: string): void {
@@ -57,7 +57,7 @@ export class UserManagementComponent implements OnInit {
       if (!this.arrayEqual(selectedRoles, user.roles)) {
         this.adminService.updateUserRoles(user.username, selectedRoles).subscribe({
           next: roles => user.roles = roles
-        })
+        });
       }
     });
   }
