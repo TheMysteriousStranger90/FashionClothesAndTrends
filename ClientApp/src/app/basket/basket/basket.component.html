@@ -25,7 +25,7 @@
   </ng-container>
 </div>
     <div class="d-grid">
-      <button mat-raised-button color="primary"  routerLink="/checkout">Proceed to checkout</button>
+      <button mat-raised-button color="primary" routerLink="/checkout" [disabled]="isBasketEmpty()">Proceed to checkout</button>
     </div>
   </mat-card-content>
 </mat-card>

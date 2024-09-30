@@ -136,4 +136,9 @@ export class BasketService {
   private isProduct(item: ClothingItem | BasketItem): item is ClothingItem {
     return (item as ClothingItem).brand !== undefined;
   }
+
+  isBasketEmpty(): boolean {
+    const basket = this.getCurrentBasketValue();
+    return !basket || basket.items.length === 0;
+  }
 }

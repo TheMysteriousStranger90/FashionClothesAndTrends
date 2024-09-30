@@ -19,4 +19,8 @@ export class BasketComponent {
   removeItem(event: { id: string, quantity: number }) {
     this.basketService.removeItemFromBasket(event.id, event.quantity);
   }
+
+  isBasketEmpty(): boolean {
+    return this.basketService.isBasketEmpty();
+  }
 }
