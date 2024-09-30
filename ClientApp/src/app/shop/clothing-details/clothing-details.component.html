@@ -6,7 +6,10 @@
 
     <div class="product-details">
       <h2>{{product.name}}</h2>
-      <p class="price">{{product.price | currency}}</p>
+      <span class="mb-2 product-price" [class.strikethrough]="product.discount !== null">{{ product.price | currency }}</span>
+      <span class="mb-2 product-discount" *ngIf="product.discount !== null">
+      Discounted: {{ product.discount }}%  Price: {{ (product.price - (product.price * product.discount / 100)) | currency }}
+    </span>
       <p class="description">{{product.description}}</p>
     </div>
 
