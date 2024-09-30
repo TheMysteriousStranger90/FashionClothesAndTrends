@@ -1,0 +1,54 @@
+<div class="vh-100">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <mat-card>
+          <mat-card-content>
+            <h2>Create Coupon</h2>
+            <form [formGroup]="couponForm" (ngSubmit)="createCoupon()">
+              <mat-form-field appearance="fill" class="form-element">
+                <mat-label>Discount Percentage</mat-label>
+                <input matInput formControlName="discountPercentage" type="number" min="1" max="100">
+                <mat-error *ngIf="couponForm.get('discountPercentage')?.invalid">
+                  Please enter a valid discount percentage (1-100).
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill" class="form-element">
+                <mat-label>Expiry Date</mat-label>
+                <input matInput formControlName="expiryDate" type="date">
+                <mat-error *ngIf="couponForm.get('expiryDate')?.invalid">
+                  Please enter a valid expiry date.
+                </mat-error>
+              </mat-form-field>
+
+              <button mat-raised-button color="primary" type="submit" [disabled]="couponForm.invalid" class="form-element">
+                Create
+              </button>
+            </form>
+
+            <h2>Existing Coupons</h2>
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Code</th>
+                <th>Discount</th>
+                <th>Expiry Date</th>
+                <th>Active</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let coupon of coupons">
+                <td>{{coupon.code}}</td>
+                <td>{{coupon.discountPercentage}}%</td>
+                <td>{{coupon.expiryDate | date}}</td>
+                <td>{{coupon.isActive ? 'Yes' : 'No'}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
