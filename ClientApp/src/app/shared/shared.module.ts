@@ -8,6 +8,9 @@ import { OrderTotalsComponent } from './order-totals/order-totals.component';
 import { StepperComponent } from './stepper/stepper.component';
 import { RatingComponent } from './rating/rating.component';
 
+import {GalleryModule} from 'ng-gallery';
+import {FileUploadModule} from 'ng2-file-upload';
+
 @NgModule({
   declarations: [
     BasketSummaryComponent,
@@ -21,13 +24,17 @@ import { RatingComponent } from './rating/rating.component';
     ReactiveFormsModule,
     FormsModule,
     RouterModule,
+    GalleryModule,
+    FileUploadModule,
   ],
   exports: [
     MaterialModule,
     BasketSummaryComponent,
     OrderTotalsComponent,
     StepperComponent,
-    RatingComponent
+    RatingComponent,
+    GalleryModule,
+    FileUploadModule,
   ]
 })
 export class SharedModule {
