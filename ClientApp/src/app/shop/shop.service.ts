@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { Guid } from 'guid-typescript';
 import { map, Observable, of } from 'rxjs';
 import { CreateBrand } from '../shared/models/create-brand';
+import { CreateClothingItem } from '../shared/models/create-clothing-item';
 
 @Injectable({
   providedIn: 'root'
@@ -103,8 +104,12 @@ export class ShopService {
     return this.http.post<void>(this.baseUrl + 'clothing/brands', createClothingBrand);
   }
 
-  addClothingItem(clothingItem: ClothingItem): Observable<void> {
-    return this.http.post<void>(this.baseUrl + 'clothing/items', clothingItem);
+  addClothingItem(createClothingItem: CreateClothingItem): Observable<void> {
+    return this.http.post<void>(this.baseUrl + 'clothing/items', createClothingItem);
+  }
+
+  removeClothingItem(clothingItemId: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}clothing/${clothingItemId}`);
   }
 
   getAllClothingItems(): Observable<ClothingItem[]> {

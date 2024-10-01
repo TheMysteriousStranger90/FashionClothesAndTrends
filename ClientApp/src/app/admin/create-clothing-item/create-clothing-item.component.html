@@ -1,0 +1,104 @@
+<div class="vh-100">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <mat-card>
+          <mat-card-content>
+            <h2>Create Clothing Item</h2>
+            <form [formGroup]="clothingItemForm" (ngSubmit)="createClothingItem()">
+              <mat-form-field appearance="fill" class="form-element">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" type="text">
+                <mat-error *ngIf="clothingItemForm.get('name')?.invalid">
+                  Please enter a valid name.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill" class="form-element">
+                <mat-label>Description</mat-label>
+                <input matInput formControlName="description" type="text">
+                <mat-error *ngIf="clothingItemForm.get('description')?.invalid">
+                  Please enter a valid description.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill" class="form-element">
+                <mat-label>Price</mat-label>
+                <input matInput formControlName="price" type="number">
+                <mat-error *ngIf="clothingItemForm.get('price')?.invalid">
+                  Please enter a valid price.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill" class="form-element">
+                <mat-label>Gender</mat-label>
+                <mat-select formControlName="gender">
+                  <mat-option *ngFor="let gender of genders" [value]="gender">{{ gender }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="clothingItemForm.get('gender')?.invalid">
+                  Please select a gender.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill" class="form-element">
+                <mat-label>Size</mat-label>
+                <mat-select formControlName="size">
+                  <mat-option *ngFor="let size of sizes" [value]="size">{{ size }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="clothingItemForm.get('size')?.invalid">
+                  Please select a size.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill" class="form-element">
+                <mat-label>Category</mat-label>
+                <mat-select formControlName="category">
+                  <mat-option *ngFor="let category of categories" [value]="category">{{ category }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="clothingItemForm.get('category')?.invalid">
+                  Please select a category.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill" class="form-element">
+                <mat-label>Brand</mat-label>
+                <mat-select formControlName="brand">
+                  <mat-option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="clothingItemForm.get('brand')?.invalid">
+                  Please select a brand.
+                </mat-error>
+              </mat-form-field>
+
+              <button mat-raised-button color="primary" type="submit" [disabled]="clothingItemForm.invalid" class="form-element">
+                Create
+              </button>
+            </form>
+
+            <h2>Existing Clothing Items</h2>
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let item of clothingItems">
+                <td>{{item.name}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.price}}</td>
+                <td>
+                  <button mat-button color="warn" (click)="deleteClothingItem(item.id)">Delete</button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,6 +5,7 @@ import {UserManagementComponent} from './user-management/user-management.compone
 import {CreateCouponComponent} from './create-coupon/create-coupon.component';
 import {ApplyCouponComponent} from './apply-coupon/apply-coupon.component';
 import { CreateBrandComponent } from './create-brand/create-brand.component';
+import { CreateClothingItemComponent } from './create-clothing-item/create-clothing-item.component';
 
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
   {path: 'create-coupon', component: CreateCouponComponent},
   {path: 'apply-coupon', component: ApplyCouponComponent},
   {path: 'create-brand', component: CreateBrandComponent},
+  {path: 'create-clothing-item', component: CreateClothingItemComponent},
 ]
 
 @NgModule({

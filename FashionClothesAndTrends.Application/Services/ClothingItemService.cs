@@ -116,13 +116,43 @@ public class ClothingItemService : IClothingItemService
         await _unitOfWork.SaveAsync();
     }
     
-    public async Task AddClothingItemAsync(ClothingItemDto clothingItemDto)
+    public async Task AddClothingItemAsync(CreateClothingItemDto createClothingItemDto)
     {
-        var clothingItem = _mapper.Map<ClothingItem>(clothingItemDto);
-        await _unitOfWork.GenericRepository<ClothingItem>().AddAsync(clothingItem);
+        if (!Guid.TryParse(createClothingItemDto.Brand, out var clothingBrandId))
+        {
+            throw new ArgumentException("Invalid brand ID format.");
+        }
+        
+        var clothingBrandForItem = await _unitOfWork.GenericRepository<ClothingBrand>()
+            .GetByIdAsync(clothingBrandId);
+
+        if (clothingBrandForItem == null)
+        {
+            throw new NotFoundException($"Clothing brand with ID '{clothingBrandId}' not found.");
+        }
+        
+        var clothingItem = _mapper.Map<ClothingItem>(createClothingItemDto);
+
+        clothingItem.ClothingBrandId = clothingBrandId;
+        clothingItem.IsInStock = true;
+        clothingItem.CreatedAt = DateTime.Now;
+        
+        await _unitOfWork.ClothingItemRepository.AddAsync(clothingItem);
         await _unitOfWork.SaveAsync();
     }
-    
+
+    public async Task RemoveClothingItemAsync(Guid clothingItemId)
+    {
+        var clothingItem = await _unitOfWork.ClothingItemRepository.GetClothingByIdAsync(clothingItemId);
+        if (clothingItem == null)
+        {
+            throw new NotFoundException("Clothing item not found.");
+        }
+
+        _unitOfWork.ClothingItemRepository.Remove(clothingItem);
+        await _unitOfWork.SaveAsync();
+    }
+
     public async Task<IReadOnlyList<ClothingItemDto>> GetAllClothingItemsAsync()
     {
         var clothingItems = await _unitOfWork.ClothingItemRepository.GetAllClothingItemsAsync();

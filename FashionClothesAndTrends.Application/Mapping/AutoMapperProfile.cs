@@ -3,6 +3,7 @@ using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Extensions;
 using FashionClothesAndTrends.Application.Helpers;
 using FashionClothesAndTrends.Domain.Entities;
+using FashionClothesAndTrends.Domain.Entities.Enums;
 using FashionClothesAndTrends.Domain.Entities.OrderAggregate;
 
 namespace FashionClothesAndTrends.Application.Mapping;
@@ -28,6 +29,13 @@ public class AutoMapperProfile : Profile
                 opt => opt.MapFrom(src => src.ClothingItemPhotos.FirstOrDefault(x => x.IsMain).Url))
             .ForMember(dest => dest.Brand,
                 opt => opt.MapFrom(src => src.ClothingBrand.Name));
+        
+        CreateMap<CreateClothingItemDto, ClothingItem>()
+            .ForMember(dest => dest.ClothingBrandId, opt => opt.Ignore())
+            .ForMember(dest => dest.ClothingItemPhotos, opt => opt.Ignore())
+            .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => Enum.Parse<Gender>(src.Gender, true)))
+            .ForMember(dest => dest.Size, opt => opt.MapFrom(src => Enum.Parse<Size>(src.Size, true)))
+            .ForMember(dest => dest.Category, opt => opt.MapFrom(src => Enum.Parse<Category>(src.Category, true)));
 
         CreateMap<ClothingItemPhoto, ClothingItemPhotoDto>();
         CreateMap<ClothingItemPhotoDto, ClothingItemPhoto>();

@@ -3,7 +3,7 @@ using FashionClothesAndTrends.Domain.Entities.Enums;
 
 namespace FashionClothesAndTrends.Domain.Interfaces;
 
-public interface IClothingItemRepository
+public interface IClothingItemRepository : IGenericRepository<ClothingItem>
 {
     Task<ClothingItem> GetClothingByIdAsync(Guid id);
     Task<IReadOnlyList<ClothingItem>> GetClothingAsync();

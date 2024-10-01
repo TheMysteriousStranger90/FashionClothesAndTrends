@@ -1,4 +1,5 @@
 ﻿using FashionClothesAndTrends.Application.DTOs;
+using FashionClothesAndTrends.Application.Exceptions;
 using FashionClothesAndTrends.Application.Helpers;
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.Domain.Entities;
@@ -79,16 +80,35 @@ public class ClothingController : BaseApiController
     
     [Authorize(Policy = "RequireAdminRole")]
     [HttpPost("items")]
-    public async Task<ActionResult> AddClothingItemAsync([FromBody] ClothingItemDto clothingItemDto)
+    public async Task<ActionResult> AddClothingItemAsync([FromBody] CreateClothingItemDto createClothingItemDto)
     {
         try
         {
-            await _clothingItemService.AddClothingItemAsync(clothingItemDto);
+            await _clothingItemService.AddClothingItemAsync(createClothingItemDto);
             return Ok();
         }
         catch (Exception ex)
         {
             return BadRequest(ex.Message);
+        }
+    }
+    
+    [Authorize(Policy = "RequireAdminRole")]
+    [HttpDelete("{clothingItemId}")]
+    public async Task<ActionResult> RemoveClothingItem(Guid clothingItemId)
+    {
+        try
+        {
+            await _clothingItemService.RemoveClothingItemAsync(clothingItemId);
+            return NoContent();
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(new ApiResponse(404, ex.Message));
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new ApiResponse(500, "An error occurred while processing your request"));
         }
     }
     
