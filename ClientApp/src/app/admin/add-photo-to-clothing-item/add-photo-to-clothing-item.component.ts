@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
+import { take } from 'rxjs';
+import { AccountService } from 'src/app/account/account.service';
 import { PhotosService } from 'src/app/core/services/photos.service';
 import { ClothingItem } from 'src/app/shared/models/clothing-item';
 import { ClothingPhoto } from 'src/app/shared/models/clothing-photo';
+import { User } from 'src/app/shared/models/user';
 import { ShopService } from 'src/app/shop/shop.service';
 import { environment } from 'src/environments/environment';
 
@@ -17,11 +20,18 @@ export class AddPhotoToClothingItemComponent implements OnInit {
   uploader: FileUploader;
   hasBaseDropZoneOver = false;
   baseUrl = environment.apiUrl;
+  user: User | undefined;
 
-  constructor(private shopService: ShopService, private photosService: PhotosService) {
+  constructor(private shopService: ShopService, private photosService: PhotosService, private accountService: AccountService) {
+    this.accountService.currentUser$.pipe(take(1)).subscribe({
+      next: user => {
+        if (user) this.user = user
+      }
+    });
+    
     this.uploader = new FileUploader({
-      url: '',
-      authToken: 'Bearer ' + localStorage.getItem('token'),
+      url: this.baseUrl + 'photos/clothing-item/' + (this.selectedClothingItem?.id ?? ''),
+      authToken: 'Bearer ' + this.user?.token,
       isHTML5: true,
       allowedFileType: ['image'],
       removeAfterUpload: true,
