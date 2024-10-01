@@ -13,4 +13,5 @@ public class ClothingItemDto
     public bool IsInStock { get; set; }
     public string PictureUrl { get; set; }
     public string Brand { get; set; }
+    public List<ClothingItemPhotoDto> ClothingItemPhotos { get; set; }
 }

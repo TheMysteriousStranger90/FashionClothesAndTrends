@@ -1,3 +1,4 @@
+import { ClothingPhoto } from "./clothing-photo";
 
 export interface ClothingItem {
   id: string;
@@ -11,6 +12,7 @@ export interface ClothingItem {
   isInStock: boolean;
   pictureUrl: string;
   brand: string;
+  clothingItemPhotos: ClothingPhoto[];
 }
 
 export class ClothingItem implements ClothingItem {}

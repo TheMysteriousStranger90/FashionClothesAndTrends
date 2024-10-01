@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
+import { PhotosService } from 'src/app/core/services/photos.service';
 import { ClothingItem } from 'src/app/shared/models/clothing-item';
+import { ClothingPhoto } from 'src/app/shared/models/clothing-photo';
 import { ShopService } from 'src/app/shop/shop.service';
 import { environment } from 'src/environments/environment';
 
@@ -16,7 +18,7 @@ export class AddPhotoToClothingItemComponent implements OnInit {
   hasBaseDropZoneOver = false;
   baseUrl = environment.apiUrl;
 
-  constructor(private shopService: ShopService) {
+  constructor(private shopService: ShopService, private photosService: PhotosService) {
     this.uploader = new FileUploader({
       url: '',
       authToken: 'Bearer ' + localStorage.getItem('token'),
@@ -36,6 +38,7 @@ export class AddPhotoToClothingItemComponent implements OnInit {
         const photo = JSON.parse(response);
         if (this.selectedClothingItem) {
           this.selectedClothingItem.pictureUrl = photo.url;
+          this.selectedClothingItem.clothingItemPhotos.push(photo);
         }
       }
     };
@@ -59,5 +62,34 @@ export class AddPhotoToClothingItemComponent implements OnInit {
 
   fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
+  }
+
+  setMainPhoto(photo: ClothingPhoto): void {
+    if (!this.selectedClothingItem) return;
+
+    this.photosService.setMainClothingItemPhoto(this.selectedClothingItem.id, photo.id).subscribe({
+      next: () => {
+        if (this.selectedClothingItem) {
+          this.selectedClothingItem.pictureUrl = photo.url;
+          this.selectedClothingItem.clothingItemPhotos.forEach(p => {
+            p.isMain = p.id === photo.id;
+          });
+        }
+      },
+      error: (err) => console.error('Error setting main photo', err)
+    });
+  }
+
+  deletePhoto(photoId: string): void {
+    if (!this.selectedClothingItem) return;
+
+    this.photosService.deleteClothingItemPhoto(this.selectedClothingItem.id, photoId).subscribe({
+      next: () => {
+        if (this.selectedClothingItem) {
+          this.selectedClothingItem.clothingItemPhotos = this.selectedClothingItem.clothingItemPhotos.filter(x => x.id !== photoId);
+        }
+      },
+      error: (err) => console.error('Error deleting photo', err)
+    });
   }
 }
