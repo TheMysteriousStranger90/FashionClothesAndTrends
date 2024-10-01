@@ -7,6 +7,7 @@ import { Brand } from '../shared/models/brand';
 import { environment } from 'src/environments/environment';
 import { Guid } from 'guid-typescript';
 import { map, Observable, of } from 'rxjs';
+import { CreateBrand } from '../shared/models/create-brand';
 
 @Injectable({
   providedIn: 'root'
@@ -98,8 +99,8 @@ export class ShopService {
     );
   }
 
-  addClothingBrand(clothingBrand: Brand): Observable<void> {
-    return this.http.post<void>(this.baseUrl + 'clothing/brands', clothingBrand);
+  addClothingBrand(createClothingBrand: CreateBrand): Observable<void> {
+    return this.http.post<void>(this.baseUrl + 'clothing/brands', createClothingBrand);
   }
 
   addClothingItem(clothingItem: ClothingItem): Observable<void> {

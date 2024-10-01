@@ -1,0 +1,50 @@
+<div class="vh-100">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <mat-card>
+          <mat-card-content>
+            <h2>Create Brand</h2>
+            <form [formGroup]="brandForm" (ngSubmit)="createBrand()">
+              <mat-form-field appearance="fill" class="form-element">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" type="text">
+                <mat-error *ngIf="brandForm.get('name')?.invalid">
+                  Please enter a valid name.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill" class="form-element">
+                <mat-label>Description</mat-label>
+                <input matInput formControlName="description" type="text">
+                <mat-error *ngIf="brandForm.get('description')?.invalid">
+                  Please enter a valid description.
+                </mat-error>
+              </mat-form-field>
+
+              <button mat-raised-button color="primary" type="submit" [disabled]="brandForm.invalid" class="form-element">
+                Create
+              </button>
+            </form>
+
+            <h2>Existing Brands</h2>
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let brand of brands">
+                <td>{{brand.name}}</td>
+                <td>{{brand.description}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

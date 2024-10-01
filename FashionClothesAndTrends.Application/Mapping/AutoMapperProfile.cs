@@ -82,6 +82,7 @@ public class AutoMapperProfile : Profile
             .ConvertUsing(d => d.HasValue ? DateTime.SpecifyKind(d.Value, DateTimeKind.Utc) : null);
 
         CreateMap<ClothingBrand, ClothingBrandDto>().ReverseMap();
+        CreateMap<ClothingBrand, CreateClothingBrandDto>().ReverseMap();
         
         CreateMap<AddressDto, AddressAggregate>().ReverseMap();
 

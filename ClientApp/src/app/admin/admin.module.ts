@@ -7,6 +7,7 @@ import {AdminPanelComponent} from './admin-panel/admin-panel.component';
 import {UserManagementComponent} from './user-management/user-management.component';
 import { CreateCouponComponent } from './create-coupon/create-coupon.component';
 import { ApplyCouponComponent } from './apply-coupon/apply-coupon.component';
+import { CreateBrandComponent } from './create-brand/create-brand.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { ApplyCouponComponent } from './apply-coupon/apply-coupon.component';
     AdminPanelComponent,
     UserManagementComponent,
     CreateCouponComponent,
-    ApplyCouponComponent
+    ApplyCouponComponent,
+    CreateBrandComponent
   ],
   imports: [
     CommonModule,

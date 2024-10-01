@@ -109,9 +109,9 @@ public class ClothingItemService : IClothingItemService
         await _unitOfWork.SaveAsync();
     }
     
-    public async Task AddClothingBrandAsync(ClothingBrandDto clothingBrandDto)
+    public async Task AddClothingBrandAsync(CreateClothingBrandDto createClothingBrandDto)
     {
-        var clothingBrand = _mapper.Map<ClothingBrand>(clothingBrandDto);
+        var clothingBrand = _mapper.Map<ClothingBrand>(createClothingBrandDto);
         await _unitOfWork.GenericRepository<ClothingBrand>().AddAsync(clothingBrand);
         await _unitOfWork.SaveAsync();
     }

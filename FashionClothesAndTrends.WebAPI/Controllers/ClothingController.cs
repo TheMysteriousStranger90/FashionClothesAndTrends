@@ -48,8 +48,7 @@ public class ClothingController : BaseApiController
             return BadRequest(ex.Message);
         }
     }
-
-    [Cached(60)]
+    
     [HttpGet("brands")]
     public async Task<ActionResult<IReadOnlyList<ClothingBrandDto>>> GetClothingBrandS()
     {
@@ -65,11 +64,11 @@ public class ClothingController : BaseApiController
     
     [Authorize(Policy = "RequireAdminRole")]
     [HttpPost("brands")]
-    public async Task<ActionResult> AddClothingBrandAsync([FromBody] ClothingBrandDto clothingBrandDto)
+    public async Task<ActionResult> AddClothingBrandAsync([FromBody] CreateClothingBrandDto createClothingBrandDto)
     {
         try
         {
-            await _clothingItemService.AddClothingBrandAsync(clothingBrandDto);
+            await _clothingItemService.AddClothingBrandAsync(createClothingBrandDto);
             return Ok();
         }
         catch (Exception ex)

@@ -14,7 +14,7 @@ public interface IClothingItemService
     Task<ClothingItemPhotoDto> AddPhotoByClothingItem(ImageUploadResult result, Guid clothingItemId);
     Task SetMainClothingItemPhotoByClothingItem(Guid clothingItemPhotoId, Guid clothingItemId);
     Task DeleteClothingItemPhotoByClothingItem(Guid clothingItemPhotoId, Guid clothingItemId);
-    Task AddClothingBrandAsync(ClothingBrandDto clothingBrandDto);
+    Task AddClothingBrandAsync(CreateClothingBrandDto createClothingBrandDto);
     Task AddClothingItemAsync(ClothingItemDto clothingItemDto);
     Task<IReadOnlyList<ClothingItemDto>> GetAllClothingItemsAsync();
 }
