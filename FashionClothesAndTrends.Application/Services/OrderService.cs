@@ -142,7 +142,7 @@ public class OrderService : IOrderService
         return await _unitOfWork.GenericRepository<Order>().ListAsync(spec);
     }
 
-    public async Task<OrderDto> EditUserOrderAsync(Guid orderId, OrderUpdateDto orderUpdateDto)
+    public async Task EditUserOrderAsync(Guid orderId, OrderUpdateDto orderUpdateDto)
     {
         var order = await _unitOfWork.GenericRepository<Order>().GetByIdAsync(orderId);
         if (order == null)
@@ -191,8 +191,6 @@ public class OrderService : IOrderService
         {
             throw new InternalServerException("Failed to update the order.");
         }
-
-        return _mapper.Map<OrderDto>(order);
     }
 
     public async Task<IReadOnlyList<OrderToReturnDto>> GetOrdersByUserEmailAsync(string buyerEmail)

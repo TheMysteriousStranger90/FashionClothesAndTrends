@@ -1,0 +1,132 @@
+<mat-card class="orders-card">
+  <mat-card-header class="orders-header">
+    <mat-card-title>Edit Orders</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="orders-content">
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-12">
+          <table mat-table [dataSource]="orders" class="mat-elevation-z8" style="cursor: pointer; color: whitesmoke;">
+            <ng-container matColumnDef="order">
+              <th mat-header-cell *matHeaderCellDef>Order</th>
+              <td mat-cell *matCellDef="let order"># {{ order.id }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef>Buyer Email</th>
+              <td mat-cell *matCellDef="let order">{{ order.buyerEmail}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef>Date</th>
+              <td mat-cell *matCellDef="let order">{{ order.orderDate | date: 'medium' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="total">
+              <th mat-header-cell *matHeaderCellDef>Total</th>
+              <td mat-cell *matCellDef="let order">{{ order.total | currency }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Status</th>
+              <td mat-cell *matCellDef="let order">{{ order.status }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let order">
+                <button mat-button color="primary" (click)="selectOrder(order)">Select</button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selectedOrder" class="edit-order-form">
+      <h3>Edit Order #{{ selectedOrder.id }}</h3>
+      <form [formGroup]="editOrderForm" (ngSubmit)="updateOrder()">
+        <div class="row" formGroupName="shipToAddress">
+          <div class="form-group col-6">
+            <mat-form-field class="w-100">
+              <mat-label>First Name</mat-label>
+              <input matInput formControlName="firstName">
+            </mat-form-field>
+          </div>
+          <div class="form-group col-6">
+            <mat-form-field class="w-100">
+              <mat-label>Last Name</mat-label>
+              <input matInput formControlName="lastName">
+            </mat-form-field>
+          </div>
+          <div class="form-group col-6">
+            <mat-form-field class="w-100">
+              <mat-label>Country</mat-label>
+              <input matInput formControlName="country">
+            </mat-form-field>
+          </div>
+          <div class="form-group col-6">
+            <mat-form-field class="w-100">
+              <mat-label>City</mat-label>
+              <input matInput formControlName="city">
+            </mat-form-field>
+          </div>
+          <div class="form-group col-6">
+            <mat-form-field class="w-100">
+              <mat-label>State</mat-label>
+              <input matInput formControlName="state">
+            </mat-form-field>
+          </div>
+          <div class="form-group col-6">
+            <mat-form-field class="w-100">
+              <mat-label>Address Line</mat-label>
+              <input matInput formControlName="addressLine">
+            </mat-form-field>
+          </div>
+          <div class="form-group col-6">
+            <mat-form-field class="w-100">
+              <mat-label>Postal Code</mat-label>
+              <input matInput formControlName="postalCode">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-12">
+            <mat-radio-group formControlName="deliveryMethodId" class="w-100">
+              <div class="form-group col-6" *ngFor="let method of deliveryMethods">
+                <mat-radio-button value="{{method.id}}" class="w-100">
+                  <label class="form-check-label ms-2 mb-3">
+                    <strong>{{method.shortName}} - {{method.price | currency}}</strong>
+                    <br>
+                    <span class="label-description">{{method.description}}</span>
+                  </label>
+                </mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+          <div class="form-group col-6">
+            <mat-form-field class="w-100">
+              <mat-label>Status</mat-label>
+              <input matInput formControlName="status">
+            </mat-form-field>
+          </div>
+          <div class="form-group col-6">
+            <mat-form-field class="w-100">
+              <mat-label>Subtotal</mat-label>
+              <input matInput formControlName="subtotal" type="number">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end mt-3">
+          <button mat-raised-button color="primary" type="submit" style="margin: 2px">Update Order</button>
+          <button mat-raised-button color="warn" type="button" (click)="cancelEdit()" style="margin: 2px">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>

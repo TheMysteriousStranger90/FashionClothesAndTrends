@@ -129,12 +129,12 @@ public class OrdersController : BaseApiController
 
     [Authorize(Policy = "RequireAdminRole")]
     [HttpPut("{orderId}")]
-    public async Task<ActionResult<OrderDto>> EditUserOrderAsync(Guid orderId, OrderUpdateDto orderUpdateDto)
+    public async Task<ActionResult> EditUserOrderAsync(Guid orderId, OrderUpdateDto orderUpdateDto)
     {
         try
         {
-            var updatedOrder = await _orderService.EditUserOrderAsync(orderId, orderUpdateDto);
-            return Ok(updatedOrder);
+            await _orderService.EditUserOrderAsync(orderId, orderUpdateDto);
+            return Ok();
         }
         catch (Exception ex)
         {

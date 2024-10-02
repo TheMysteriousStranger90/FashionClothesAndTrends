@@ -2,7 +2,6 @@
 
 public class OrderUpdateDto
 {
-    public Guid OrderId { get; set; }
     public Guid? DeliveryMethodId { get; set; }
     public AddressDto ShipToAddress { get; set; }
     public List<OrderItemUpdateDto> OrderItems { get; set; }

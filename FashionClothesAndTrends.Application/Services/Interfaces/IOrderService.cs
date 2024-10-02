@@ -10,7 +10,7 @@ public interface IOrderService
     Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail);
     Task<Order> GetOrderByIdAsync(Guid id, string buyerEmail);
     Task<IReadOnlyList<DeliveryMethod>> GetDeliveryMethodsAsync();
-    Task<OrderDto> EditUserOrderAsync(Guid orderId, OrderUpdateDto orderUpdateDto);
+    Task EditUserOrderAsync(Guid orderId, OrderUpdateDto orderUpdateDto);
     Task<IReadOnlyList<OrderToReturnDto>> GetOrdersByUserEmailAsync(string buyerEmail);
     Task<IReadOnlyList<Order>> GetAllOrdersAsync();
 }

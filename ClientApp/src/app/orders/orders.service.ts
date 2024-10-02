@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Order, OrderUpdateDto } from '../shared/models/order';
+import { Order, OrderUpdate } from '../shared/models/order';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { OrderToReturn } from '../shared/models/order-to-return';
@@ -28,7 +28,11 @@ export class OrdersService {
     });
   }
 
-  updateUserOrder(orderId: string, orderUpdateDto: OrderUpdateDto): Observable<OrderToReturn> {
-    return this.http.put<OrderToReturn>(`${this.baseUrl}orders/${orderId}`, orderUpdateDto);
+  updateUserOrder(orderId: string, orderUpdate: OrderUpdate) {
+    return this.http.put(`${this.baseUrl}orders/${orderId}`, orderUpdate);
+  }
+
+  getAllOrders(): Observable<OrderToReturn[]> {
+    return this.http.get<OrderToReturn[]>(this.baseUrl + 'orders/all');
   }
 }

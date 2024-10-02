@@ -28,8 +28,7 @@ export interface Order {
   status: string;
 }
 
-export interface OrderUpdateDto {
-  orderId: string;
+export interface OrderUpdate {
   deliveryMethodId?: string;
   shipToAddress: Address;
   orderItems: OrderItem[];
