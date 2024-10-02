@@ -122,6 +122,49 @@
           </div>
         </div>
 
+
+        <div class="row">
+          <div class="col-12">
+            <table mat-table [dataSource]="orderItems.controls" class="mat-elevation-z8">
+              <ng-container matColumnDef="clothingItemName">
+                <th mat-header-cell *matHeaderCellDef>Product</th>
+                <td mat-cell *matCellDef="let item" [formGroup]="item">
+                  <div class="product-cell">
+                    <div class="product-details">
+                      <h5 class="product-name">{{item.get('clothingItemName').value}}</h5>
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="price">
+                <th mat-header-cell *matHeaderCellDef>Price</th>
+                <td mat-cell *matCellDef="let item" [formGroup]="item">
+                  <strong>{{ item.get('price').value | currency }}</strong>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="quantity">
+                <th mat-header-cell *matHeaderCellDef>Quantity</th>
+                <td mat-cell *matCellDef="let item" [formGroup]="item">
+                  <strong>{{ item.get('quantity').value }}</strong>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="total">
+                <th mat-header-cell *matHeaderCellDef>Total</th>
+                <td mat-cell *matCellDef="let item" [formGroup]="item">
+                  <strong>{{ (item.get('price').value * item.get('quantity').value) | currency }}</strong>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="['clothingItemName', 'price', 'quantity', 'total']"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['clothingItemName', 'price', 'quantity', 'total'];"></tr>
+            </table>
+          </div>
+        </div>
+
+
         <div class="d-flex justify-content-end mt-3">
           <button mat-raised-button color="primary" type="submit" style="margin: 2px">Update Order</button>
           <button mat-raised-button color="warn" type="button" (click)="cancelEdit()" style="margin: 2px">Cancel</button>

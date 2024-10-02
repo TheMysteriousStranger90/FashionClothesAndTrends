@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { CheckoutService } from 'src/app/checkout/checkout.service';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
+import {CheckoutService} from 'src/app/checkout/checkout.service';
 import {OrdersService} from 'src/app/orders/orders.service';
-import { DeliveryMethod } from 'src/app/shared/models/delivery-method';
-import {Order, OrderUpdate} from 'src/app/shared/models/order';
+import {DeliveryMethod} from 'src/app/shared/models/delivery-method';
+import {Order, OrderItem, OrderUpdate} from 'src/app/shared/models/order';
 
 @Component({
   selector: 'app-edit-order',
@@ -17,6 +17,7 @@ export class EditOrderComponent implements OnInit {
   editOrderForm: FormGroup;
   displayedColumns: string[] = ['order', 'email', 'date', 'total', 'status', 'actions'];
   deliveryMethods: DeliveryMethod[] = [];
+  initialSubtotal: number = 0
 
   constructor(
     private ordersService: OrdersService,
@@ -51,6 +52,38 @@ export class EditOrderComponent implements OnInit {
       next: (orders) => this.orders = orders,
       error: (err) => console.error('Error loading all orders', err)
     });
+
+    this.editOrderForm.get('deliveryMethodId')!.valueChanges.subscribe(() => {
+      this.updateSubtotal();
+    });
+  }
+
+  updateSubtotal(): void {
+    const orderItems = this.orderItems.controls;
+    let subtotal = 0;
+
+    orderItems.forEach((item) => {
+      const price = item.get('price')!.value;
+      const quantity = item.get('quantity')!.value;
+      if (price && quantity) {
+        subtotal += price * quantity;
+      }
+    });
+
+    const selectedDeliveryMethodId = this.editOrderForm.get('deliveryMethodId')!.value;
+    const selectedDeliveryMethod = this.deliveryMethods.find(
+      (method) => method.id === selectedDeliveryMethodId
+    );
+
+    if (selectedDeliveryMethod) {
+      subtotal += selectedDeliveryMethod.price;
+    }
+
+    this.editOrderForm.get('subtotal')!.setValue(subtotal, { emitEvent: false });
+  }
+
+  get orderItems(): FormArray {
+    return this.editOrderForm.get('orderItems') as FormArray;
   }
 
   loadDeliveryMethods(): void {
@@ -65,15 +98,43 @@ export class EditOrderComponent implements OnInit {
     const deliveryMethod = this.deliveryMethods.find(dm => dm.shortName === order.deliveryMethod);
     const deliveryMethodId = deliveryMethod ? deliveryMethod.id : '';
 
+    this.initialSubtotal = order.subtotal;
+
     this.editOrderForm.patchValue({
       ...order,
       deliveryMethodId
     });
+
+    this.setOrderItems(order.orderItems);
+  }
+
+  setOrderItems(orderItems: OrderItem[]): void {
+    const orderItemsFormArray = this.editOrderForm.get('orderItems') as FormArray;
+
+    while (orderItemsFormArray.length) {
+      orderItemsFormArray.removeAt(0);
+    }
+
+    orderItems.forEach((item) => {
+      orderItemsFormArray.push(
+        this.fb.group({
+          clothingItemId: [item.clothingItemId, Validators.required],
+          clothingItemName: [item.clothingItemName, Validators.required],
+          price: [item.price, Validators.required],
+          quantity: [item.quantity, Validators.required],
+        })
+      );
+    });
+
+    this.updateSubtotal();
   }
 
   updateOrder(): void {
     if (this.selectedOrder && this.editOrderForm.valid) {
       const updatedOrder: OrderUpdate = this.editOrderForm.value;
+
+      console.log('Updated Order:', updatedOrder);
+
       this.ordersService.updateUserOrder(this.selectedOrder.id, updatedOrder).subscribe({
         next: (order) => {
           this.toastr.success('Order updated successfully');

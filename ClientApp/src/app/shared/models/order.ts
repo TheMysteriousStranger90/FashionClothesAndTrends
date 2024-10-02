@@ -31,7 +31,14 @@ export interface Order {
 export interface OrderUpdate {
   deliveryMethodId?: string;
   shipToAddress: Address;
-  orderItems: OrderItem[];
+  orderItems: OrderItemUpdate[];
   status: string;
   subtotal?: number;
+}
+
+export interface OrderItemUpdate {
+  clothingItemId: string;
+  clothingItemName: string;
+  price: number;
+  quantity: number;
 }

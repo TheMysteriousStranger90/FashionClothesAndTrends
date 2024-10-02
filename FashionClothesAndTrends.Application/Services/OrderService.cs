@@ -163,27 +163,7 @@ public class OrderService : IOrderService
         }
 
         order.ShipToAddress = _mapper.Map<AddressAggregate>(orderUpdateDto.ShipToAddress);
-
-        var updatedOrderItems = new List<OrderItem>();
-
-        foreach (var itemDto in orderUpdateDto.OrderItems)
-        {
-            var clothingItem = await _unitOfWork.GenericRepository<ClothingItem>().GetByIdAsync(itemDto.ClothingItemId);
-            if (clothingItem == null)
-            {
-                throw new NotFoundException($"Clothing item with ID '{itemDto.ClothingItemId}' not found.");
-            }
-
-            var itemOrdered =
-                new ClothingItemOrdered(clothingItem.Id, clothingItem.Name, clothingItem.ClothingItemPhotos);
-            var orderItem = new OrderItem(itemOrdered, clothingItem.Price, itemDto.Quantity);
-            updatedOrderItems.Add(orderItem);
-        }
-
-        order.OrderItems = updatedOrderItems;
-
-        order.Subtotal = updatedOrderItems.Sum(item => item.Price * item.Quantity);
-
+        
         _unitOfWork.GenericRepository<Order>().Update(order);
 
         var result = await _unitOfWork.SaveAsync();
