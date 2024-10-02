@@ -141,4 +141,19 @@ public class OrdersController : BaseApiController
             return BadRequest(new ApiResponse(400, ex.Message));
         }
     }
+
+    [Authorize(Policy = "RequireAdminRole")]
+    [HttpGet("all")]
+    public async Task<ActionResult<IReadOnlyList<OrderToReturnDto>>> GetAllOrders()
+    {
+        try
+        {
+            var orders = await _orderService.GetAllOrdersAsync();
+            return Ok(_mapper.Map<IReadOnlyList<OrderToReturnDto>>(orders));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ApiResponse(400, ex.Message));
+        }
+    }
 }
