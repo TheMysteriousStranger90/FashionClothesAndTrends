@@ -54,6 +54,11 @@
           <span>Order History</span>
         </button>
 
+        <button mat-menu-item routerLink="/user-editor">
+          <mat-icon>edit</mat-icon>
+          <span>Edit Profile</span>
+        </button>
+
         <mat-divider></mat-divider>
         <button mat-menu-item (click)="accountService.logout()">
           <mat-icon>exit_to_app</mat-icon>

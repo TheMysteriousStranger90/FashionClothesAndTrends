@@ -1,0 +1,79 @@
+<div class="vh-100">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <mat-card>
+          <mat-card-content>
+            <h2>User Photos</h2>
+            
+            <div fxLayout="row wrap" *ngIf="user?.userPhotos?.length">
+              <<div fxFlex="100" fxFlex.gt-sm="33" *ngFor="let photo of user?.userPhotos">
+                <mat-card>
+                  <img mat-card-image [src]="photo.url" alt="User photo">
+                  <mat-card-actions>
+                    <button mat-button color="primary" [disabled]="photo.isMain" (click)="setMainPhoto(photo)">
+                      Main
+                    </button>
+                    <button mat-button color="warn" (click)="deletePhoto(photo.id)">
+                      Remove
+                    </button>
+                  </mat-card-actions>
+                </mat-card>
+              </div>
+            </div>
+
+            <div class="row mt-4">
+              <div class="col-12">
+                <h3>Add Photos</h3>
+                <div ng2FileDrop (fileOver)="fileOverBase($event)" [uploader]="uploader" class="my-drop-zone">
+                  <mat-icon>cloud_upload</mat-icon>
+                  Drop photos here
+                </div>
+                <input type="file" ng2FileSelect [uploader]="uploader" multiple />
+              </div>
+            </div>
+            
+            <div class="row mt-4" *ngIf="uploader?.queue?.length">
+              <div class="col-12">
+                <h3>Upload queue</h3>
+                <p>Queue length: {{ uploader?.queue?.length }}</p>
+                
+                <mat-table #table [dataSource]="uploader?.queue || []">
+
+                  <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                    <mat-cell *matCellDef="let item"> {{ item?.file?.name }} </mat-cell>
+                  </ng-container>
+                  
+                  <ng-container matColumnDef="size">
+                    <mat-header-cell *matHeaderCellDef> Size </mat-header-cell>
+                    <mat-cell *matCellDef="let item"> {{ item?.file?.size / 1024 / 1024 | number: '.2' }} MB </mat-cell>
+                  </ng-container>
+
+                  <mat-header-row *matHeaderRowDef="['name', 'size']"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: ['name', 'size'];"></mat-row>
+                </mat-table>
+                
+                <div class="mt-2">
+                  <mat-progress-bar mode="determinate" [value]="uploader?.progress"></mat-progress-bar>
+                  <button mat-raised-button color="primary" (click)="uploader?.uploadAll()"
+                          [disabled]="!uploader?.getNotUploadedItems()?.length">
+                    Upload all
+                  </button>
+                  <button mat-raised-button color="accent" (click)="uploader?.cancelAll()"
+                          [disabled]="!uploader?.isUploading">
+                    Cancel all
+                  </button>
+                  <button mat-raised-button color="warn" (click)="uploader?.clearQueue()"
+                          [disabled]="!uploader?.queue?.length">
+                    Remove all
+                  </button>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

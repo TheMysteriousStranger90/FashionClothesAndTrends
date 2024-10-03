@@ -12,6 +12,6 @@ public class UserDto
     public int Age { get; set; }
     public DateTime Created { get; set; }
     public DateTime LastActive { get; set; }
-    
+    public List<UserPhotoDto> UserPhotos { get; set; }
     public string Token { get; set; }
 }

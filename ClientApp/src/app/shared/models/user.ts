@@ -1,3 +1,5 @@
+import { UserPhoto } from "./user-photo";
+
 export interface User {
   id: string;
   email: string;
@@ -9,7 +11,8 @@ export interface User {
   age: number;
   created: string;
   lastActive: string;
-  
+
   token: string;
   roles: string[];
+  userPhotos: UserPhoto[];
 }

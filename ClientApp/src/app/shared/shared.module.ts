@@ -5,9 +5,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import { BasketSummaryComponent } from './basket-summary/basket-summary.component';
 import { OrderTotalsComponent } from './order-totals/order-totals.component';
-import { StepperComponent } from './stepper/stepper.component';
 import { RatingComponent } from './rating/rating.component';
-
 import {GalleryModule} from 'ng-gallery';
 import {FileUploadModule} from 'ng2-file-upload';
 
@@ -15,7 +13,6 @@ import {FileUploadModule} from 'ng2-file-upload';
   declarations: [
     BasketSummaryComponent,
     OrderTotalsComponent,
-    StepperComponent,
     RatingComponent
   ],
   imports: [
@@ -31,7 +28,6 @@ import {FileUploadModule} from 'ng2-file-upload';
     MaterialModule,
     BasketSummaryComponent,
     OrderTotalsComponent,
-    StepperComponent,
     RatingComponent,
     GalleryModule,
     FileUploadModule,

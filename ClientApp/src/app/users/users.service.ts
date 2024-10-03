@@ -60,12 +60,4 @@ export class UsersService {
   updateUserAddress(address: Address): Observable<Address> {
     return this.http.put<Address>(`${this.baseUrl}users/address`, address);
   }
-  
-  setMainUserPhoto(userPhotoId: string): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}users/photo/main/${userPhotoId}`, {});
-  }
-
-  deleteUserPhoto(userPhotoId: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}users/photo/${userPhotoId}`);
-  }
 }

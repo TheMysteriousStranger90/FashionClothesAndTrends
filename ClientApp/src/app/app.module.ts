@@ -15,13 +15,15 @@ import {FavoritesComponent} from './favorites/favorites.component';
 import {JwtInterceptor} from './core/interceptors/jwt.interceptor';
 import {LoadingInterceptor} from './core/interceptors/loading.interceptor';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { UserEditorComponent } from './users/user-editor/user-editor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     FavoritesComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    UserEditorComponent
   ],
   imports: [
     BrowserAnimationsModule,
