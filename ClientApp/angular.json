@@ -17,12 +17,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": [
-              "lodash",
-              "cuid",
-              "raf",
-              "html2canvas"
-            ],
             "outputPath": "dist/client-app",
             "index": "src/index.html",
             "main": "src/main.ts",
