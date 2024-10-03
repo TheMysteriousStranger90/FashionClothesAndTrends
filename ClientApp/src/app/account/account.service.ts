@@ -6,6 +6,7 @@ import {ReplaySubject} from 'rxjs';
 import {map, catchError} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import { BasketService } from '../basket/basket.service';
+import { NotificationsService } from '../notifications/notifications.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class AccountService {
   private currentUserSource = new ReplaySubject<User | null>(1);
   currentUser$ = this.currentUserSource.asObservable();
 
-  constructor(private http: HttpClient, private router: Router, private basketService: BasketService) {}
+  constructor(private http: HttpClient, private router: Router, private basketService: BasketService, private notificationsService: NotificationsService) {}
 
   login(model: any) {
     return this.http.post<User>(this.baseUrl + 'account/login', model).pipe(
@@ -53,6 +54,7 @@ export class AccountService {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
     this.basketService.deleteLocalBasket();
+    this.notificationsService.stopConnection();
     this.router.navigateByUrl('/shop');
   }
 
@@ -116,6 +118,8 @@ export class AccountService {
     Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
+
+    this.notificationsService.startConnection(user.id);
   }
 
   getDecodedToken(token: string) {

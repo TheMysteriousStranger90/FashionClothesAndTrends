@@ -47,4 +47,17 @@ public class NotificationService : INotificationService
 
         return _mapper.Map<IEnumerable<NotificationDto>>(notifications);
     }
+    
+    public async Task MarkNotificationAsReadAsync(string userId, Guid notificationId)
+    {
+        var notification = await _unitOfWork.NotificationRepository.GetByIdAsync(notificationId);
+
+        if (notification == null || notification.UserId != userId)
+        {
+            throw new NotFoundException("Notification not found.");
+        }
+
+        notification.IsRead = true;
+        await _unitOfWork.SaveAsync();
+    }
 }

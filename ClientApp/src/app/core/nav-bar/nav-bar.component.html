@@ -59,6 +59,12 @@
           <span>Edit Profile</span>
         </button>
 
+        <button mat-menu-item routerLink="/notifications">
+          <mat-icon>notifications</mat-icon>
+          <span>Notifications</span>
+          <span *ngIf="unreadNotificationsCount > 0" class="notification-badge">{{ unreadNotificationsCount }}</span>
+        </button>
+
         <mat-divider></mat-divider>
         <button mat-menu-item (click)="accountService.logout()">
           <mat-icon>exit_to_app</mat-icon>

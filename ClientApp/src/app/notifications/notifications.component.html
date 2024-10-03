@@ -1,1 +1,27 @@
-<p>notifications works!</p>
+<mat-card class="notification-card">
+  <mat-card-header class="notification-header">
+    <mat-card-title>Notifications</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="notification-content">
+    <div class="row">
+      <div class="col-12">
+        <mat-card>
+          <mat-card-content>
+            <h2>Unread Notifications</h2>
+            <div *ngIf="unreadNotifications.length === 0">
+              <p>You have no unread notifications.</p>
+            </div>
+            <div *ngIf="unreadNotifications.length > 0">
+              <ul>
+                <li *ngFor="let notification of unreadNotifications">
+                  {{ notification.text }}
+                  <button mat-button color="primary" (click)="markAsRead(notification.id)">Mark as Read</button>
+                </li>
+              </ul>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

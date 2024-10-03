@@ -46,4 +46,19 @@ public class NotificationsController : BaseApiController
             return NotFound(ex.Message);
         }
     }
+
+    [HttpPost("mark-as-read")]
+    public async Task<ActionResult> MarkNotificationAsRead([FromBody] Guid notificationId)
+    {
+        try
+        {
+            var userId = User.GetUserId();
+            await _notificationService.MarkNotificationAsReadAsync(userId, notificationId);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }

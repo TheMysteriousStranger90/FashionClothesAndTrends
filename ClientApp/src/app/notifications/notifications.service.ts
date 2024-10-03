@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {HttpTransportType, HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { ToastrService } from 'ngx-toastr';
@@ -14,7 +14,10 @@ export class NotificationsService {
   hubUrl = environment.hubUrl;
   private hubConnection?: HubConnection;
 
-  constructor(private http: HttpClient, private toastr: ToastrService) { }
+  constructor(
+    private http: HttpClient,
+    private toastr: ToastrService
+  ) { }
 
   startConnection(userId: string) {
     this.hubConnection = new HubConnectionBuilder()
@@ -42,12 +45,18 @@ export class NotificationsService {
     });
   }
 
+  stopConnection() {
+    if (this.hubConnection) {
+      this.hubConnection.stop()
+        .then(() => console.log('Connection stopped'))
+        .catch(err => console.log('Error while stopping connection: ' + err));
+    }
+  }
+
   private subscribeToUserNotifications(userId: string) {
     this.hubConnection?.invoke('SubscribeToUser', userId)
       .catch(err => console.error('Error while subscribing to user notifications: ' + err));
   }
-
-
 
   getNotificationsByUserId(): Observable<Notification[]> {
     return this.http.get<Notification[]>(`${this.baseUrl}notifications/user/notifications`);
@@ -55,5 +64,10 @@ export class NotificationsService {
 
   getUnreadNotificationsByUserId(): Observable<Notification[]> {
     return this.http.get<Notification[]>(`${this.baseUrl}notifications/user/notifications/unread`);
+  }
+
+  markNotificationAsRead(notificationId: string): Observable<void> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<void>(`${this.baseUrl}notifications/mark-as-read`, JSON.stringify(notificationId), { headers });
   }
 }

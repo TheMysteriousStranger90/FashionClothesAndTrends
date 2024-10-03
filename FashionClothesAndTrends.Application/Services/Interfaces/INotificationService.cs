@@ -8,4 +8,5 @@ public interface INotificationService
     Task AddNotificationAsync(Notification notification);
     Task<IEnumerable<NotificationDto>> GetNotificationsByUserIdAsync(string userId);
     Task<IEnumerable<NotificationDto>> GetUnreadNotificationsByUserIdAsync(string userId);
+    Task MarkNotificationAsReadAsync(string userId, Guid notificationId);
 }
