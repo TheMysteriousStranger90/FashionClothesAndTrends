@@ -17,8 +17,7 @@ export class UserManagementComponent implements OnInit {
     'Buyer',
   ];
 
-  constructor(private adminService: AdminService, private dialog: MatDialog) {
-  }
+  constructor(private adminService: AdminService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.getUsersWithRoles();
@@ -26,7 +25,8 @@ export class UserManagementComponent implements OnInit {
 
   getUsersWithRoles() {
     this.adminService.getUsersWithRoles().subscribe({
-      next: users => this.users = users
+      next: users => this.users = users,
+      error: error => console.error(error)
     });
   }
 
@@ -54,9 +54,10 @@ export class UserManagementComponent implements OnInit {
     });
 
     this.dialogRef.afterClosed().subscribe(selectedRoles => {
-      if (!this.arrayEqual(selectedRoles, user.roles)) {
+      if (selectedRoles && !this.arrayEqual(selectedRoles, user.roles)) {
         this.adminService.updateUserRoles(user.username, selectedRoles).subscribe({
-          next: roles => user.roles = roles
+          next: roles => user.roles = roles,
+          error: error => console.error(error)
         });
       }
     });

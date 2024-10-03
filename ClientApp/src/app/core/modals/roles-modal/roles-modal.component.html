@@ -4,8 +4,7 @@
     <mat-checkbox *ngFor="let role of availableRoles"
                   [(ngModel)]="roleSelections[role]"
                   [ngModelOptions]="{standalone: true}"
-                  (ngModelChange)="updateChecked(role)"
-                  [disabled]="role === 'Administrator'">
+                  (ngModelChange)="updateChecked(role)">
       {{role}}
     </mat-checkbox>
   </form>
