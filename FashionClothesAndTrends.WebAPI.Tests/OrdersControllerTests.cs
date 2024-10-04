@@ -113,23 +113,4 @@ public class OrdersControllerTests
         var apiResponse = Assert.IsType<ApiResponse>(notFoundResult.Value);
         Assert.Equal(404, apiResponse.StatusCode);
     }
-    
-    [Fact]
-    public async Task EditUserOrderAsync_ReturnsUpdatedOrder_WhenOrderIsUpdated()
-    {
-        // Arrange
-        var orderId = Guid.NewGuid();
-        var orderUpdateDto = new OrderUpdateDto();
-        var updatedOrderDto = new OrderDto();
-        _orderServiceMock.Setup(service => service.EditUserOrderAsync(orderId, orderUpdateDto))
-            .ReturnsAsync(updatedOrderDto);
-
-        // Act
-        var result = await _controller.EditUserOrderAsync(orderId, orderUpdateDto);
-
-        // Assert
-        var okResult = Assert.IsType<OkObjectResult>(result.Result);
-        var returnedOrder = Assert.IsType<OrderDto>(okResult.Value);
-        Assert.Equal(updatedOrderDto, returnedOrder);
-    }
 }

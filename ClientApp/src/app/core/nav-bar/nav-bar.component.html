@@ -25,7 +25,10 @@
 
     <div *ngIf="accountService.currentUser$ | async as user">
       <button mat-button [matMenuTriggerFor]="appMenu">
-        Welcome {{user.firstName + ' ' + user.lastName}}
+        <div class="user-info">
+          <img [src]="user.photoUrl ? user.photoUrl : 'assets/images/user.png'" alt="User Photo" class="user-photo">
+          <span>Welcome {{user.firstName + ' ' + user.lastName}}</span>
+        </div>
         <mat-icon>arrow_drop_down</mat-icon>
       </button>
       <mat-menu #appMenu="matMenu">
