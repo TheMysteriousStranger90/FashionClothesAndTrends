@@ -106,7 +106,32 @@ If you want to use `localdb` instead of Docker for the database, follow these st
      "DefaultDockerDbConnection": "Server=sql_server2022,1433;Database=FashionClothesAndTrendsDB;User Id=sa;Password=MyPass@word90_;MultipleActiveResultSets=true;TrustServerCertificate=True",
      "Redis": "redis:6379,abortConnect=false"
    }
-3. Modify the ApplicationServicesExtensions.cs file (or the corresponding file where services are configured) to use DefaultDockerDbConnection for SQL Server and Redis for Redis:
+   
+3. For running ASP.NET core with HTTPS inside of docker, you need to generate a self-signed certificate. You can do this by running the following command in your terminal:
+
+```bash
+dotnet dev-certs https -ep $env:USERPROFILE/.aspnet/https/aspnetapp.pfx -p MyPass@word90_
+dotnet dev-certs https --trust
+```
+Then open the appsettings.json file in the WebAPI project again and insert these lines:
+
+```
+
+,
+  "Kestrel": {
+    "Endpoints": {
+      "Https": {
+        "Url": "https://+:443",
+        "Certificate": {
+          "Path": "/https/aspnetapp.pfx",
+          "Password": "MyPass@word90_"
+        }
+      }
+    }
+  }
+```
+
+4. Modify the ApplicationServicesExtensions.cs file (or the corresponding file where services are configured) to use DefaultDockerDbConnection for SQL Server and Redis for Redis:
 
 ```csharp
 public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
@@ -125,14 +150,14 @@ public static IServiceCollection AddApplicationServices(this IServiceCollection 
     return services;
 }
 ```
-4. Run the application using Docker by executing the following command in your terminal:
+5. Run the application using Docker by executing the following command in your terminal:
 
 ```bash
 docker-compose -f docker-compose.debug.yml up --build
 ```
 This will start all the services, including SQL Server and Redis, in Docker containers.
 
-5. Ensure your docker-compose.debug.yml file are properly configured to start the necessary services for SQL Server, Redis, and the WebAPI.
+6. Ensure your docker-compose.debug.yml file are properly configured to start the necessary services for SQL Server, Redis, and the WebAPI.
 ![Image 31](Screenshots/ScreenExampleDocker1.png)
 ![Image 32](Screenshots/ScreenExampleDocker2.png)
 ![Image 33](Screenshots/ScreenExampleDocker3.png)
