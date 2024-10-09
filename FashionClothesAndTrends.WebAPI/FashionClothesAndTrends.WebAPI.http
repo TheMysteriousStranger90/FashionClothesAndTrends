@@ -1,6 +1,6 @@
-@FashionClothesAndTrends.WebAPI_HostAddress = http://localhost:5097
+@FashionClothesAndTrends.WebAPI_HostAddress = https://localhost:5001
 
-GET {{FashionClothesAndTrends.WebAPI_HostAddress}}/weatherforecast/
+GET {{FashionClothesAndTrends.WebAPI_HostAddress}}/swagger/index.html
 Accept: application/json
 
 ###

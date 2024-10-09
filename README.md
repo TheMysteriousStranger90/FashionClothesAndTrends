@@ -20,13 +20,25 @@ FashionClothesAndTrends is a comprehensive web application designed to help user
 - **Ratings**: Rate clothing items.
 
 ## Technology Stack
-1. Backend Architecture: The backend of our application is structured using a Clean Architecture (built an ASP.NET Core and Entity Framework Core), ensuring a clean separation of concerns and a maintainable codebase.
+1. Backend Architecture: The backend of our application is structured using a Clean Architecture, ensuring a clean separation of concerns and a maintainable codebase.
 
 2. Frontend Framework: Angular, a robust platform for building web applications, is used for the frontend. It allows us to structure our codebase in a modular and maintainable manner.
 
 3. UI Components: For the user interface, we have chosen Angular Material. It's a UI component library that adheres to Material Design principles and offers a wide array of ready-to-use components.
 
 4. Caching: Redis, an open-source in-memory data structure store, is used for caching. It serves as a database, cache, and message broker.
+
+- ASP.NET Core 8: A framework for building web applications and APIs.
+- Entity Framework Core 8: An ORM for working with relational databases.
+- RESTful API: An architectural style for creating APIs.
+- Relational Database: SQL Server: A relational database for data storage.
+- Distributed Cache: Redis: A distributed cache for improving performance and scalability.
+- Clean Architecture: An architectural approach that ensures separation of concerns and framework independence.
+- S.O.L.I.D. Principles: Object-oriented design principles for creating flexible and maintainable systems.
+- Unit of Work and Repository Pattern: Patterns for managing transactions and abstracting data access.
+- AutoMapper: A library for automatic object mapping.
+- SignalR: A library for adding real-time functionality such as notifications.
+- Client-side: Angular with Angular Material: A framework and UI component library for building client-side applications.
 
 ## Running the Application
 
@@ -42,9 +54,10 @@ To run this project, you need to create an appsettings.json file in the WebAPI s
   },
   "AllowedHosts": "*",
   "ConnectionStrings": {
-    "DefaultDockerDbConnection": "<......>",
-    "DefaultConnection": "<......>",
-    "Redis": "localhost:6379,abortConnect=false"
+    "DefaultDockerDbConnection": "Server=sql_server2022,1433;Database=FashionClothesAndTrendsDB;User Id=sa;Password=MyPass@word90_;MultipleActiveResultSets=true;TrustServerCertificate=True",
+    "DefaultLocalDbConnection": "Server=(localdb)\\MSSQLLocalDB;Database=FashionClothesAndTrendsDB;MultipleActiveResultSets=true",
+    "Redis": "redis:6379,abortConnect=false",
+    "RedisLocalDb": "localhost:6379,abortConnect=false"
   },
   "Token": {
     "Key": "<......>",
@@ -64,6 +77,65 @@ To run this project, you need to create an appsettings.json file in the WebAPI s
 }
 ```
 Replace "<Example>" with your actual data respectively.
+
+## Configuration
+### Using Local Database
+The application allows you to choose between running with a local database (`localdb`) or fully within Docker using SQL Server.
+
+If you want to use `localdb` instead of Docker for the database, follow these steps:
+
+1. Open the `appsettings.json` file in the `WebAPI` project.
+2. Set the connection string for `DefaultLocalDbConnection` example:
+
+   ```json
+   "ConnectionStrings": {
+     "DefaultLocalDbConnection": "Server=(localdb)\\MSSQLLocalDB;Database=FashionClothesAndTrendsDB;MultipleActiveResultSets=true",
+     "RedisLocalDb": "localhost:6379,abortConnect=false"
+   }
+3. Modify the ApplicationServicesExtensions.cs file (or the corresponding file where services are configured). Ensure that the application is using DefaultLocalDbConnection for SQL Server and RedisLocalDb for Redis.
+4. Make sure Redis is running locally. You can run Redis using Docker (run the application using docker-compose.yml).
+5. After configuring the appsettings.json file and ApplicationServicesExtensions.cs you need to run docker-compose.yml.
+
+### Running the Application Fully in Docker
+1. Open the appsettings.json file in the WebAPI project.
+
+2. Set the connection strings for DefaultDockerDbConnection and Redis example:
+
+   ```json
+   "ConnectionStrings": {
+     "DefaultDockerDbConnection": "Server=sql_server2022,1433;Database=FashionClothesAndTrendsDB;User Id=sa;Password=MyPass@word90_;MultipleActiveResultSets=true;TrustServerCertificate=True",
+     "Redis": "redis:6379,abortConnect=false"
+   }
+3. Modify the ApplicationServicesExtensions.cs file (or the corresponding file where services are configured) to use DefaultDockerDbConnection for SQL Server and Redis for Redis:
+
+```csharp
+public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
+{
+    services.AddDbContext<ApplicationDbContext>(options =>
+    {
+        options.UseSqlServer(config.GetConnectionString("DefaultDockerDbConnection"));
+    });
+    
+    services.AddSingleton<IConnectionMultiplexer>(c =>
+    {
+        var redisOptions = ConfigurationOptions.Parse(config.GetConnectionString("Redis"), true);
+        return ConnectionMultiplexer.Connect(redisOptions);
+    });
+
+    return services;
+}
+```
+4. Run the application using Docker by executing the following command in your terminal:
+
+```bash
+docker-compose -f docker-compose.debug.yml up --build
+```
+This will start all the services, including SQL Server and Redis, in Docker containers.
+
+5. Ensure your docker-compose.debug.yml file are properly configured to start the necessary services for SQL Server, Redis, and the WebAPI.
+![Image 31](Screenshots/ScreenExampleDocker1.png)
+![Image 32](Screenshots/ScreenExampleDocker2.png)
+![Image 33](Screenshots/ScreenExampleDocker3.png)
 
 ## For Administrator Privileges
 Email: admin@example.com
@@ -115,4 +187,3 @@ Bohdan Harabadzhyu
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
-
