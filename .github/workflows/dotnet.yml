@@ -13,26 +13,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      sql:
-        image: mcr.microsoft.com/mssql/server:2022-latest
-        env:
-          SA_PASSWORD: "MyPass@word90_"
-          ACCEPT_EULA: "Y"
-        ports:
-          - 1433:1433
-        options: >-
-          --health-cmd "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P MyPass@word90_ -Q 'SELECT 1'"
-          --health-interval 10s
-          --health-timeout 10s
-          --health-retries 5
-
-      redis:
-        image: redis:latest
-        ports:
-          - 6379:6379
-        options: --health-cmd "redis-cli ping"
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -50,9 +30,3 @@ jobs:
 
     - name: Test
       run: dotnet test --no-restore --verbosity normal
-
-    - name: Publish
-      run: dotnet publish --configuration Release --no-restore --output ./publish
-
-    - name: Build Docker image
-      run: docker build -t fashionclothesandtrends-webapi:latest -f ./FashionClothesAndTrends.WebAPI/Dockerfile .
