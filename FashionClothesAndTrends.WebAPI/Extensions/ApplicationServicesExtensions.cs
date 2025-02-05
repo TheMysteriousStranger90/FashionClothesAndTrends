@@ -19,12 +19,12 @@ public static class ApplicationServicesExtensions
     {
         services.AddDbContext<ApplicationDbContext>(options =>
         {
-            options.UseSqlServer(config.GetConnectionString("DefaultDockerDbConnection"));
+            options.UseSqlServer(config.GetConnectionString("DefaultLocalDbConnection"));
         });
         
         services.AddSingleton<IConnectionMultiplexer>(c => 
         {
-            var options = ConfigurationOptions.Parse(config.GetConnectionString("Redis"), true);
+            var options = ConfigurationOptions.Parse(config.GetConnectionString("RedisLocalDb"), true);
             return ConnectionMultiplexer.Connect(options);
         });
         

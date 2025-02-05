@@ -1,6 +1,14 @@
-﻿namespace FashionClothesAndTrends.WebAPI.Filters;
+﻿using Hangfire.Dashboard;
 
-public class HangfireAuthorizationFilter
+namespace FashionClothesAndTrends.WebAPI.Filters;
+
+public class HangfireAuthorizationFilter : IDashboardAuthorizationFilter
 {
-    
+    public bool Authorize(DashboardContext context)
+    {
+        var httpContext = context.GetHttpContext();
+        
+        return httpContext.User.Identity?.IsAuthenticated == true 
+               && httpContext.User.IsInRole("Administrator");
+    }
 }
