@@ -16,7 +16,7 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Password=MyPass@word90_
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/localhost.pfx
       - ConnectionStrings__DefaultDockerDbConnection=Server=sql_server2022,1433;Database=FashionClothesAndTrendsDB;User Id=sa;Password=MyPass@word90_;MultipleActiveResultSets=true;TrustServerCertificate=True
-      - Redis__ConnectionString=redis:6379
+      - Redis__ConnectionString=redis:6379,password=MyPass@word90_
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:80/health"]
       interval: 30s
@@ -29,13 +29,13 @@ services:
       - app_network
 
   redis:
-    image: redis:7.2-alpine
+    image: redis:latest
     restart: always
     volumes:
       - redis_data:/data
     ports:
       - "6379:6379"
-    command: redis-server --appendonly yes --requirepass MyPass@word90_
+    command: redis-server --appendonly yes --requirepass MyPass@word90_ --protected-mode no
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
