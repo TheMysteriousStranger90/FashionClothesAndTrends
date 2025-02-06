@@ -1,8 +1,12 @@
-﻿using FashionClothesAndTrends.Application.DTOs;
+﻿using System.ComponentModel.DataAnnotations;
+using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.WebAPI.Controllers;
+using FashionClothesAndTrends.WebAPI.Errors;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace FashionClothesAndTrends.WebAPI.Tests;
@@ -10,12 +14,14 @@ namespace FashionClothesAndTrends.WebAPI.Tests;
 public class AccountControllerTests
 {
     private readonly Mock<IAuthService> _authServiceMock;
+    private readonly Mock<ILogger<AccountController>> _loggerMock;
     private readonly AccountController _accountController;
 
     public AccountControllerTests()
     {
         _authServiceMock = new Mock<IAuthService>();
-        _accountController = new AccountController(_authServiceMock.Object);
+        _loggerMock = new Mock<ILogger<AccountController>>();
+        _accountController = new AccountController(_authServiceMock.Object, _loggerMock.Object);
     }
 
     [Fact]
@@ -48,11 +54,40 @@ public class AccountControllerTests
         // Assert
         result.Result.Should().BeOfType<OkObjectResult>();
         var okResult = result.Result as OkObjectResult;
+        okResult.Should().NotBeNull();
         okResult.Value.Should().BeEquivalentTo(userDto);
     }
 
     [Fact]
-    public async Task Register_ShouldReturnBadRequest_WhenRegistrationFails()
+    public async Task Register_ShouldReturnBadRequest_WhenModelStateIsInvalid()
+    {
+        // Arrange
+        var registerDto = new RegisterDto
+        {
+            FirstName = "Dima",
+            LastName = "Pupkin",
+            Gender = "male",
+            DateOfBirth = new DateOnly(1991, 2, 2),
+            Email = "user93@example.com",
+            Password = "Pa$$w0rd"
+        };
+
+        _accountController.ModelState.AddModelError("Email", "Email is required");
+
+        // Act
+        var result = await _accountController.Register(registerDto);
+
+        // Assert
+        result.Result.Should().BeOfType<BadRequestObjectResult>();
+        var badRequestResult = result.Result as BadRequestObjectResult;
+        badRequestResult.Should().NotBeNull();
+        badRequestResult.Value.Should().BeOfType<ErrorResponse>();
+        var errorResponse = badRequestResult.Value as ErrorResponse;
+        errorResponse.Errors.Should().Contain("Email is required");
+    }
+
+    [Fact]
+    public async Task Register_ShouldReturnBadRequest_WhenValidationExceptionIsThrown()
     {
         // Arrange
         var registerDto = new RegisterDto
@@ -66,7 +101,7 @@ public class AccountControllerTests
         };
 
         _authServiceMock.Setup(service => service.RegisterAsync(registerDto))
-            .ThrowsAsync(new Exception("Registration failed"));
+            .ThrowsAsync(new ValidationException("Validation failed"));
 
         // Act
         var result = await _accountController.Register(registerDto);
@@ -74,7 +109,40 @@ public class AccountControllerTests
         // Assert
         result.Result.Should().BeOfType<BadRequestObjectResult>();
         var badRequestResult = result.Result as BadRequestObjectResult;
-        badRequestResult.Value.Should().Be("Registration failed");
+        badRequestResult.Should().NotBeNull();
+        badRequestResult.Value.Should().BeOfType<ErrorResponse>();
+        var errorResponse = badRequestResult.Value as ErrorResponse;
+        errorResponse.Errors.Should().Contain("Validation failed");
+    }
+
+    [Fact]
+    public async Task Register_ShouldReturnInternalServerError_WhenExceptionIsThrown()
+    {
+        // Arrange
+        var registerDto = new RegisterDto
+        {
+            FirstName = "Dima",
+            LastName = "Pupkin",
+            Gender = "male",
+            DateOfBirth = new DateOnly(1991, 2, 2),
+            Email = "user93@example.com",
+            Password = "Pa$$w0rd"
+        };
+
+        _authServiceMock.Setup(service => service.RegisterAsync(registerDto))
+            .ThrowsAsync(new Exception("Something went wrong"));
+
+        // Act
+        var result = await _accountController.Register(registerDto);
+
+        // Assert
+        result.Result.Should().BeOfType<ObjectResult>();
+        var statusCodeResult = result.Result as ObjectResult;
+        statusCodeResult.Should().NotBeNull();
+        statusCodeResult.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
+        statusCodeResult.Value.Should().BeOfType<ErrorResponse>();
+        var errorResponse = statusCodeResult.Value as ErrorResponse;
+        errorResponse.Errors.Should().Contain("An error occurred while registering the user.");
     }
 
     [Fact]
@@ -103,7 +171,22 @@ public class AccountControllerTests
         // Assert
         result.Result.Should().BeOfType<OkObjectResult>();
         var okResult = result.Result as OkObjectResult;
+        okResult.Should().NotBeNull();
         okResult.Value.Should().BeEquivalentTo(userDto);
+    }
+
+    [Fact]
+    public async Task Login_ShouldReturnBadRequest_WhenModelStateIsInvalid()
+    {
+        // Arrange
+        var loginDto = new LoginDto();
+        _accountController.ModelState.AddModelError("Email", "Email is required");
+
+        // Act
+        var result = await _accountController.Login(loginDto);
+
+        // Assert
+        result.Result.Should().BeOfType<BadRequestObjectResult>();
     }
 
     [Fact]
@@ -117,7 +200,7 @@ public class AccountControllerTests
         };
 
         _authServiceMock.Setup(service => service.LoginAsync(loginDto))
-            .ThrowsAsync(new Exception("Invalid credentials"));
+            .ThrowsAsync(new UnauthorizedAccessException("Invalid credentials"));
 
         // Act
         var result = await _accountController.Login(loginDto);
@@ -125,9 +208,34 @@ public class AccountControllerTests
         // Assert
         result.Result.Should().BeOfType<UnauthorizedObjectResult>();
         var unauthorizedResult = result.Result as UnauthorizedObjectResult;
-        unauthorizedResult.Value.Should().Be("Invalid credentials");
+        unauthorizedResult.Should().NotBeNull();
+        unauthorizedResult.Value.Should().BeOfType<ErrorResponse>();
+        var errorResponse = unauthorizedResult.Value as ErrorResponse;
+        errorResponse.Errors.Should().Contain("Invalid credentials");
     }
 
+    [Fact]
+    public async Task Login_ShouldReturnInternalServerError_WhenExceptionIsThrown()
+    {
+        // Arrange
+        var loginDto = new LoginDto
+        {
+            Email = "user93@example.com",
+            Password = "Pa$$w0rd"
+        };
+
+        _authServiceMock.Setup(service => service.LoginAsync(loginDto))
+            .ThrowsAsync(new Exception("Something went wrong"));
+
+        // Act
+        var result = await _accountController.Login(loginDto);
+
+        // Assert
+        result.Result.Should().BeOfType<StatusCodeResult>();
+        var statusCodeResult = result.Result as StatusCodeResult;
+        statusCodeResult.Should().NotBeNull();
+        statusCodeResult.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
+    }
     [Fact]
     public async Task ConfirmEmail_ShouldReturnOk_WhenConfirmationIsSuccessful()
     {
@@ -144,6 +252,7 @@ public class AccountControllerTests
         // Assert
         result.Result.Should().BeOfType<OkObjectResult>();
         var okResult = result.Result as OkObjectResult;
+        okResult.Should().NotBeNull();
         okResult.Value.Should().Be(true);
     }
 
@@ -163,6 +272,7 @@ public class AccountControllerTests
         // Assert
         result.Result.Should().BeOfType<BadRequestObjectResult>();
         var badRequestResult = result.Result as BadRequestObjectResult;
+        badRequestResult.Should().NotBeNull();
         badRequestResult.Value.Should().Be("Confirmation failed");
     }
 
@@ -183,6 +293,7 @@ public class AccountControllerTests
         // Assert
         result.Result.Should().BeOfType<OkObjectResult>();
         var okResult = result.Result as OkObjectResult;
+        okResult.Should().NotBeNull();
         okResult.Value.Should().Be(true);
     }
 
@@ -203,6 +314,7 @@ public class AccountControllerTests
         // Assert
         result.Result.Should().BeOfType<BadRequestObjectResult>();
         var badRequestResult = result.Result as BadRequestObjectResult;
+        badRequestResult.Should().NotBeNull();
         badRequestResult.Value.Should().Be("Reset failed");
     }
 
@@ -223,6 +335,7 @@ public class AccountControllerTests
         // Assert
         result.Result.Should().BeOfType<OkObjectResult>();
         var okResult = result.Result as OkObjectResult;
+        okResult.Should().NotBeNull();
         okResult.Value.Should().Be(true);
     }
 
@@ -243,6 +356,7 @@ public class AccountControllerTests
         // Assert
         result.Result.Should().BeOfType<BadRequestObjectResult>();
         var badRequestResult = result.Result as BadRequestObjectResult;
+        badRequestResult.Should().NotBeNull();
         badRequestResult.Value.Should().Be("Change failed");
     }
 
@@ -261,6 +375,7 @@ public class AccountControllerTests
         // Assert
         result.Result.Should().BeOfType<OkObjectResult>();
         var okResult = result.Result as OkObjectResult;
+        okResult.Should().NotBeNull();
         okResult.Value.Should().Be(true);
     }
 
@@ -279,6 +394,7 @@ public class AccountControllerTests
         // Assert
         result.Result.Should().BeOfType<BadRequestObjectResult>();
         var badRequestResult = result.Result as BadRequestObjectResult;
+        badRequestResult.Should().NotBeNull();
         badRequestResult.Value.Should().Be("Check failed");
     }
 
@@ -297,6 +413,7 @@ public class AccountControllerTests
         // Assert
         result.Result.Should().BeOfType<OkObjectResult>();
         var okResult = result.Result as OkObjectResult;
+        okResult.Should().NotBeNull();
         okResult.Value.Should().Be(true);
     }
 
@@ -315,6 +432,48 @@ public class AccountControllerTests
         // Assert
         result.Result.Should().BeOfType<BadRequestObjectResult>();
         var badRequestResult = result.Result as BadRequestObjectResult;
+        badRequestResult.Should().NotBeNull();
         badRequestResult.Value.Should().Be("Check failed");
+    }
+
+    [Fact]
+    public async Task GetCurrentUser_ShouldReturnOk_WhenUserIsFound()
+    {
+        // Arrange
+        var userDto = new UserDto
+        {
+            Username = "dima93",
+            Email = "user93@example.com",
+            Token = "some-token"
+        };
+
+        _authServiceMock.Setup(service => service.FindByEmailFromClaims(It.IsAny<System.Security.Claims.ClaimsPrincipal>()))
+            .ReturnsAsync(userDto);
+
+        // Act
+        var result = await _accountController.GetCurrentUser();
+
+        // Assert
+        result.Result.Should().BeOfType<OkObjectResult>();
+        var okResult = result.Result as OkObjectResult;
+        okResult.Should().NotBeNull();
+        okResult.Value.Should().BeEquivalentTo(userDto);
+    }
+
+    [Fact]
+    public async Task GetCurrentUser_ShouldReturnInternalServerError_WhenExceptionIsThrown()
+    {
+        // Arrange
+        _authServiceMock.Setup(service => service.FindByEmailFromClaims(It.IsAny<System.Security.Claims.ClaimsPrincipal>()))
+            .ThrowsAsync(new Exception("Something went wrong"));
+
+        // Act
+        var result = await _accountController.GetCurrentUser();
+
+        // Assert
+        result.Result.Should().BeOfType<StatusCodeResult>();
+        var statusCodeResult = result.Result as StatusCodeResult;
+        statusCodeResult.Should().NotBeNull();
+        statusCodeResult.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
     }
 }
