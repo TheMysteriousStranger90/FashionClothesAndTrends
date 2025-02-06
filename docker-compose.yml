@@ -1,23 +1,133 @@
+version: "3.9"
+
 services:
+  webapi:
+    build:
+      context: .
+      dockerfile: ./FashionClothesAndTrends.WebAPI/Dockerfile
+    restart: always
+    ports:
+      - "5000:80"
+      - "5001:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=5001
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=MyPass@word90_
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/localhost.pfx
+      - ConnectionStrings__DefaultDockerDbConnection=Server=sql_server2022,1433;Database=FashionClothesAndTrendsDB;User Id=sa;Password=MyPass@word90_;MultipleActiveResultSets=true;TrustServerCertificate=True
+      - Redis__ConnectionString=redis:6379,password=MyPass@word90_
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - ./logs:/logs
+      - data_protection_keys:/root/.aspnet/DataProtection-Keys
+    networks:
+      - app_network
 
   redis:
     image: redis:latest
-    ports:
-      - 6379:6379
-    command: ["redis-server", "--appendonly", "yes"]
+    restart: always
     volumes:
-      - redis-data:/data
-
-  redis-commander:
-    image: rediscommander/redis-commander:latest
-    environment:
-      - REDIS_HOSTS=local:redis:6379
-      - HTTP_USER=root
-      - HTTP_PASSWORD=secret
+      - redis_data:/data
     ports:
-      - 8081:8081
+      - "6379:6379"
+    command: redis-server --appendonly yes --requirepass MyPass@word90_ --protected-mode no
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app_network
+
+  sql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: always
+    container_name: sql_server2022
+    environment:
+      SA_PASSWORD: "MyPass@word90_"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+    volumes:
+      - sqldata:/var/opt/mssql
+    ports:
+      - "1433:1433"
+    healthcheck:
+      test: CMD /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P MyPass@word90_ -Q "SELECT 1" || exit 1
+      timeout: 20s
+      retries: 10
+      start_period: 10s
+    networks:
+      - app_network
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
+    restart: always
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - app_network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.9.3
+    restart: always
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
     depends_on:
-      - redis
+      - elasticsearch
+    networks:
+      - app_network
+
+  prometheus:
+    image: prom/prometheus:v2.45.0
+    restart: always
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - "9090:9090"
+    networks:
+      - app_network
+
+  grafana:
+    image: grafana/grafana:10.0.0
+    restart: always
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=MyPass@word90_
+      - GF_USERS_ALLOW_SIGN_UP=false
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
 
 volumes:
-  redis-data:
+  sqldata:
+  redis_data:
+  elasticsearch_data:
+  prometheus_data:
+  grafana_data:
+  data_protection_keys:

@@ -8,3 +8,5 @@ riderModule.iml
 .vs
 
 FashionClothesAndTrends.WebAPI/appsettings.json
+FashionClothesAndTrends.WebAPI/logs/
+logs/
