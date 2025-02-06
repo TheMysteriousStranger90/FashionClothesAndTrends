@@ -19,9 +19,9 @@ FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "FashionClothesAndTrends.WebAPI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-RUN dotnet tool install --global dotnet-ef
-ENV PATH="${PATH}:/root/.dotnet/tools"
+RUN mkdir -p /https
+COPY ./FashionClothesAndTrends.WebAPI/certs/localhost.pfx /https/localhost.pfx
 ENTRYPOINT ["dotnet", "FashionClothesAndTrends.WebAPI.dll"]

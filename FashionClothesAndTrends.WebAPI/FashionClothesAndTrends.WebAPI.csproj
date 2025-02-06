@@ -41,4 +41,8 @@
         <Link>.dockerignore</Link>
       </Content>
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="certs\" />
+    </ItemGroup>
 </Project>
