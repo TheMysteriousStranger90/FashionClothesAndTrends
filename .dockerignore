@@ -1,26 +1,25 @@
-# syntax=docker/dockerfile:1
+.git
+.github
+.vs
+.vscode
+.idea
 
-**/.git
-**/.github
-**/.vs
-**/.vscode
-**/.idea
+**/bin/
+**/obj/
+**/node_modules/
+**/dist/
+**/coverage/
 
-**/bin
-**/obj
-**/node_modules
-**/dist
-**/coverage
-
-**/.env
-**/.env.*
+.env
+.env.*
 !.env.example
 
-**/*.*proj.user
-**/*.dbmdl
-**/*.jfm
+*.dbmdl
+*.jfm
+*.*proj.user
 
 logs/
 Screenshots/
+
 README.md
 LICENSE

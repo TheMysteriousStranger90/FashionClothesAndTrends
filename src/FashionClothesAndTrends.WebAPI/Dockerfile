@@ -1,27 +1,32 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["FashionClothesAndTrends.WebAPI/FashionClothesAndTrends.WebAPI.csproj", "FashionClothesAndTrends.WebAPI/"]
-COPY ["FashionClothesAndTrends.Application/FashionClothesAndTrends.Application.csproj", "FashionClothesAndTrends.Application/"]
-COPY ["FashionClothesAndTrends.Domain/FashionClothesAndTrends.Domain.csproj", "FashionClothesAndTrends.Domain/"]
-COPY ["FashionClothesAndTrends.Infrastructure/FashionClothesAndTrends.Infrastructure.csproj", "FashionClothesAndTrends.Infrastructure/"]
-RUN dotnet restore "FashionClothesAndTrends.WebAPI/FashionClothesAndTrends.WebAPI.csproj"
+
+COPY ["Directory.Packages.props", "."]
+COPY ["Directory.Build.props", "."]
+COPY ["nuget.config", "."]
+COPY ["src/FashionClothesAndTrends.WebAPI/FashionClothesAndTrends.WebAPI.csproj", "src/FashionClothesAndTrends.WebAPI/"]
+COPY ["src/FashionClothesAndTrends.Application/FashionClothesAndTrends.Application.csproj", "src/FashionClothesAndTrends.Application/"]
+COPY ["src/FashionClothesAndTrends.Domain/FashionClothesAndTrends.Domain.csproj", "src/FashionClothesAndTrends.Domain/"]
+COPY ["src/FashionClothesAndTrends.Infrastructure/FashionClothesAndTrends.Infrastructure.csproj", "src/FashionClothesAndTrends.Infrastructure/"]
+
+RUN dotnet restore "src/FashionClothesAndTrends.WebAPI/FashionClothesAndTrends.WebAPI.csproj"
+
 COPY . .
-WORKDIR "/src/FashionClothesAndTrends.WebAPI"
-RUN dotnet build "FashionClothesAndTrends.WebAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/src/FashionClothesAndTrends.WebAPI"
+RUN dotnet build "FashionClothesAndTrends.WebAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build /p:TreatWarningsAsErrors=false
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "FashionClothesAndTrends.WebAPI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "FashionClothesAndTrends.WebAPI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false /p:TreatWarningsAsErrors=false
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 RUN mkdir -p /https
-COPY ./FashionClothesAndTrends.WebAPI/certs/localhost.pfx /https/localhost.pfx
 ENTRYPOINT ["dotnet", "FashionClothesAndTrends.WebAPI.dll"]

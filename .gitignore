@@ -21,3 +21,8 @@ logs/
 docker-data/
 *.pid
 *.seed
+# Certificate files
+*.pfx
+*.pem
+*.cer
+*.key

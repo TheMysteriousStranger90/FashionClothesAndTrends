@@ -17,8 +17,20 @@ indent_size = 2
 [*.{sh,ps1}]
 end_of_line = lf
 
-[Makefile]
-indent_style = tab
-
 [*.md]
 trim_trailing_whitespace = false
+
+# Binary files - no formatting
+[*.{pfx,pem,cer,crt,key,jks,p12,p7b}]
+insert_final_newline = false
+end_of_line = unset
+charset = unset
+trim_trailing_whitespace = false
+
+[certs/**]
+insert_final_newline = false
+end_of_line = unset
+trim_trailing_whitespace = false
+
+[Makefile]
+indent_style = tab

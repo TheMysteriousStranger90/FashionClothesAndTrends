@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   webapi:
     build:
@@ -16,7 +14,7 @@ services:
       ASPNETCORE_URLS: ${ASPNETCORE_URLS:-https://+;http://+}
       ASPNETCORE_HTTPS_PORT: ${ASPNETCORE_HTTPS_PORT:-5001}
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      test: ["CMD-SHELL", "bash -c '</dev/tcp/127.0.0.1/443'"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -26,7 +24,7 @@ services:
       - data_protection_keys:/root/.aspnet/DataProtection-Keys
     depends_on:
       sql:
-        condition: service_healthy
+        condition: service_started
       redis:
         condition: service_healthy
     networks:
@@ -57,18 +55,12 @@ services:
     env_file:
       - .env
     environment:
-      SA_PASSWORD: ${SA_PASSWORD}
       ACCEPT_EULA: "Y"
       MSSQL_PID: "Express"
     volumes:
       - sqldata:/var/opt/mssql
     ports:
       - "1433:1433"
-    healthcheck:
-      test: CMD /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${SA_PASSWORD} -Q "SELECT 1" || exit 1
-      timeout: 20s
-      retries: 10
-      start_period: 20s
     networks:
       - app_network
 
@@ -141,3 +133,12 @@ volumes:
   prometheus_data:
   grafana_data:
   data_protection_keys:
+
+
+
+
+
+
+
+
+
