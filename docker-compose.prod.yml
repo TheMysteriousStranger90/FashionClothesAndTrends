@@ -5,21 +5,21 @@ services:
     build:
       context: .
       dockerfile: ./src/FashionClothesAndTrends.WebAPI/Dockerfile
-    restart: always
+    restart: unless-stopped
     env_file:
       - .env
     ports:
-      - "5000:80"
-      - "5001:443"
+      - "${WEB_HTTP_PORT:-8080}:80"
+      - "${WEB_HTTPS_PORT:-8443}:443"
     environment:
-      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
-      ASPNETCORE_URLS: ${ASPNETCORE_URLS:-https://+;http://+}
-      ASPNETCORE_HTTPS_PORT: ${ASPNETCORE_HTTPS_PORT:-5001}
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: https://+;http://+
+      ASPNETCORE_HTTPS_PORT: ${WEB_HTTPS_PORT:-8443}
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:80/health/ready"]
       interval: 30s
       timeout: 10s
-      retries: 3
+      retries: 5
     volumes:
       - ./logs:/logs
       - ./localhost.pfx:/https/localhost.pfx:ro
@@ -34,14 +34,14 @@ services:
 
   redis:
     image: redis:latest
-    restart: always
+    restart: unless-stopped
     env_file:
       - .env
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD} --protected-mode no
     volumes:
       - redis_data:/data
-    ports:
-      - "6379:6379"
-    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD} --protected-mode no
+    expose:
+      - "6379"
     healthcheck:
       test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
       interval: 10s
@@ -52,7 +52,7 @@ services:
 
   sql:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    restart: always
+    restart: unless-stopped
     container_name: sql_server2022
     env_file:
       - .env
@@ -62,8 +62,8 @@ services:
       MSSQL_PID: "Express"
     volumes:
       - sqldata:/var/opt/mssql
-    ports:
-      - "1433:1433"
+    expose:
+      - "1433"
     healthcheck:
       test: CMD /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${SA_PASSWORD} -Q "SELECT 1" || exit 1
       timeout: 20s
@@ -72,50 +72,23 @@ services:
     networks:
       - app_network
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
-    restart: always
-    environment:
-      - discovery.type=single-node
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m
-    volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/data
-    ports:
-      - "9200:9200"
-    networks:
-      - app_network
-
-  kibana:
-    image: docker.elastic.co/kibana/kibana:7.9.3
-    restart: always
-    environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-    ports:
-      - "5601:5601"
-    depends_on:
-      - elasticsearch
-    networks:
-      - app_network
-
   prometheus:
     image: prom/prometheus:v2.45.0
-    restart: always
+    restart: unless-stopped
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus_data:/prometheus
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --storage.tsdb.path=/prometheus
-      - --web.console.libraries=/usr/share/prometheus/console_libraries
-      - --web.console.templates=/usr/share/prometheus/consoles
     ports:
-      - "9090:9090"
+      - "${PROMETHEUS_PORT:-9090}:9090"
     networks:
       - app_network
 
   grafana:
     image: grafana/grafana:10.0.0
-    restart: always
+    restart: unless-stopped
     env_file:
       - .env
     environment:
@@ -124,7 +97,7 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
     ports:
-      - "3000:3000"
+      - "${GRAFANA_PORT:-3000}:3000"
     depends_on:
       - prometheus
     networks:
@@ -137,7 +110,6 @@ networks:
 volumes:
   sqldata:
   redis_data:
-  elasticsearch_data:
   prometheus_data:
   grafana_data:
   data_protection_keys:

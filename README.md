@@ -18,7 +18,7 @@ FashionClothesAndTrends is a comprehensive web application designed to help user
 - **Notifications**: Notify users about discounts on wishlist items.
 - **Photo Management**: Upload and manage photos for clothing items.
 - **Ratings**: Rate clothing items.
-- **Comprehensive Monitoring**: Integrated Prometheus and Grafana for detailed application and infrastructure monitoring.
+- **Comprehensive Monitoring**: Integrated OpenTelemetry, Prometheus, and Grafana for distributed tracing, metrics, and infrastructure monitoring.
 - **Centralized Logging**: Utilizes Elasticsearch and Kibana for centralized logging and analysis.
 
 ## Technology Stack
@@ -41,7 +41,8 @@ FashionClothesAndTrends is a comprehensive web application designed to help user
 - Client-side: Angular with Angular Material: A framework and UI component library for building client-side applications.
 - Docker: Containerization platform for consistent deployment across environments.
 - Elasticsearch and Kibana: Centralized logging and analytics.
-- Prometheus: Monitoring and alerting.
+- OpenTelemetry: Unified tracing and metrics instrumentation with OTLP export support.
+- Prometheus: Monitoring and alerting via the /metrics scrape endpoint.
 - Grafana: Data visualization and dashboards.
 
 ## Infrastructure
@@ -73,8 +74,20 @@ To run this project, you need to create an appsettings.json file in the WebAPI s
 
 ```
 {
-  "ApplicationInsights": {
-    "ConnectionString": "Your-Connection-String"
+  "OpenTelemetry": {
+    "ServiceName": "FashionClothesAndTrends.WebAPI",
+    "ServiceVersion": "1.0.0",
+    "ConsoleExporter": {
+      "Enabled": false
+    },
+    "Tracing": {
+      "SamplingRatio": 1.0
+    },
+    "Otlp": {
+      "Endpoint": "",
+      "Protocol": "Grpc",
+      "Headers": ""
+    }
   },
   "RateLimiting": {
     "PermitLimit": 100,
@@ -163,6 +176,16 @@ To run this project, you need to create an appsettings.json file in the WebAPI s
 ```
 Replace "<Example>" with your actual data respectively.
 
+## Observability Endpoints
+
+The Web API now exposes the following production-focused observability endpoints:
+
+- `/health`: aggregated application health report
+- `/health/live`: liveness probe for orchestrators and container health checks
+- `/health/ready`: readiness probe including infrastructure dependencies
+- `/metrics`: Prometheus scrape endpoint backed by OpenTelemetry metrics
+
+For distributed tracing and metrics export to an external collector, configure `OpenTelemetry:Otlp:Endpoint`.
 ## Configuration
 ### Running the Application Fully in Docker
 
@@ -247,3 +270,6 @@ Bohdan Harabadzhyu
 
 [![YouTube](http://i.ytimg.com/vi/uSBj_Nvddto/hqdefault.jpg)](https://www.youtube.com/watch?v=uSBj_Nvddto)
 </details>
+
+
+

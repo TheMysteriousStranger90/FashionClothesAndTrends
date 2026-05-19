@@ -7,6 +7,17 @@ riderModule.iml
 .idea
 .vs
 
-FashionClothesAndTrends.WebAPI/appsettings.json
-FashionClothesAndTrends.WebAPI/logs/
+src/FashionClothesAndTrends.WebAPI/appsettings.json
+src/FashionClothesAndTrends.WebAPI/appsettings.Development.json
+src/FashionClothesAndTrends.WebAPI/logs/
 logs/
+
+# Local environment secrets
+.env
+.env.*
+!.env.example
+
+# Docker and local artifacts
+docker-data/
+*.pid
+*.seed

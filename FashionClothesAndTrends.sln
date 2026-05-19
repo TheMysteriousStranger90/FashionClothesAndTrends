@@ -1,40 +1,69 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionClothesAndTrends.WebAPI", "FashionClothesAndTrends.WebAPI\FashionClothesAndTrends.WebAPI.csproj", "{4E2E1862-D0B2-4017-A795-D70DAEA258B9}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1AC8348D-9A81-4663-BBCE-4236A83523AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionClothesAndTrends.Domain", "FashionClothesAndTrends.Domain\FashionClothesAndTrends.Domain.csproj", "{7F83C63C-0A93-4C15-AEF1-59D6675E535C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{157084BF-0D23-471F-ADF1-3CC7FDDF7A58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionClothesAndTrends.Application", "FashionClothesAndTrends.Application\FashionClothesAndTrends.Application.csproj", "{50E7400E-5DED-474F-AB2F-A36C8BF542FE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E3029658-2EBA-42DA-B942-2FF966192040}"
+ProjectSection(SolutionItems) = preProject
+.editorconfig = .editorconfig
+.gitattributes = .gitattributes
+.gitignore = .gitignore
+Directory.Build.props = Directory.Build.props
+Directory.Packages.props = Directory.Packages.props
+docker-compose.yml = docker-compose.yml
+docker-compose.prod.yml = docker-compose.prod.yml
+nuget.config = nuget.config
+EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionClothesAndTrends.Infrastructure", "FashionClothesAndTrends.Infrastructure\FashionClothesAndTrends.Infrastructure.csproj", "{4B6E70B7-0400-48FE-BD35-82C62248AF28}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionClothesAndTrends.Domain", "src\FashionClothesAndTrends.Domain\FashionClothesAndTrends.Domain.csproj", "{7F83C63C-0A93-4C15-AEF1-59D6675E535C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionClothesAndTrends.WebAPI.Tests", "FashionClothesAndTrends.WebAPI.Tests\FashionClothesAndTrends.WebAPI.Tests.csproj", "{2D35B861-E111-4B9F-B014-BAA36E2A8E6E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionClothesAndTrends.Application", "src\FashionClothesAndTrends.Application\FashionClothesAndTrends.Application.csproj", "{50E7400E-5DED-474F-AB2F-A36C8BF542FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionClothesAndTrends.Infrastructure", "src\FashionClothesAndTrends.Infrastructure\FashionClothesAndTrends.Infrastructure.csproj", "{4B6E70B7-0400-48FE-BD35-82C62248AF28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionClothesAndTrends.WebAPI", "src\FashionClothesAndTrends.WebAPI\FashionClothesAndTrends.WebAPI.csproj", "{4E2E1862-D0B2-4017-A795-D70DAEA258B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionClothesAndTrends.WebAPI.Tests", "tests\FashionClothesAndTrends.WebAPI.Tests\FashionClothesAndTrends.WebAPI.Tests.csproj", "{2D35B861-E111-4B9F-B014-BAA36E2A8E6E}"
 EndProject
 Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4E2E1862-D0B2-4017-A795-D70DAEA258B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E2E1862-D0B2-4017-A795-D70DAEA258B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E2E1862-D0B2-4017-A795-D70DAEA258B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E2E1862-D0B2-4017-A795-D70DAEA258B9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7F83C63C-0A93-4C15-AEF1-59D6675E535C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7F83C63C-0A93-4C15-AEF1-59D6675E535C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7F83C63C-0A93-4C15-AEF1-59D6675E535C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7F83C63C-0A93-4C15-AEF1-59D6675E535C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{50E7400E-5DED-474F-AB2F-A36C8BF542FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{50E7400E-5DED-474F-AB2F-A36C8BF542FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{50E7400E-5DED-474F-AB2F-A36C8BF542FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{50E7400E-5DED-474F-AB2F-A36C8BF542FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4B6E70B7-0400-48FE-BD35-82C62248AF28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B6E70B7-0400-48FE-BD35-82C62248AF28}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4B6E70B7-0400-48FE-BD35-82C62248AF28}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4B6E70B7-0400-48FE-BD35-82C62248AF28}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2D35B861-E111-4B9F-B014-BAA36E2A8E6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D35B861-E111-4B9F-B014-BAA36E2A8E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D35B861-E111-4B9F-B014-BAA36E2A8E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D35B861-E111-4B9F-B014-BAA36E2A8E6E}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
+GlobalSection(SolutionConfigurationPlatforms) = preSolution
+Debug|Any CPU = Debug|Any CPU
+Release|Any CPU = Release|Any CPU
+EndGlobalSection
+GlobalSection(ProjectConfigurationPlatforms) = postSolution
+{7F83C63C-0A93-4C15-AEF1-59D6675E535C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+{7F83C63C-0A93-4C15-AEF1-59D6675E535C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+{7F83C63C-0A93-4C15-AEF1-59D6675E535C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+{7F83C63C-0A93-4C15-AEF1-59D6675E535C}.Release|Any CPU.Build.0 = Release|Any CPU
+{50E7400E-5DED-474F-AB2F-A36C8BF542FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+{50E7400E-5DED-474F-AB2F-A36C8BF542FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+{50E7400E-5DED-474F-AB2F-A36C8BF542FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+{50E7400E-5DED-474F-AB2F-A36C8BF542FE}.Release|Any CPU.Build.0 = Release|Any CPU
+{4B6E70B7-0400-48FE-BD35-82C62248AF28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+{4B6E70B7-0400-48FE-BD35-82C62248AF28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+{4B6E70B7-0400-48FE-BD35-82C62248AF28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+{4B6E70B7-0400-48FE-BD35-82C62248AF28}.Release|Any CPU.Build.0 = Release|Any CPU
+{4E2E1862-D0B2-4017-A795-D70DAEA258B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+{4E2E1862-D0B2-4017-A795-D70DAEA258B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+{4E2E1862-D0B2-4017-A795-D70DAEA258B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+{4E2E1862-D0B2-4017-A795-D70DAEA258B9}.Release|Any CPU.Build.0 = Release|Any CPU
+{2D35B861-E111-4B9F-B014-BAA36E2A8E6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+{2D35B861-E111-4B9F-B014-BAA36E2A8E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+{2D35B861-E111-4B9F-B014-BAA36E2A8E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+{2D35B861-E111-4B9F-B014-BAA36E2A8E6E}.Release|Any CPU.Build.0 = Release|Any CPU
+EndGlobalSection
+GlobalSection(NestedProjects) = preSolution
+{7F83C63C-0A93-4C15-AEF1-59D6675E535C} = {1AC8348D-9A81-4663-BBCE-4236A83523AD}
+{50E7400E-5DED-474F-AB2F-A36C8BF542FE} = {1AC8348D-9A81-4663-BBCE-4236A83523AD}
+{4B6E70B7-0400-48FE-BD35-82C62248AF28} = {1AC8348D-9A81-4663-BBCE-4236A83523AD}
+{4E2E1862-D0B2-4017-A795-D70DAEA258B9} = {1AC8348D-9A81-4663-BBCE-4236A83523AD}
+{2D35B861-E111-4B9F-B014-BAA36E2A8E6E} = {157084BF-0D23-471F-ADF1-3CC7FDDF7A58}
+EndGlobalSection
+GlobalSection(SolutionProperties) = preSolution
+HideSolutionNode = FALSE
+EndGlobalSection
 EndGlobal
