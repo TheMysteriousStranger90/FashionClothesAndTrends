@@ -112,6 +112,10 @@ try
 
     await app.RunAsync();
 }
+catch (Microsoft.Extensions.Hosting.HostAbortedException)
+{
+    // Expected in some design-time tooling scenarios (for example, dotnet ef).
+}
 catch (Exception exception)
 {
     Log.Fatal(exception, "Application terminated unexpectedly during startup");
@@ -121,4 +125,5 @@ finally
 {
     await Log.CloseAndFlushAsync();
 }
+
 
