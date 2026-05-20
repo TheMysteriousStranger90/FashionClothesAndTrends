@@ -85,7 +85,8 @@ public static class ApiInfrastructureExtensions
             options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
             options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
                 RateLimitPartition.GetFixedWindowLimiter(
-                    partitionKey: context.User.Identity?.Name ?? context.Connection.RemoteIpAddress?.ToString() ?? "anonymous",
+                    partitionKey: context.User.Identity?.Name ??
+                                  context.Connection.RemoteIpAddress?.ToString() ?? "anonymous",
                     factory: _ => new FixedWindowRateLimiterOptions
                     {
                         AutoReplenishment = true,

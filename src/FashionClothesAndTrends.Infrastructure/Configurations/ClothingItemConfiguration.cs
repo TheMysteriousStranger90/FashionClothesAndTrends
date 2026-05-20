@@ -33,7 +33,7 @@ public class ClothingItemConfiguration : IEntityTypeConfiguration<ClothingItem>
 
         builder.Property(c => c.IsInStock)
             .IsRequired();
-        
+
         builder.HasOne(c => c.ClothingBrand)
             .WithMany(cb => cb.ClothingItems)
             .HasForeignKey(c => c.ClothingBrandId)

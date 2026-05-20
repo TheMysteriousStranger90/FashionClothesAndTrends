@@ -19,13 +19,13 @@ public class OrdersControllerTests
     private readonly Mock<IMapper> _mapperMock;
     private readonly OrdersController _controller;
 
-      public OrdersControllerTests()
+    public OrdersControllerTests()
     {
         _orderServiceMock = new Mock<IOrderService>();
         _userServiceMock = new Mock<IUserService>();
         _mapperMock = new Mock<IMapper>();
         _controller = new OrdersController(_orderServiceMock.Object, _userServiceMock.Object, _mapperMock.Object);
-        
+
         var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
         {
             new Claim(ClaimTypes.Email, "test@example.com")
@@ -63,7 +63,8 @@ public class OrdersControllerTests
         var address = new AddressAggregate();
         _mapperMock.Setup(m => m.Map<AddressDto, AddressAggregate>(It.IsAny<AddressDto>()))
             .Returns(address);
-        _orderServiceMock.Setup(service => service.CreateOrderAsync(It.IsAny<string>(), It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<AddressAggregate>()))
+        _orderServiceMock.Setup(service => service.CreateOrderAsync(It.IsAny<string>(), It.IsAny<Guid>(),
+                It.IsAny<string>(), It.IsAny<AddressAggregate>()))
             .ReturnsAsync((Order)null);
 
         // Act

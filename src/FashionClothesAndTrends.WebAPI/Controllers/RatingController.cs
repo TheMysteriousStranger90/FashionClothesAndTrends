@@ -39,7 +39,7 @@ public class RatingController : BaseApiController
             return StatusCode(500, new ApiResponse(500, "An error occurred while processing your request"));
         }
     }
-    
+
     [HttpGet("clothing/{clothingItemId}/average")]
     public async Task<ActionResult<double?>> GetAverageRating(Guid clothingItemId)
     {
@@ -53,7 +53,7 @@ public class RatingController : BaseApiController
             return StatusCode(500, new ApiResponse(500, "An error occurred while processing your request"));
         }
     }
-    
+
     [HttpGet("user-rating/{clothingItemId}")]
     public async Task<ActionResult<RatingDto?>> GetUserRating(Guid clothingItemId)
     {
@@ -71,4 +71,3 @@ public class RatingController : BaseApiController
         }
     }
 }
-

@@ -18,7 +18,8 @@ public static class IdentityServiceExtensions
             .AddSignInManager<SignInManager<User>>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
-        var tokenKey = config["Token:Key"] ?? throw new InvalidOperationException("Configuration key 'Token:Key' is missing.");
+        var tokenKey = config["Token:Key"] ??
+                       throw new InvalidOperationException("Configuration key 'Token:Key' is missing.");
 
         services.AddAuthentication(options =>
         {

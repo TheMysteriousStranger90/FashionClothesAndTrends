@@ -29,6 +29,7 @@ public class OrdersHistoryController : BaseApiController
             {
                 return NotFound(new ApiResponse(404, $"Order histories not found for user with ID '{userId}'."));
             }
+
             return Ok(orderHistories);
         }
         catch (Exception ex)
@@ -54,7 +55,7 @@ public class OrdersHistoryController : BaseApiController
             return StatusCode(500, new ApiResponse(500, "An error occurred while processing your request"));
         }
     }
-    
+
     [HttpGet]
     public async Task<ActionResult<IReadOnlyList<OrderHistoryToReturnDto>>> GetAllOrderHistories()
     {
@@ -65,6 +66,7 @@ public class OrdersHistoryController : BaseApiController
             {
                 return NotFound(new ApiResponse(404, "Order histories not found."));
             }
+
             return Ok(orderHistories);
         }
         catch (Exception ex)

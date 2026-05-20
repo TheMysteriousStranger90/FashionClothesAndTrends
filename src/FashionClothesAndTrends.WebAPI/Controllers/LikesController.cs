@@ -93,7 +93,7 @@ public class LikesController : BaseApiController
             return StatusCode(500, new ApiResponse(500, "An error occurred while processing your request"));
         }
     }
-    
+
     [HttpGet("comments/{commentId}/likes")]
     public async Task<ActionResult<int>> GetLikesCount(Guid commentId)
     {
@@ -122,4 +122,3 @@ public class LikesController : BaseApiController
         }
     }
 }
-

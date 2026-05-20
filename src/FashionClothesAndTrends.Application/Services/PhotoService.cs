@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using FashionClothesAndTrends.Application.DTOs;
@@ -22,12 +22,10 @@ public class PhotoService : IPhotoService
         _unitOfWork = unitOfWork;
         _mapper = mapper;
 
-        var acc = new Account
-        (
+        var acc = new Account(
             config.Value.CloudName,
             config.Value.ApiKey,
-            config.Value.ApiSecret
-        );
+            config.Value.ApiSecret);
 
         _cloudinary = new Cloudinary(acc);
     }
@@ -38,7 +36,7 @@ public class PhotoService : IPhotoService
 
         if (userPhoto == null)
         {
-            throw new NotFoundException($"User photo not found.");
+            throw new NotFoundException("User photo not found.");
         }
 
         return _mapper.Map<UserPhotoDto>(userPhoto);
@@ -50,13 +48,13 @@ public class PhotoService : IPhotoService
 
         if (clothingItemPhoto == null)
         {
-            throw new NotFoundException($"Clothing item photo not found.");
+            throw new NotFoundException("Clothing item photo not found.");
         }
 
         return _mapper.Map<ClothingItemPhotoDto>(clothingItemPhoto);
     }
 
-    public async Task<ImageUploadResult> AddPhotoAsync(IFormFile file)
+    public async Task<PhotoUploadResultDto> AddPhotoAsync(IFormFile file)
     {
         var uploadResult = new ImageUploadResult();
 
@@ -72,7 +70,12 @@ public class PhotoService : IPhotoService
             uploadResult = await _cloudinary.UploadAsync(uploadParams);
         }
 
-        return uploadResult;
+        return new PhotoUploadResultDto
+        {
+            PublicId = uploadResult.PublicId,
+            SecureUrl = uploadResult.SecureUrl?.AbsoluteUri,
+            ErrorMessage = uploadResult.Error?.Message
+        };
     }
 
     public async Task DeleteUserPhotoByIdAsync(Guid userPhotoId)
@@ -121,10 +124,15 @@ public class PhotoService : IPhotoService
         await _unitOfWork.SaveAsync();
     }
 
-    public async Task<DeletionResult> DeletePhotoAsync(string publicId)
+    public async Task<PhotoDeletionResultDto> DeletePhotoAsync(string publicId)
     {
         var deleteParams = new DeletionParams(publicId);
+        var result = await _cloudinary.DestroyAsync(deleteParams);
 
-        return await _cloudinary.DestroyAsync(deleteParams);
+        return new PhotoDeletionResultDto
+        {
+            Succeeded = result.Result == "ok",
+            ErrorMessage = result.Error?.Message
+        };
     }
 }

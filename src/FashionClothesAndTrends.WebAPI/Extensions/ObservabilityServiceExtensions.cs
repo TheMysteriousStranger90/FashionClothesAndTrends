@@ -21,11 +21,11 @@ public static class ObservabilityServiceExtensions
 
         var serviceName = configuration["OpenTelemetry:ServiceName"] ?? environment.ApplicationName;
         var serviceVersion = configuration["OpenTelemetry:ServiceVersion"]
-            ?? Assembly.GetEntryAssembly()?.GetName().Version?.ToString()
-            ?? "1.0.0";
+                             ?? Assembly.GetEntryAssembly()?.GetName().Version?.ToString()
+                             ?? "1.0.0";
         var samplingRatio = configuration.GetValue<double?>("OpenTelemetry:Tracing:SamplingRatio") ?? 1.0d;
         var enableConsoleExporter = configuration.GetValue<bool?>("OpenTelemetry:ConsoleExporter:Enabled")
-            ?? environment.IsDevelopment();
+                                    ?? environment.IsDevelopment();
         var otlpEndpoint = configuration["OpenTelemetry:Otlp:Endpoint"];
         var otlpHeaders = configuration["OpenTelemetry:Otlp:Headers"];
         var otlpProtocol = ParseOtlpProtocol(configuration["OpenTelemetry:Otlp:Protocol"]);
@@ -54,14 +54,8 @@ public static class ObservabilityServiceExtensions
                             !httpContext.Request.Path.StartsWithSegments("/metrics") &&
                             !httpContext.Request.Path.StartsWithSegments("/swagger");
                     })
-                    .AddHttpClientInstrumentation(options =>
-                    {
-                        options.RecordException = true;
-                    })
-                    .AddSqlClientInstrumentation(options =>
-                    {
-                        options.RecordException = true;
-                    });
+                    .AddHttpClientInstrumentation(options => { options.RecordException = true; })
+                    .AddSqlClientInstrumentation(options => { options.RecordException = true; });
 
                 if (enableConsoleExporter)
                 {
@@ -70,7 +64,8 @@ public static class ObservabilityServiceExtensions
 
                 if (!string.IsNullOrWhiteSpace(otlpEndpoint))
                 {
-                    tracing.AddOtlpExporter(options => ConfigureOtlpExporter(options, otlpEndpoint, otlpHeaders, otlpProtocol));
+                    tracing.AddOtlpExporter(options =>
+                        ConfigureOtlpExporter(options, otlpEndpoint, otlpHeaders, otlpProtocol));
                 }
             })
             .WithMetrics(metrics =>
@@ -88,7 +83,8 @@ public static class ObservabilityServiceExtensions
 
                 if (!string.IsNullOrWhiteSpace(otlpEndpoint))
                 {
-                    metrics.AddOtlpExporter(options => ConfigureOtlpExporter(options, otlpEndpoint, otlpHeaders, otlpProtocol));
+                    metrics.AddOtlpExporter(options =>
+                        ConfigureOtlpExporter(options, otlpEndpoint, otlpHeaders, otlpProtocol));
                 }
             });
 
@@ -147,5 +143,3 @@ public static class ObservabilityServiceExtensions
             : OtlpExportProtocol.Grpc;
     }
 }
-
-

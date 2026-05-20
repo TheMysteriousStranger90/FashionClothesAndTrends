@@ -47,7 +47,7 @@ public class NotificationService : INotificationService
 
         return _mapper.Map<IEnumerable<NotificationDto>>(notifications);
     }
-    
+
     public async Task MarkNotificationAsReadAsync(string userId, Guid notificationId)
     {
         var notification = await _unitOfWork.NotificationRepository.GetByIdAsync(notificationId);

@@ -1,6 +1,4 @@
-﻿using CloudinaryDotNet.Actions;
 using FashionClothesAndTrends.Application.DTOs;
-using Stripe;
 
 namespace FashionClothesAndTrends.Application.Services.Interfaces;
 
@@ -13,7 +11,7 @@ public interface IUserService
     Task<UserDto> GetUserByIdAsync(string id);
     Task<IReadOnlyList<UserDto>> GetAllUsersAsync();
     Task<IReadOnlyList<UserDto>> SearchUsersByNameAsync(string name);
-    Task<UserPhotoDto> AddPhotoByUser(ImageUploadResult result, string userName);
+    Task<UserPhotoDto> AddPhotoByUser(PhotoUploadResultDto result, string userName);
     Task SetMainUserPhotoByUser(Guid userPhotoId, string userName);
     Task DeleteUserPhotoByUser(Guid userPhotoId, string userName);
 }

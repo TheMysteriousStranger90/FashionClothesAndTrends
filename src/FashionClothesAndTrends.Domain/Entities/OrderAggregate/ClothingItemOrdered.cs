@@ -8,7 +8,8 @@ public class ClothingItemOrdered
     {
     }
 
-    public ClothingItemOrdered(Guid clothingItemId, string clothingItemName, ICollection<ClothingItemPhoto> clothingItemPhotos)
+    public ClothingItemOrdered(Guid clothingItemId, string clothingItemName,
+        ICollection<ClothingItemPhoto> clothingItemPhotos)
     {
         ClothingItemId = clothingItemId;
         ClothingItemName = clothingItemName;
@@ -18,8 +19,7 @@ public class ClothingItemOrdered
     public Guid ClothingItemId { get; set; }
     public string ClothingItemName { get; set; } = null!;
 
-    [NotMapped]
-    public ICollection<ClothingItemPhoto> ClothingItemPhotos { get; set; } = [];
+    [NotMapped] public ICollection<ClothingItemPhoto> ClothingItemPhotos { get; set; } = [];
 
     [NotMapped]
     public string? MainPictureUrl => ClothingItemPhotos.FirstOrDefault(p => p.IsMain)?.Url

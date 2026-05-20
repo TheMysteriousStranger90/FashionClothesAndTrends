@@ -37,7 +37,8 @@ public class FavoriteItemService : IFavoriteItemService
 
     public async Task RemoveFavoriteAsync(Guid clothingItemId, string userId)
     {
-        var favoriteItem = await _unitOfWork.FavoriteItemRepository.GetByClothingItemIdAndUserIdAsync(clothingItemId, userId);
+        var favoriteItem =
+            await _unitOfWork.FavoriteItemRepository.GetByClothingItemIdAndUserIdAsync(clothingItemId, userId);
         if (favoriteItem == null)
         {
             throw new NotFoundException("Favorite item not found.");

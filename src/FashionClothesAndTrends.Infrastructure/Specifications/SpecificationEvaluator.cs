@@ -1,8 +1,8 @@
-﻿using FashionClothesAndTrends.Domain.Common;
+using FashionClothesAndTrends.Domain.Common;
 using FashionClothesAndTrends.Domain.Specifications.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace FashionClothesAndTrends.Domain.Specifications;
+namespace FashionClothesAndTrends.Infrastructure.Specifications;
 
 public class SpecificationEvaluator<T> where T : BaseEntity
 {

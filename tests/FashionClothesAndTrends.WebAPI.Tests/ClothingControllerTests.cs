@@ -21,10 +21,7 @@ public class ClothingControllerTests
     {
         _mockClothingItemService = new Mock<IClothingItemService>();
 
-        var config = new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<ClothingBrand, ClothingBrandDto>().ReverseMap();
-        });
+        var config = new MapperConfiguration(cfg => { cfg.CreateMap<ClothingBrand, ClothingBrandDto>().ReverseMap(); });
         _mapper = config.CreateMapper();
 
         _controller = new ClothingController(_mockClothingItemService.Object);
@@ -137,5 +134,3 @@ public class ClothingControllerTests
         Assert.Equal("Test exception", ((ApiResponse)badRequestResult.Value!).Message);
     }
 }
-
-

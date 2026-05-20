@@ -54,7 +54,7 @@ public class ApplicationDbContext : IdentityDbContext<User, AppRole, string,
         modelBuilder.ApplyConfiguration(new OrderItemHistoryConfiguration());
         modelBuilder.ApplyConfiguration(new UserPhotoConfiguration());
         modelBuilder.ApplyConfiguration(new ClothingItemConfiguration());
-        
+
         SeedDataInitializer.ContextSeed(modelBuilder);
     }
 }

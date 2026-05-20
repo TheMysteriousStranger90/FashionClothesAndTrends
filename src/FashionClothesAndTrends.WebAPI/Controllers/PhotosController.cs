@@ -3,8 +3,8 @@ using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.WebAPI.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 using FashionClothesAndTrends.WebAPI.Errors;
+
 namespace FashionClothesAndTrends.WebAPI.Controllers;
 
 [Authorize]
@@ -49,9 +49,9 @@ public class PhotosController : BaseApiController
 
             var result = await _photoService.AddPhotoAsync(file);
 
-            if (result.Error != null)
+            if (!string.IsNullOrEmpty(result.ErrorMessage))
             {
-                return BadRequest(result.Error.Message);
+                return BadRequest(result.ErrorMessage);
             }
 
             var photoDto = await _userService.AddPhotoByUser(result, userName);
@@ -125,9 +125,9 @@ public class PhotosController : BaseApiController
         {
             var result = await _photoService.AddPhotoAsync(file);
 
-            if (result.Error != null)
+            if (!string.IsNullOrEmpty(result.ErrorMessage))
             {
-                return BadRequest(result.Error.Message);
+                return BadRequest(result.ErrorMessage);
             }
 
             var photoDto = await _clothingItemService.AddPhotoByClothingItem(result, clothingItemId);
@@ -169,4 +169,3 @@ public class PhotosController : BaseApiController
         }
     }
 }
-

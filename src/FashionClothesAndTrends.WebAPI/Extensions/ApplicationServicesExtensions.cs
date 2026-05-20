@@ -7,6 +7,7 @@ using FashionClothesAndTrends.Domain.Interfaces;
 using FashionClothesAndTrends.Infrastructure.Context;
 using FashionClothesAndTrends.Infrastructure.Repositories;
 using FashionClothesAndTrends.Infrastructure.UoW;
+using FashionClothesAndTrends.WebAPI.Realtime;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 
@@ -20,10 +21,7 @@ public static class ApplicationServicesExtensions
         var sqlConnectionString = config.GetRequiredSqlConnectionString();
         var redisConnectionString = config.GetRequiredRedisConnectionString();
 
-        services.AddDbContext<ApplicationDbContext>(options =>
-        {
-            options.UseSqlServer(sqlConnectionString);
-        });
+        services.AddDbContext<ApplicationDbContext>(options => { options.UseSqlServer(sqlConnectionString); });
 
         services.AddSingleton<IConnectionMultiplexer>(_ =>
         {
@@ -45,6 +43,7 @@ public static class ApplicationServicesExtensions
         services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<IOrderHistoryService, OrderHistoryService>();
         services.AddScoped<IWishlistService, WishlistService>();
+        services.AddScoped<IDiscountNotificationSender, SignalRDiscountNotificationSender>();
         services.AddScoped<IRatingService, RatingService>();
         services.AddScoped<ILikeDislikeService, LikeDislikeService>();
         services.AddScoped<INotificationService, NotificationService>();

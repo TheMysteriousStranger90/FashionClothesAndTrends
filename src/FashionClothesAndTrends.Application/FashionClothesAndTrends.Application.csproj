@@ -4,19 +4,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FashionClothesAndTrends.Domain\FashionClothesAndTrends.Domain.csproj" />
+    <ProjectReference Include="..\FashionClothesAndTrends.Domain\FashionClothesAndTrends.Domain.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" />
-    <PackageReference Include="CloudinaryDotNet" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" />
-    <PackageReference Include="StackExchange.Redis" />
-    <PackageReference Include="Stripe.net" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
+    <PackageReference Include="AutoMapper"/>
+    <PackageReference Include="CloudinaryDotNet"/>
+    <PackageReference Include="Microsoft.IdentityModel.Tokens"/>
+    <PackageReference Include="StackExchange.Redis"/>
+    <PackageReference Include="Stripe.net"/>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt"/>
   </ItemGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App"/>
   </ItemGroup>
 </Project>

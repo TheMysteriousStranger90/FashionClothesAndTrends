@@ -20,6 +20,6 @@
   </ItemGroup>
   <!-- Suppress AutoMapper advisory (controlled mapping environment, no user-supplied type maps) -->
   <ItemGroup>
-    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-rvv3-g6hj-g44x" />
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-rvv3-g6hj-g44x"/>
   </ItemGroup>
 </Project>

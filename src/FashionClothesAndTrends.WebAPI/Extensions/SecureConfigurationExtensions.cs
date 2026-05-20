@@ -15,13 +15,13 @@ public static class SecureConfigurationExtensions
             configuration["ConnectionStrings__DefaultLocalDbConnection"]);
 
         return profile switch
-        {
-            ConnectionProfile.Docker => FirstNonEmpty(dockerValue, localValue),
-            ConnectionProfile.Local => FirstNonEmpty(localValue, dockerValue),
-            _ => FirstNonEmpty(localValue, dockerValue)
-        }
-        ?? throw new InvalidOperationException(
-            "SQL connection string is missing. Configure local or docker connection via env/User Secrets.");
+               {
+                   ConnectionProfile.Docker => FirstNonEmpty(dockerValue, localValue),
+                   ConnectionProfile.Local => FirstNonEmpty(localValue, dockerValue),
+                   _ => FirstNonEmpty(localValue, dockerValue)
+               }
+               ?? throw new InvalidOperationException(
+                   "SQL connection string is missing. Configure local or docker connection via env/User Secrets.");
     }
 
     public static string GetRequiredRedisConnectionString(this IConfiguration configuration)
@@ -37,13 +37,13 @@ public static class SecureConfigurationExtensions
             configuration["ConnectionStrings__RedisLocalDb"]);
 
         return profile switch
-        {
-            ConnectionProfile.Docker => FirstNonEmpty(dockerValue, localValue),
-            ConnectionProfile.Local => FirstNonEmpty(localValue, dockerValue),
-            _ => FirstNonEmpty(localValue, dockerValue)
-        }
-        ?? throw new InvalidOperationException(
-            "Redis connection string is missing. Configure local or docker connection via env/User Secrets.");
+               {
+                   ConnectionProfile.Docker => FirstNonEmpty(dockerValue, localValue),
+                   ConnectionProfile.Local => FirstNonEmpty(localValue, dockerValue),
+                   _ => FirstNonEmpty(localValue, dockerValue)
+               }
+               ?? throw new InvalidOperationException(
+                   "Redis connection string is missing. Configure local or docker connection via env/User Secrets.");
     }
 
     private static ConnectionProfile ResolveConnectionProfile()

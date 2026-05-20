@@ -7,7 +7,8 @@ public class HangfireAuthorizationFilter : IDashboardAuthorizationFilter
     private readonly ILogger<HangfireAuthorizationFilter> _logger;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public HangfireAuthorizationFilter(ILogger<HangfireAuthorizationFilter> logger, IHttpContextAccessor httpContextAccessor)
+    public HangfireAuthorizationFilter(ILogger<HangfireAuthorizationFilter> logger,
+        IHttpContextAccessor httpContextAccessor)
     {
         _logger = logger;
         _httpContextAccessor = httpContextAccessor;

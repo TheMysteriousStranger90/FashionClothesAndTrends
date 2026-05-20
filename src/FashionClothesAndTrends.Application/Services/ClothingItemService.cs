@@ -1,5 +1,4 @@
 using AutoMapper;
-using CloudinaryDotNet.Actions;
 using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Exceptions;
 using FashionClothesAndTrends.Application.Helpers;
@@ -47,7 +46,8 @@ public class ClothingItemService : IClothingItemService
         var data = _mapper
             .Map<IReadOnlyList<ClothingItem>, IReadOnlyList<ClothingItemDto>>(clothingItems);
 
-        return new Pagination<ClothingItemDto>(clothingSpecParams.PageIndex, clothingSpecParams.PageSize, totalItems, data);
+        return new Pagination<ClothingItemDto>(clothingSpecParams.PageIndex, clothingSpecParams.PageSize, totalItems,
+            data);
     }
 
     public async Task<IReadOnlyList<ClothingBrandDto>> GetClothingBrands()
@@ -56,14 +56,19 @@ public class ClothingItemService : IClothingItemService
         return _mapper.Map<IReadOnlyList<ClothingBrandDto>>(brands);
     }
 
-    public async Task<ClothingItemPhotoDto> AddPhotoByClothingItem(ImageUploadResult result, Guid clothingItemId)
+    public async Task<ClothingItemPhotoDto> AddPhotoByClothingItem(PhotoUploadResultDto result, Guid clothingItemId)
     {
         var clothingItem = await _unitOfWork.ClothingItemRepository.GetClothingByIdAsync(clothingItemId);
         if (clothingItem == null) throw new NotFoundException("Clothing item not found!");
 
+        if (string.IsNullOrWhiteSpace(result.SecureUrl) || string.IsNullOrWhiteSpace(result.PublicId))
+        {
+            throw new ConflictException("Photo upload returned incomplete data.");
+        }
+
         var photo = new ClothingItemPhoto
         {
-            Url = result.SecureUrl.AbsoluteUri,
+            Url = result.SecureUrl,
             PublicId = result.PublicId
         };
 
@@ -102,7 +107,7 @@ public class ClothingItemService : IClothingItemService
         if (photo.PublicId != null)
         {
             var result = await _photoService.DeletePhotoAsync(photo.PublicId);
-            if (result.Error != null) throw new ConflictException("Error!");
+            if (!result.Succeeded) throw new ConflictException(result.ErrorMessage ?? "Error!");
         }
 
         clothingItem.ClothingItemPhotos.Remove(photo);

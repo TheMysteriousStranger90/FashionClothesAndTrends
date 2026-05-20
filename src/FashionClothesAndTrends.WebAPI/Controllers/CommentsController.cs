@@ -48,7 +48,7 @@ public class CommentsController : BaseApiController
         {
             var userId = User.GetUserId();
             if (userId == null) return Unauthorized();
-            
+
             await _commentService.RemoveCommentAsync(commentId, userId);
             return NoContent();
         }
@@ -98,4 +98,3 @@ public class CommentsController : BaseApiController
         }
     }
 }
-

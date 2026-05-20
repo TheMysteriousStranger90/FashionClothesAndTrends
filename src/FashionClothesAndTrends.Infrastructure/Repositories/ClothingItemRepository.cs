@@ -63,7 +63,8 @@ public class ClothingItemRepository : GenericRepository<ClothingItem>, IClothing
             .ToListAsync();
     }
 
-    public async Task<IReadOnlyList<ClothingItem>> GetClothingByFiltersAsync(Gender? gender = null, Size? size = null, Category? category = null)
+    public async Task<IReadOnlyList<ClothingItem>> GetClothingByFiltersAsync(Gender? gender = null, Size? size = null,
+        Category? category = null)
     {
         var query = _context.ClothingItems.AsQueryable();
 

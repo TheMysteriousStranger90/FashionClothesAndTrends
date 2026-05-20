@@ -12,7 +12,7 @@ public static class SeedDataInitializer
 {
     public static void ContextSeed(ModelBuilder modelBuilder)
     {
-       var clothingBrands = new[]
+        var clothingBrands = new[]
         {
             new ClothingBrand
             {
@@ -72,7 +72,8 @@ public static class SeedDataInitializer
             {
                 Id = Guid.NewGuid(),
                 Name = "LV Gram Square Cat Eye Sunglasses",
-                Description = "The LV Gram Square Cat Eye sunglasses feature a distinctive signature from Louis Vuitton’s jewelry and belts collections. The slim acetate and metal temples are adorned with the LV Initials and two Monogram Flowers finely crafted in gold-tone metal. Monogram Flower details on the lenses and end tips add an extra House touch. These stylish, feminine sunglasses are ideal for accenting a summer outfit.",
+                Description =
+                    "The LV Gram Square Cat Eye sunglasses feature a distinctive signature from Louis Vuitton’s jewelry and belts collections. The slim acetate and metal temples are adorned with the LV Initials and two Monogram Flowers finely crafted in gold-tone metal. Monogram Flower details on the lenses and end tips add an extra House touch. These stylish, feminine sunglasses are ideal for accenting a summer outfit.",
                 Price = 3200.00M,
                 Gender = Gender.Female,
                 Size = Size.M,
@@ -84,7 +85,8 @@ public static class SeedDataInitializer
             {
                 Id = Guid.NewGuid(),
                 Name = "Dior Dior Icon Heeled Ankle Boot",
-                Description = "New for Winter 2024, the Dior Icon heeled ankle boot transcends House codes of couture refinement. The black suede calfskin upper is elevated by elastic bands on the sides and the gold-finish metal CD signature on the back. The 8-cm (3) Graphic Cannage cylindrical heel in gold-finish metal offers a modern 3D version of the House's iconic motif. Featuring a square toe, the sophisticated and comfortable ankle boot will add the finishing touch to any of the season's looks.",
+                Description =
+                    "New for Winter 2024, the Dior Icon heeled ankle boot transcends House codes of couture refinement. The black suede calfskin upper is elevated by elastic bands on the sides and the gold-finish metal CD signature on the back. The 8-cm (3) Graphic Cannage cylindrical heel in gold-finish metal offers a modern 3D version of the House's iconic motif. Featuring a square toe, the sophisticated and comfortable ankle boot will add the finishing touch to any of the season's looks.",
                 Price = 2900.00M,
                 Gender = Gender.Female,
                 Size = Size.M,
@@ -96,7 +98,8 @@ public static class SeedDataInitializer
             {
                 Id = Guid.NewGuid(),
                 Name = "Gucci GG MARMONT THIN BELT",
-                Description = "The GG Marmont belt continues to enrich each new collection with its streamlined design. Inspired by an archival design from the 1970s, the line's monogram Double G hardware is presented in a shiny silver tone atop this black leather variation.",
+                Description =
+                    "The GG Marmont belt continues to enrich each new collection with its streamlined design. Inspired by an archival design from the 1970s, the line's monogram Double G hardware is presented in a shiny silver tone atop this black leather variation.",
                 Price = 450.00M,
                 Gender = Gender.Male,
                 Size = Size.L,
@@ -108,7 +111,8 @@ public static class SeedDataInitializer
             {
                 Id = Guid.NewGuid(),
                 Name = "Prada Cotton T-shirt",
-                Description = "An essential item of the brand, the Prada jersey T-shirt embodies the luxury of simplicity that becomes an attitude and search to reinvent the bases and propose new meanings. The design is accented with the brand's emblematic lettering logo presented here in a silicone version.",
+                Description =
+                    "An essential item of the brand, the Prada jersey T-shirt embodies the luxury of simplicity that becomes an attitude and search to reinvent the bases and propose new meanings. The design is accented with the brand's emblematic lettering logo presented here in a silicone version.",
                 Price = 950.00M,
                 Gender = Gender.Male,
                 Size = Size.XL,
@@ -120,7 +124,8 @@ public static class SeedDataInitializer
             {
                 Id = Guid.NewGuid(),
                 Name = "Versace Barocco Devore Shirt",
-                Description = "A regular-fit, long-sleeved fluid shirt featuring an all-over tonal Barocco devore motif.",
+                Description =
+                    "A regular-fit, long-sleeved fluid shirt featuring an all-over tonal Barocco devore motif.",
                 Price = 1200.00M,
                 Gender = Gender.Male,
                 Size = Size.L,
@@ -137,7 +142,8 @@ public static class SeedDataInitializer
             new ClothingItemPhoto
             {
                 Id = Guid.NewGuid(),
-                Url = "https://www.chanel.com/images//t_zoomportee/f_auto//jacket-black-lambskin-lambskin-packshot-alternative-p78125c7009094305-9548808159262.jpg",
+                Url =
+                    "https://www.chanel.com/images//t_zoomportee/f_auto//jacket-black-lambskin-lambskin-packshot-alternative-p78125c7009094305-9548808159262.jpg",
                 IsMain = true,
                 PublicId = "PublicId6",
                 ClothingItemId = clothingItems[0].Id
@@ -145,7 +151,8 @@ public static class SeedDataInitializer
             new ClothingItemPhoto
             {
                 Id = Guid.NewGuid(),
-                Url = "https://eu.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-lv-gram-square-cat-eye-sunglasses-s00-sunglasses--Z2459U_PM2_Front%20view.png?wid=1090&hei=1090",
+                Url =
+                    "https://eu.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-lv-gram-square-cat-eye-sunglasses-s00-sunglasses--Z2459U_PM2_Front%20view.png?wid=1090&hei=1090",
                 IsMain = true,
                 PublicId = "PublicId5",
                 ClothingItemId = clothingItems[1].Id
@@ -153,7 +160,8 @@ public static class SeedDataInitializer
             new ClothingItemPhoto
             {
                 Id = Guid.NewGuid(),
-                Url = "https://www.dior.com/couture/ecommerce/media/catalog/product/Q/K/1721839565_KCT067VVV_S900_E03_GHC.jpg?imwidth=720",
+                Url =
+                    "https://www.dior.com/couture/ecommerce/media/catalog/product/Q/K/1721839565_KCT067VVV_S900_E03_GHC.jpg?imwidth=720",
                 IsMain = true,
                 PublicId = "PublicId4",
                 ClothingItemId = clothingItems[2].Id
@@ -161,7 +169,8 @@ public static class SeedDataInitializer
             new ClothingItemPhoto
             {
                 Id = Guid.NewGuid(),
-                Url = "https://media.gucci.com/style/DarkGray_Center_0_0_2400x2400/1714409103/414516_0AABG_1000_001_100_0000_Light-GG-Marmont-thin-belt.jpg",
+                Url =
+                    "https://media.gucci.com/style/DarkGray_Center_0_0_2400x2400/1714409103/414516_0AABG_1000_001_100_0000_Light-GG-Marmont-thin-belt.jpg",
                 IsMain = true,
                 PublicId = "PublicId3",
                 ClothingItemId = clothingItems[3].Id
@@ -169,7 +178,8 @@ public static class SeedDataInitializer
             new ClothingItemPhoto
             {
                 Id = Guid.NewGuid(),
-                Url = "https://www.prada.com/content/dam/pradabkg_products/U/UJN/UJN815/1052F0002/UJN815_1052_F0002_S_221_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg",
+                Url =
+                    "https://www.prada.com/content/dam/pradabkg_products/U/UJN/UJN815/1052F0002/UJN815_1052_F0002_S_221_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg",
                 IsMain = true,
                 PublicId = "PublicId2",
                 ClothingItemId = clothingItems[4].Id
@@ -177,7 +187,8 @@ public static class SeedDataInitializer
             new ClothingItemPhoto
             {
                 Id = Guid.NewGuid(),
-                Url = "https://www.versace.com/dw/image/v2/BGWN_PRD/on/demandware.static/-/Sites-ver-master-catalog/default/dwf9d0b70e/original/90_1012141-1A11358_1B000_10_BaroccoDevorShirt-Shirts-Versace-online-store_0_2.jpg?sw=1200&q=85&strip=true",
+                Url =
+                    "https://www.versace.com/dw/image/v2/BGWN_PRD/on/demandware.static/-/Sites-ver-master-catalog/default/dwf9d0b70e/original/90_1012141-1A11358_1B000_10_BaroccoDevorShirt-Shirts-Versace-online-store_0_2.jpg?sw=1200&q=85&strip=true",
                 IsMain = true,
                 PublicId = "PublicId1",
                 ClothingItemId = clothingItems[5].Id
@@ -185,7 +196,7 @@ public static class SeedDataInitializer
         };
 
         modelBuilder.Entity<ClothingItemPhoto>().HasData(clothingItemPhotos);
-        
+
         modelBuilder.Entity<DeliveryMethod>().HasData(
             new DeliveryMethod()
             {
@@ -237,8 +248,13 @@ public static class SeedDataInitializer
                 LastName = "Doe",
                 Gender = "male",
                 DateOfBirth = new DateOnly(1990, 5, 15),
-                UserPhotos = new List<UserPhoto> { new UserPhoto { Url = "https://randomuser.me/api/portraits/men/91.jpg", IsMain = true, PublicId = "PublicId1",
-                } },
+                UserPhotos = new List<UserPhoto>
+                {
+                    new UserPhoto
+                    {
+                        Url = "https://randomuser.me/api/portraits/men/91.jpg", IsMain = true, PublicId = "PublicId1",
+                    }
+                },
                 Address = new ShippingAddress
                 {
                     AddressLine = "123 Main St",
@@ -257,8 +273,13 @@ public static class SeedDataInitializer
                 LastName = "Smith",
                 Gender = "female",
                 DateOfBirth = new DateOnly(1985, 10, 25),
-                UserPhotos = new List<UserPhoto> { new UserPhoto { Url = "https://randomuser.me/api/portraits/women/85.jpg", IsMain = true, PublicId = "PublicId2",
-                } },
+                UserPhotos = new List<UserPhoto>
+                {
+                    new UserPhoto
+                    {
+                        Url = "https://randomuser.me/api/portraits/women/85.jpg", IsMain = true, PublicId = "PublicId2",
+                    }
+                },
                 Address = new ShippingAddress
                 {
                     AddressLine = "456 Maple Ave",
@@ -277,8 +298,13 @@ public static class SeedDataInitializer
                 LastName = "User",
                 Gender = "male",
                 DateOfBirth = new DateOnly(1980, 1, 1),
-                UserPhotos = new List<UserPhoto> { new UserPhoto { Url = "https://randomuser.me/api/portraits/men/72.jpg", IsMain = true, PublicId = "PublicId3",
-                } },
+                UserPhotos = new List<UserPhoto>
+                {
+                    new UserPhoto
+                    {
+                        Url = "https://randomuser.me/api/portraits/men/72.jpg", IsMain = true, PublicId = "PublicId3",
+                    }
+                },
                 Address = new ShippingAddress
                 {
                     AddressLine = "789 Oak St",

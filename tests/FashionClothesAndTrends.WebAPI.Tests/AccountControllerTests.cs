@@ -236,6 +236,7 @@ public class AccountControllerTests
         statusCodeResult.Should().NotBeNull();
         statusCodeResult.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
     }
+
     [Fact]
     public async Task ConfirmEmail_ShouldReturnOk_WhenConfirmationIsSuccessful()
     {
@@ -447,7 +448,8 @@ public class AccountControllerTests
             Token = "some-token"
         };
 
-        _authServiceMock.Setup(service => service.FindByEmailFromClaims(It.IsAny<System.Security.Claims.ClaimsPrincipal>()))
+        _authServiceMock.Setup(service =>
+                service.FindByEmailFromClaims(It.IsAny<System.Security.Claims.ClaimsPrincipal>()))
             .ReturnsAsync(userDto);
 
         // Act
@@ -464,7 +466,8 @@ public class AccountControllerTests
     public async Task GetCurrentUser_ShouldReturnInternalServerError_WhenExceptionIsThrown()
     {
         // Arrange
-        _authServiceMock.Setup(service => service.FindByEmailFromClaims(It.IsAny<System.Security.Claims.ClaimsPrincipal>()))
+        _authServiceMock.Setup(service =>
+                service.FindByEmailFromClaims(It.IsAny<System.Security.Claims.ClaimsPrincipal>()))
             .ThrowsAsync(new Exception("Something went wrong"));
 
         // Act

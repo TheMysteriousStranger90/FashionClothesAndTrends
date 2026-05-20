@@ -1,12 +1,9 @@
 using AutoMapper;
 using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Exceptions;
-using FashionClothesAndTrends.Application.Hubs;
-using FashionClothesAndTrends.Application.Hubs.Interfaces;
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.Application.UoW;
 using FashionClothesAndTrends.Domain.Entities;
-using Microsoft.AspNetCore.SignalR;
 
 namespace FashionClothesAndTrends.Application.Services;
 
@@ -14,16 +11,18 @@ public class WishlistService : IWishlistService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
-    private readonly IHubContext<DiscountNotificationHub, INotificationHub> _discountNotification;
+    private readonly IDiscountNotificationSender _discountNotificationSender;
     private readonly INotificationService _notificationService;
 
-    public WishlistService(IUnitOfWork unitOfWork, IMapper mapper,
-        IHubContext<DiscountNotificationHub, INotificationHub> hubContext,
+    public WishlistService(
+        IUnitOfWork unitOfWork,
+        IMapper mapper,
+        IDiscountNotificationSender discountNotificationSender,
         INotificationService notificationService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
-        _discountNotification = hubContext;
+        _discountNotificationSender = discountNotificationSender;
         _notificationService = notificationService;
     }
 
@@ -66,14 +65,14 @@ public class WishlistService : IWishlistService
                 {
                     var notification = new Notification
                     {
-                        Text = $"A discount of {item.ClothingItem.Discount.Value}% has been applied to an {item.ClothingItem.Name} item in your wishlist.",
+                        Text =
+                            $"A discount of {item.ClothingItem.Discount.Value}% has been applied to an {item.ClothingItem.Name} item in your wishlist.",
                         UserId = userId,
                         IsRead = false,
                         CreatedAt = DateTime.UtcNow
                     };
 
-                    await _discountNotification.Clients.Group(userId).SendMessage(notification);
-
+                    await _discountNotificationSender.SendDiscountNotificationAsync(userId, notification);
                     await _notificationService.AddNotificationAsync(notification);
                 }
             }

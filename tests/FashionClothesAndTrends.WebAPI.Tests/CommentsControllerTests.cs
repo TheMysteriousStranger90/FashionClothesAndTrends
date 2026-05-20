@@ -70,7 +70,7 @@ public class CommentsControllerTests
         Assert.Equal(500, apiResponse.StatusCode);
         Assert.Equal("An error occurred while processing your request", apiResponse.Message);
     }
-    
+
     [Fact]
     public async Task RemoveComment_ReturnsNotFound_WhenNotFoundExceptionThrown()
     {

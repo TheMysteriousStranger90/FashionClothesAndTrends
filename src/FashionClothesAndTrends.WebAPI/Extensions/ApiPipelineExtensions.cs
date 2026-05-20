@@ -11,11 +11,13 @@ public static class ApiPipelineExtensions
         IHostEnvironment environment)
     {
         var csp = configuration["SecurityHeaders:ContentSecurityPolicy"]
-                  ?? "default-src 'self'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'";
+                  ??
+                  "default-src 'self'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'";
         var referrerPolicy = configuration["SecurityHeaders:ReferrerPolicy"]
                              ?? "strict-origin-when-cross-origin";
         var permissionsPolicy = configuration["SecurityHeaders:PermissionsPolicy"]
-                                ?? "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()";
+                                ??
+                                "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()";
 
         app.Use(async (context, next) =>
         {
@@ -42,7 +44,8 @@ public static class ApiPipelineExtensions
     {
         app.UseHangfireDashboard("/jobs", new DashboardOptions
         {
-            Authorization = [app.Services.CreateScope().ServiceProvider.GetRequiredService<HangfireAuthorizationFilter>()]
+            Authorization =
+                [app.Services.CreateScope().ServiceProvider.GetRequiredService<HangfireAuthorizationFilter>()]
         });
 
         return app;

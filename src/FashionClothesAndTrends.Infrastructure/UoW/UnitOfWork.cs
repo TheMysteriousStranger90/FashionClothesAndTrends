@@ -48,7 +48,7 @@ public class UnitOfWork : IUnitOfWork
         {
             var repositoryType = typeof(GenericRepository<>);
             repo = Activator.CreateInstance(repositoryType.MakeGenericType(typeof(T)), _context)
-                ?? throw new InvalidOperationException($"Could not create repository for type {type}.");
+                   ?? throw new InvalidOperationException($"Could not create repository for type {type}.");
             _repositories[type] = repo;
         }
 
@@ -107,6 +107,7 @@ public class UnitOfWork : IUnitOfWork
         {
             _context.Dispose();
         }
+
         _disposed = true;
     }
 

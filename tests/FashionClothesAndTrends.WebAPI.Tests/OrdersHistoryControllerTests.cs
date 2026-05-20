@@ -19,7 +19,7 @@ public class OrdersHistoryControllerTests
         _orderHistoryServiceMock = new Mock<IOrderHistoryService>();
         _controller = new OrdersHistoryController(_orderHistoryServiceMock.Object);
     }
-    
+
     [Fact]
     public async Task GetOrderHistoriesForUser_ReturnsInternalServerError_OnException()
     {
@@ -44,7 +44,8 @@ public class OrdersHistoryControllerTests
     {
         // Arrange
         var orderId = Guid.NewGuid();
-        var orderHistory = new OrderHistoryToReturnDto { Id = orderId, TotalAmount = 100, Status = OrderStatus.Pending.ToString() };
+        var orderHistory = new OrderHistoryToReturnDto
+            { Id = orderId, TotalAmount = 100, Status = OrderStatus.Pending.ToString() };
         _orderHistoryServiceMock.Setup(service => service.GetOrderHistoryByIdAsync(orderId))
             .ReturnsAsync(orderHistory);
 
@@ -100,8 +101,10 @@ public class OrdersHistoryControllerTests
         // Arrange
         var orderHistories = new List<OrderHistoryToReturnDto>
         {
-            new OrderHistoryToReturnDto { Id = Guid.NewGuid(), TotalAmount = 100, Status = OrderStatus.Pending.ToString() },
-            new OrderHistoryToReturnDto { Id = Guid.NewGuid(), TotalAmount = 200, Status = OrderStatus.PaymentReceived.ToString() }
+            new OrderHistoryToReturnDto
+                { Id = Guid.NewGuid(), TotalAmount = 100, Status = OrderStatus.Pending.ToString() },
+            new OrderHistoryToReturnDto
+                { Id = Guid.NewGuid(), TotalAmount = 200, Status = OrderStatus.PaymentReceived.ToString() }
         };
         _orderHistoryServiceMock.Setup(service => service.GatAllOrderHistoriesAsync())
             .ReturnsAsync(orderHistories);

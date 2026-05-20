@@ -6,11 +6,9 @@ public class LikeDislikeDto
 {
     public bool IsLike { get; set; }
 
-    [Required]
-    public Guid CommentId { get; set; }
+    [Required] public Guid CommentId { get; set; }
 
-    [Required]
-    public string UserId { get; set; } = string.Empty;
+    [Required] public string UserId { get; set; } = string.Empty;
 
     public string Username { get; set; } = string.Empty;
 }

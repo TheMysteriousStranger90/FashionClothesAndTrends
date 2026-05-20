@@ -129,4 +129,3 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
         Docker
     }
 }
-

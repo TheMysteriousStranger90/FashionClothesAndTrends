@@ -1,8 +1,8 @@
 using System.Linq.Expressions;
 using FashionClothesAndTrends.Domain.Common;
 using FashionClothesAndTrends.Domain.Interfaces;
-using FashionClothesAndTrends.Domain.Specifications;
 using FashionClothesAndTrends.Domain.Specifications.Interfaces;
+using FashionClothesAndTrends.Infrastructure.Specifications;
 using FashionClothesAndTrends.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 

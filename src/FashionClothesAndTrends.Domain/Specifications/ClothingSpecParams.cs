@@ -8,6 +8,7 @@ public class ClothingSpecParams
     public int PageIndex { get; set; } = 1;
 
     private int _pageSize = 3;
+
     public int PageSize
     {
         get => _pageSize;
@@ -19,7 +20,7 @@ public class ClothingSpecParams
     public Gender? Gender { get; set; }
     public Size? Size { get; set; }
     public Category? Category { get; set; }
-    
+
     public string Sort { get; set; } = "name";
     private string _search = "";
 

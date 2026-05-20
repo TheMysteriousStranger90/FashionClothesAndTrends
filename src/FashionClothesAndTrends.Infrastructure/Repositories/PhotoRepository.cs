@@ -31,7 +31,8 @@ public class PhotoRepository : IPhotoRepository
             .FirstOrDefaultAsync(up => up.Id == userPhotoId && up.User.UserName == appUserName);
     }
 
-    public async Task<ClothingItemPhoto?> GetClothingItemByIdAndClothingItemIdAsync(Guid clothingItemPhotoId, Guid clothingItemId)
+    public async Task<ClothingItemPhoto?> GetClothingItemByIdAndClothingItemIdAsync(Guid clothingItemPhotoId,
+        Guid clothingItemId)
     {
         return await _context.ClothingItemPhotos
             .Include(cp => cp.ClothingItem)

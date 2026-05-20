@@ -117,5 +117,3 @@ public class AdminControllerTests
         Assert.Equal("Error deleting role", ((ApiResponse)badRequestResult.Value!).Message);
     }
 }
-
-

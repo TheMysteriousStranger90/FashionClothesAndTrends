@@ -1,12 +1,9 @@
 using AutoMapper;
 using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Exceptions;
-using FashionClothesAndTrends.Application.Hubs;
-using FashionClothesAndTrends.Application.Hubs.Interfaces;
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.Application.UoW;
 using FashionClothesAndTrends.Domain.Entities;
-using Microsoft.AspNetCore.SignalR;
 
 namespace FashionClothesAndTrends.Application.Services;
 

@@ -19,7 +19,7 @@ public class ClothingController : BaseApiController
     {
         _clothingItemService = clothingItemService;
     }
-    
+
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
@@ -49,7 +49,7 @@ public class ClothingController : BaseApiController
             return BadRequest(new ApiResponse(400, ex.Message));
         }
     }
-    
+
     [HttpGet("brands")]
     public async Task<ActionResult<IReadOnlyList<ClothingBrandDto>>> GetClothingBrandS()
     {
@@ -62,7 +62,7 @@ public class ClothingController : BaseApiController
             return BadRequest(new ApiResponse(400, ex.Message));
         }
     }
-    
+
     [Authorize(Policy = "RequireAdminRole")]
     [HttpPost("brands")]
     public async Task<ActionResult> AddClothingBrandAsync([FromBody] CreateClothingBrandDto createClothingBrandDto)
@@ -82,7 +82,7 @@ public class ClothingController : BaseApiController
             return BadRequest(new ApiResponse(400, ex.Message));
         }
     }
-    
+
     [Authorize(Policy = "RequireAdminRole")]
     [HttpPost("items")]
     public async Task<ActionResult> AddClothingItemAsync([FromBody] CreateClothingItemDto createClothingItemDto)
@@ -102,7 +102,7 @@ public class ClothingController : BaseApiController
             return BadRequest(new ApiResponse(400, ex.Message));
         }
     }
-    
+
     [Authorize(Policy = "RequireAdminRole")]
     [HttpDelete("{clothingItemId}")]
     public async Task<ActionResult> RemoveClothingItem(Guid clothingItemId)
@@ -121,7 +121,7 @@ public class ClothingController : BaseApiController
             return StatusCode(500, new ApiResponse(500, "An error occurred while processing your request"));
         }
     }
-    
+
     [HttpGet("all")]
     public async Task<ActionResult<IReadOnlyList<ClothingItemDto>>> GetAllClothingItems()
     {
@@ -136,5 +136,3 @@ public class ClothingController : BaseApiController
         }
     }
 }
-
-

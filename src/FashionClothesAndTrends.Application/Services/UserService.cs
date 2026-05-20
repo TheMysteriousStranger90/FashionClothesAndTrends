@@ -1,5 +1,4 @@
 using AutoMapper;
-using CloudinaryDotNet.Actions;
 using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Exceptions;
 using FashionClothesAndTrends.Application.Services.Interfaces;
@@ -81,15 +80,20 @@ public class UserService : IUserService
         return _mapper.Map<IReadOnlyList<UserDto>>(users);
     }
 
-    public async Task<UserPhotoDto> AddPhotoByUser(ImageUploadResult result, string userName)
+    public async Task<UserPhotoDto> AddPhotoByUser(PhotoUploadResultDto result, string userName)
     {
         var user = await _unitOfWork.UserRepository.GetUserByUserNameAsync(userName);
 
         if (user == null) throw new NotFoundException("Not Found!");
 
+        if (string.IsNullOrWhiteSpace(result.SecureUrl) || string.IsNullOrWhiteSpace(result.PublicId))
+        {
+            throw new ConflictException("Photo upload returned incomplete data.");
+        }
+
         var photo = new UserPhoto
         {
-            Url = result.SecureUrl.AbsoluteUri,
+            Url = result.SecureUrl,
             PublicId = result.PublicId,
             UserId = user.Id
         };
@@ -135,7 +139,7 @@ public class UserService : IUserService
         if (photo.PublicId != null)
         {
             var result = await _photoService.DeletePhotoAsync(photo.PublicId);
-            if (result.Error != null) throw new ConflictException("Error!");
+            if (!result.Succeeded) throw new ConflictException(result.ErrorMessage ?? "Error!");
         }
 
         user.UserPhotos.Remove(photo);

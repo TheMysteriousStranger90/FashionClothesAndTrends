@@ -1,8 +1,8 @@
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 using FashionClothesAndTrends.WebAPI.Errors;
+
 namespace FashionClothesAndTrends.WebAPI.Controllers;
 
 [Authorize]

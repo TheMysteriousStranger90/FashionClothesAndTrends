@@ -1,5 +1,5 @@
 using System.Reflection;
-using FashionClothesAndTrends.Application.Hubs;
+using FashionClothesAndTrends.WebAPI.Hubs;
 using FashionClothesAndTrends.Domain.Entities;
 using FashionClothesAndTrends.Infrastructure.Context;
 using FashionClothesAndTrends.Infrastructure.SeedData;
@@ -19,8 +19,8 @@ try
     var builder = WebApplication.CreateBuilder(args);
     var serviceName = builder.Configuration["OpenTelemetry:ServiceName"] ?? builder.Environment.ApplicationName;
     var serviceVersion = builder.Configuration["OpenTelemetry:ServiceVersion"]
-        ?? Assembly.GetEntryAssembly()?.GetName().Version?.ToString()
-        ?? "1.0.0";
+                         ?? Assembly.GetEntryAssembly()?.GetName().Version?.ToString()
+                         ?? "1.0.0";
 
     builder.Host.UseSerilog((context, services, loggerConfiguration) => loggerConfiguration
         .ReadFrom.Configuration(context.Configuration)
@@ -74,7 +74,8 @@ try
             diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value ?? string.Empty);
             diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
             diagnosticContext.Set("TraceIdentifier", httpContext.TraceIdentifier);
-            diagnosticContext.Set("RemoteIpAddress", httpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty);
+            diagnosticContext.Set("RemoteIpAddress",
+                httpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty);
             diagnosticContext.Set("UserName", httpContext.User.Identity?.Name ?? string.Empty);
         };
     });
@@ -125,5 +126,3 @@ finally
 {
     await Log.CloseAndFlushAsync();
 }
-
-

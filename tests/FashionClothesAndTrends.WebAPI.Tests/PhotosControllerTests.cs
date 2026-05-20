@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using CloudinaryDotNet.Actions;
+using System.Security.Claims;
 using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.WebAPI.Controllers;
@@ -64,8 +63,8 @@ public class PhotosControllerTests
         // Arrange
         var fileMock = new Mock<IFormFile>();
         var userName = "testuser";
-        var uploadResult = new ImageUploadResult
-            { SecureUrl = new Uri("http://example.com/photo.jpg"), PublicId = "publicId" };
+        var uploadResult = new PhotoUploadResultDto
+            { SecureUrl = "http://example.com/photo.jpg", PublicId = "publicId" };
         var photoDto = new UserPhotoDto { Id = Guid.NewGuid(), Url = "http://example.com/photo.jpg", IsMain = true };
 
         _photoServiceMock.Setup(service => service.AddPhotoAsync(fileMock.Object))
@@ -144,8 +143,8 @@ public class PhotosControllerTests
         // Arrange
         var fileMock = new Mock<IFormFile>();
         var clothingItemId = Guid.NewGuid();
-        var uploadResult = new ImageUploadResult
-            { SecureUrl = new Uri("http://example.com/photo.jpg"), PublicId = "publicId" };
+        var uploadResult = new PhotoUploadResultDto
+            { SecureUrl = "http://example.com/photo.jpg", PublicId = "publicId" };
         var photoDto = new ClothingItemPhotoDto
             { Id = Guid.NewGuid(), Url = "http://example.com/photo.jpg", IsMain = true };
 

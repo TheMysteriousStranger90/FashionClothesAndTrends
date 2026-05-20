@@ -2,8 +2,8 @@ using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 using FashionClothesAndTrends.WebAPI.Errors;
+
 namespace FashionClothesAndTrends.WebAPI.Controllers;
 
 [Authorize]
@@ -56,7 +56,7 @@ public class CouponController : BaseApiController
             return BadRequest(new ApiResponse(400, ex.Message));
         }
     }
-    
+
     [Authorize(Policy = "RequireAdminRole")]
     [HttpGet("all")]
     public async Task<ActionResult<IReadOnlyList<CouponDto>>> GetAllCoupons()
@@ -72,5 +72,3 @@ public class CouponController : BaseApiController
         }
     }
 }
-
-

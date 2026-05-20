@@ -20,7 +20,7 @@ public class PaymentsController : BaseApiController
         _logger = logger;
         _paymentService = paymentService;
         _whSecret = config.GetSection("StripeSettings:WhSecret").Value
-            ?? throw new InvalidOperationException("Configuration key 'StripeSettings:WhSecret' is missing.");
+                    ?? throw new InvalidOperationException("Configuration key 'StripeSettings:WhSecret' is missing.");
     }
 
     [Authorize]
@@ -89,4 +89,3 @@ public class PaymentsController : BaseApiController
         }
     }
 }
-

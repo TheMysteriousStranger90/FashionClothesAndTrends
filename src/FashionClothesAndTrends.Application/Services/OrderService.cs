@@ -88,7 +88,8 @@ public class OrderService : IOrderService
         {
             if (string.IsNullOrWhiteSpace(basket.PaymentIntentId))
             {
-                throw new CustomException("Payment intent ID is required to create an order.", statusCode: System.Net.HttpStatusCode.BadRequest);
+                throw new CustomException("Payment intent ID is required to create an order.",
+                    statusCode: System.Net.HttpStatusCode.BadRequest);
             }
 
             order = new Order(items, buyerEmail, shippingAddress, deliveryMethod,

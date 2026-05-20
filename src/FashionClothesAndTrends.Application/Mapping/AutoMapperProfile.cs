@@ -17,7 +17,8 @@ public class AutoMapperProfile : Profile
 
         CreateMap<User, UserDto>()
             .ForMember(dest => dest.PhotoUrl,
-                opt => opt.MapFrom(src => src.UserPhotos.Where(x => x.IsMain).Select(x => x.Url).FirstOrDefault() ?? string.Empty))
+                opt => opt.MapFrom(src =>
+                    src.UserPhotos.Where(x => x.IsMain).Select(x => x.Url).FirstOrDefault() ?? string.Empty))
             .ForMember(dest => dest.Age,
                 opt => opt.MapFrom(src => src.DateOfBirth.CalcuateAge()));
 
@@ -26,7 +27,8 @@ public class AutoMapperProfile : Profile
 
         CreateMap<ClothingItem, ClothingItemDto>()
             .ForMember(dest => dest.PictureUrl,
-                opt => opt.MapFrom(src => src.ClothingItemPhotos.Where(x => x.IsMain).Select(x => x.Url).FirstOrDefault() ?? string.Empty))
+                opt => opt.MapFrom(src =>
+                    src.ClothingItemPhotos.Where(x => x.IsMain).Select(x => x.Url).FirstOrDefault() ?? string.Empty))
             .ForMember(dest => dest.Brand,
                 opt => opt.MapFrom(src => src.ClothingBrand.Name));
 
@@ -84,7 +86,9 @@ public class AutoMapperProfile : Profile
         CreateMap<WishlistItem, WishlistItemDto>()
             .ForMember(dest => dest.ClothingItemName, opt => opt.MapFrom(src => src.ClothingItem.Name))
             .ForMember(dest => dest.PictureUrl,
-                opt => opt.MapFrom(src => src.ClothingItem.ClothingItemPhotos.Where(x => x.IsMain).Select(x => x.Url).FirstOrDefault() ?? string.Empty))
+                opt => opt.MapFrom(src =>
+                    src.ClothingItem.ClothingItemPhotos.Where(x => x.IsMain).Select(x => x.Url).FirstOrDefault() ??
+                    string.Empty))
             .ReverseMap();
 
         CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));

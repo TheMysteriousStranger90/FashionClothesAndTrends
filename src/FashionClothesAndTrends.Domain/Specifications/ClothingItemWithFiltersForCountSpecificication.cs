@@ -4,8 +4,8 @@ namespace FashionClothesAndTrends.Domain.Specifications
 {
     public class ClothingItemWithFiltersForCountSpecificication : BaseSpecification<ClothingItem>
     {
-        public ClothingItemWithFiltersForCountSpecificication(ClothingSpecParams clothingParams) 
-            : base(x => 
+        public ClothingItemWithFiltersForCountSpecificication(ClothingSpecParams clothingParams)
+            : base(x =>
                 (string.IsNullOrEmpty(clothingParams.Search) || x.Name.ToLower().Contains(clothingParams.Search)) &&
                 (!clothingParams.ClothingBrandId.HasValue || x.ClothingBrandId == clothingParams.ClothingBrandId) &&
                 (!clothingParams.Gender.HasValue || x.Gender == clothingParams.Gender) &&
