@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Exceptions;
 using FashionClothesAndTrends.Application.Services.Interfaces;
@@ -31,19 +31,19 @@ public class FavoriteItemService : IFavoriteItemService
             ClothingItemId = clothingItemId
         };
 
-        await _unitOfWork.FavoriteItemRepository.AddAsync(favoriteItem);
+        _unitOfWork.FavoriteItemRepository.Add(favoriteItem);
         await _unitOfWork.SaveAsync();
     }
 
     public async Task RemoveFavoriteAsync(Guid clothingItemId, string userId)
     {
-        var favoriteItem = await _unitOfWork.FavoriteItemRepository.GetByClothingItemIdAndUserId(clothingItemId, userId);
+        var favoriteItem = await _unitOfWork.FavoriteItemRepository.GetByClothingItemIdAndUserIdAsync(clothingItemId, userId);
         if (favoriteItem == null)
         {
             throw new NotFoundException("Favorite item not found.");
         }
 
-        _unitOfWork.FavoriteItemRepository.Remove(favoriteItem);
+        _unitOfWork.FavoriteItemRepository.Delete(favoriteItem);
         await _unitOfWork.SaveAsync();
     }
 

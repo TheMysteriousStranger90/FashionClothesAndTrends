@@ -1,4 +1,4 @@
-﻿using FashionClothesAndTrends.Domain.Entities;
+using FashionClothesAndTrends.Domain.Entities;
 using FashionClothesAndTrends.Domain.Interfaces;
 using FashionClothesAndTrends.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -16,17 +16,9 @@ public class CouponRepository : GenericRepository<Coupon>, ICouponRepository
         return await _context.Coupons.ToListAsync();
     }
 
-    public async Task CreateCouponAsync(Coupon coupon)
+    public Task CreateCouponAsync(Coupon coupon)
     {
-        var _coupon = new Coupon
-        {
-            Code = coupon.Code,
-            DiscountPercentage = coupon.DiscountPercentage,
-            ExpiryDate = coupon.ExpiryDate,
-            IsActive = coupon.IsActive
-        };
-
-        await _context.Coupons.AddAsync(_coupon);
-        await _context.SaveChangesAsync();
+        _context.Coupons.Add(coupon);
+        return Task.CompletedTask;
     }
 }

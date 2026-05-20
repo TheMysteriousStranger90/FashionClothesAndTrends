@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Exceptions;
 using FashionClothesAndTrends.Application.Services.Interfaces;
@@ -27,6 +27,7 @@ public class LikeDislikeService : ILikeDislikeService
 
         var likeDislike = _mapper.Map<LikeDislike>(likeDislikeDto);
         await _unitOfWork.LikeDislikeRepository.AddLikeToCommentAsync(likeDislike);
+        await _unitOfWork.SaveAsync();
     }
 
     public async Task RemoveLikeDislikeAsync(Guid likeDislikeId)
@@ -37,7 +38,7 @@ public class LikeDislikeService : ILikeDislikeService
             throw new NotFoundException("Like/Dislike not found.");
         }
 
-        _unitOfWork.LikeDislikeRepository.Remove(likeDislike);
+        _unitOfWork.LikeDislikeRepository.Delete(likeDislike);
         await _unitOfWork.SaveAsync();
     }
 
@@ -62,7 +63,7 @@ public class LikeDislikeService : ILikeDislikeService
 
         return _mapper.Map<IEnumerable<LikeDislikeDto>>(likesDislikes);
     }
-    
+
     public async Task<int> CountLikesAsync(Guid commentId)
     {
         return await _unitOfWork.LikeDislikeRepository.CountLikesAsync(commentId);

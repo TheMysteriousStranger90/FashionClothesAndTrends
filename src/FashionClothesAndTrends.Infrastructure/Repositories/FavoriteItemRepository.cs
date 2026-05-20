@@ -26,7 +26,7 @@ public class FavoriteItemRepository : GenericRepository<FavoriteItem>, IFavorite
             .AnyAsync(f => f.ClothingItemId == clothingItemId && f.UserId == userId);
     }
 
-    public async Task<FavoriteItem?> GetByClothingItemIdAndUserId(Guid clothingItemId, string userId)
+    public async Task<FavoriteItem?> GetByClothingItemIdAndUserIdAsync(Guid clothingItemId, string userId)
     {
         return await _context.FavoriteItems
             .Include(f => f.ClothingItem)

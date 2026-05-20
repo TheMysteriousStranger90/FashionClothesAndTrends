@@ -1,4 +1,4 @@
-﻿using FashionClothesAndTrends.Domain.Entities;
+using FashionClothesAndTrends.Domain.Entities;
 using FashionClothesAndTrends.Domain.Interfaces;
 using FashionClothesAndTrends.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -11,29 +11,17 @@ public class CommentRepository : GenericRepository<Comment>, ICommentRepository
     {
     }
 
-    public async Task AddCommentToClothingItemAsync(Comment comment)
+    public Task AddCommentToClothingItemAsync(Comment comment)
     {
-        var _comment = new Comment
-        {
-            UserId = comment.UserId,
-            ClothingItem = comment.ClothingItem,
-            ClothingItemId = comment.ClothingItemId,
-            Text = comment.Text,
-            CreatedAt = DateTime.Now
-        };
-        await _context.Comments.AddAsync(_comment);
-        await _context.SaveChangesAsync();
+        comment.CreatedAt = DateTime.UtcNow;
+        _context.Comments.Add(comment);
+        return Task.CompletedTask;
     }
 
-    public async Task RemoveCommentAsync(Comment comment)
+    public Task RemoveCommentAsync(Comment comment)
     {
         _context.Comments.Remove(comment);
-        await _context.SaveChangesAsync();
-    }
-
-    public IQueryable<Comment> GetCommentsForClothingItem(Guid clothingItemId)
-    {
-        return _context.Comments.Where(c => c.ClothingItemId == clothingItemId);
+        return Task.CompletedTask;
     }
 
     public async Task<IEnumerable<Comment>> GetCommentsForClothingItemIdAsync(Guid clothingItemId)

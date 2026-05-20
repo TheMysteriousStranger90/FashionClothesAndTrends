@@ -1,4 +1,4 @@
-﻿using FashionClothesAndTrends.Domain.Entities;
+using FashionClothesAndTrends.Domain.Entities;
 using FashionClothesAndTrends.Domain.Interfaces;
 using FashionClothesAndTrends.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -24,10 +24,10 @@ public class NotificationRepository : GenericRepository<Notification>, INotifica
             .Where(n => n.UserId == userId && !n.IsRead)
             .ToListAsync();
     }
-    
-    public async Task<bool> AddNotificationAsync(Notification notification)
+
+    public Task AddNotificationAsync(Notification notification)
     {
-        await _context.Notifications.AddAsync(notification);
-        return await _context.SaveChangesAsync() > 0;
+        _context.Notifications.Add(notification);
+        return Task.CompletedTask;
     }
 }

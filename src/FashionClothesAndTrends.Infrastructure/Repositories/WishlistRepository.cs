@@ -11,26 +11,24 @@ public class WishlistRepository : GenericRepository<Wishlist>, IWishlistReposito
     {
     }
 
-    public async Task<Wishlist> CreateNewWishlistAsync(string userId, string wishlistName)
+    public Task<Wishlist> CreateNewWishlistAsync(string userId, string wishlistName)
     {
         var wishlist = new Wishlist
         {
             UserId = userId,
             Name = wishlistName,
             Items = [],
-            CreatedAt = DateTime.Now,
+            CreatedAt = DateTime.UtcNow,
         };
 
-        await _context.Wishlists.AddAsync(wishlist);
-        await _context.SaveChangesAsync();
-
-        return wishlist;
+        _context.Wishlists.Add(wishlist);
+        return Task.FromResult(wishlist);
     }
 
-    public async Task RemoveWishlistAsync(Wishlist wishlist)
+    public Task RemoveWishlistAsync(Wishlist wishlist)
     {
         _context.Wishlists.Remove(wishlist);
-        await _context.SaveChangesAsync();
+        return Task.CompletedTask;
     }
 
     public async Task<IReadOnlyList<Wishlist>> GetWishlistsByUserIdAsync(string userId)
@@ -70,7 +68,6 @@ public class WishlistRepository : GenericRepository<Wishlist>, IWishlistReposito
         };
 
         wishlist.Items.Add(wishlistItem);
-        await _context.SaveChangesAsync();
 
         await _context.Entry(wishlistItem)
             .Reference(wi => wi.ClothingItem)
@@ -81,21 +78,19 @@ public class WishlistRepository : GenericRepository<Wishlist>, IWishlistReposito
         return wishlistItem;
     }
 
-    public async Task<bool> RemoveItemFromWishlistAsync(Wishlist wishlist, Guid itemId)
+    public Task<bool> RemoveItemFromWishlistAsync(Wishlist wishlist, Guid itemId)
     {
         var item = wishlist.Items.FirstOrDefault(i => i.Id == itemId);
         if (item == null)
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         wishlist.Items.Remove(item);
-        await _context.SaveChangesAsync();
-
-        return true;
+        return Task.FromResult(true);
     }
 
-    public new async Task<Wishlist?> GetByIdAsync(Guid id)
+    public override async Task<Wishlist?> GetByIdAsync(Guid id)
     {
         return await _context.Wishlists
             .Include(w => w.Items)

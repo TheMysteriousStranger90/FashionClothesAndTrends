@@ -1,4 +1,3 @@
-using System.Collections;
 using FashionClothesAndTrends.Application.UoW;
 using FashionClothesAndTrends.Domain.Common;
 using FashionClothesAndTrends.Domain.Entities;
@@ -15,7 +14,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
     private readonly RoleManager<AppRole> _roleManager;
-    private readonly Hashtable _repositories = new();
+    private readonly Dictionary<string, object> _repositories = new();
 
     private IClothingItemRepository? _clothingItemRepository;
     private ICommentRepository? _commentRepository;
@@ -45,16 +44,15 @@ public class UnitOfWork : IUnitOfWork
     {
         var type = typeof(T).Name;
 
-        if (!_repositories.ContainsKey(type))
+        if (!_repositories.TryGetValue(type, out var repo))
         {
             var repositoryType = typeof(GenericRepository<>);
-            var repositoryInstance = Activator.CreateInstance(repositoryType.MakeGenericType(typeof(T)), _context)
+            repo = Activator.CreateInstance(repositoryType.MakeGenericType(typeof(T)), _context)
                 ?? throw new InvalidOperationException($"Could not create repository for type {type}.");
-
-            _repositories.Add(type, repositoryInstance);
+            _repositories[type] = repo;
         }
 
-        return (IGenericRepository<T>)_repositories[type]!;
+        return (IGenericRepository<T>)repo;
     }
 
     public IClothingItemRepository ClothingItemRepository =>
@@ -101,23 +99,14 @@ public class UnitOfWork : IUnitOfWork
         return await _context.SaveChangesAsync();
     }
 
-    public bool HasChanges()
-    {
-        return _context.ChangeTracker.HasChanges();
-    }
-
     private bool _disposed;
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!_disposed)
+        if (!_disposed && disposing)
         {
-            if (disposing)
-            {
-                _context.Dispose();
-            }
+            _context.Dispose();
         }
-
         _disposed = true;
     }
 

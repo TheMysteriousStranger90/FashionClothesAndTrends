@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Exceptions;
 using FashionClothesAndTrends.Application.Services.Interfaces;
@@ -42,7 +42,7 @@ public class OrderHistoryService : IOrderHistoryService
             }).ToList()
         };
 
-        await _unitOfWork.OrderHistoryRepository.AddAsync(orderHistory);
+        _unitOfWork.OrderHistoryRepository.Add(orderHistory);
         await _unitOfWork.SaveAsync();
     }
 
@@ -71,11 +71,6 @@ public class OrderHistoryService : IOrderHistoryService
     public async Task<IReadOnlyList<OrderHistoryToReturnDto>> GatAllOrderHistoriesAsync()
     {
         var orderHistories = await _unitOfWork.OrderHistoryRepository.ListAllAsync();
-        if (orderHistories == null)
-        {
-            throw new NotFoundException($"Order histories not found.");
-        }
-
         return _mapper.Map<IReadOnlyList<OrderHistoryToReturnDto>>(orderHistories);
     }
 }

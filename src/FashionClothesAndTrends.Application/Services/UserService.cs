@@ -23,7 +23,7 @@ public class UserService : IUserService
 
     public async Task<AddressDto> GetUserAddress(string userName)
     {
-        var user = await _unitOfWork.UserRepository.GetUserByUserName(userName);
+        var user = await _unitOfWork.UserRepository.GetUserByUserNameAsync(userName);
         if (user == null) throw new NotFoundException("Not Found!");
 
         return _mapper.Map<ShippingAddress, AddressDto>(user.Address);
@@ -31,7 +31,7 @@ public class UserService : IUserService
 
     public async Task<AddressDto> UpdateUserAddress(AddressDto address, string userName)
     {
-        var user = await _unitOfWork.UserRepository.GetUserByUserName(userName);
+        var user = await _unitOfWork.UserRepository.GetUserByUserNameAsync(userName);
         if (user == null) throw new NotFoundException("Not Found!");
 
         user.Address = _mapper.Map<AddressDto, ShippingAddress>(address);
@@ -47,7 +47,7 @@ public class UserService : IUserService
 
     public async Task<UserDto> GetUserByUsernameAsync(string userName)
     {
-        var user = await _unitOfWork.UserRepository.GetUserByUserName(userName);
+        var user = await _unitOfWork.UserRepository.GetUserByUserNameAsync(userName);
         if (user == null) throw new NotFoundException("Not Found!");
 
         return _mapper.Map<UserDto>(user);
@@ -55,7 +55,7 @@ public class UserService : IUserService
 
     public async Task<UserDto> GetUserByEmailAsync(string email)
     {
-        var user = await _unitOfWork.UserRepository.GetUserByEmail(email);
+        var user = await _unitOfWork.UserRepository.GetUserByEmailAsync(email);
         if (user == null) throw new NotFoundException("Not Found!");
 
         return _mapper.Map<UserDto>(user);
@@ -83,7 +83,7 @@ public class UserService : IUserService
 
     public async Task<UserPhotoDto> AddPhotoByUser(ImageUploadResult result, string userName)
     {
-        var user = await _unitOfWork.UserRepository.GetUserByUserName(userName);
+        var user = await _unitOfWork.UserRepository.GetUserByUserNameAsync(userName);
 
         if (user == null) throw new NotFoundException("Not Found!");
 
@@ -103,7 +103,7 @@ public class UserService : IUserService
 
     public async Task SetMainUserPhotoByUser(Guid userPhotoId, string userName)
     {
-        var user = await _unitOfWork.UserRepository.GetUserByUserName(userName);
+        var user = await _unitOfWork.UserRepository.GetUserByUserNameAsync(userName);
 
         if (user == null) throw new NotFoundException("Not Found!");
 
@@ -122,7 +122,7 @@ public class UserService : IUserService
 
     public async Task DeleteUserPhotoByUser(Guid userPhotoId, string userName)
     {
-        var user = await _unitOfWork.UserRepository.GetUserByUserName(userName);
+        var user = await _unitOfWork.UserRepository.GetUserByUserNameAsync(userName);
 
         if (user == null) throw new NotFoundException("Not Found!");
 

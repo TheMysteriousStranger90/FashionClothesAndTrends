@@ -1,4 +1,4 @@
-﻿using FashionClothesAndTrends.Domain.Entities;
+using FashionClothesAndTrends.Domain.Entities;
 using FashionClothesAndTrends.Domain.Interfaces;
 using FashionClothesAndTrends.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -11,18 +11,11 @@ public class LikeDislikeRepository : GenericRepository<LikeDislike>, ILikeDislik
     {
     }
 
-    public async Task AddLikeToCommentAsync(LikeDislike likeDislike)
+    public Task AddLikeToCommentAsync(LikeDislike likeDislike)
     {
-        var _likeDislike = new LikeDislike
-        {
-            UserId = likeDislike.UserId,
-            Comment = likeDislike.Comment,
-            CommentId = likeDislike.CommentId,
-            IsLike = likeDislike.IsLike,
-            CreatedAt = DateTime.Now,
-        };
-        await _context.LikesDislikes.AddAsync(_likeDislike);
-        await _context.SaveChangesAsync();
+        likeDislike.CreatedAt = DateTime.UtcNow;
+        _context.LikesDislikes.Add(likeDislike);
+        return Task.CompletedTask;
     }
 
     public async Task<IEnumerable<LikeDislike>> GetLikesDislikesByUserIdAsync(string userId)
@@ -37,19 +30,18 @@ public class LikeDislikeRepository : GenericRepository<LikeDislike>, ILikeDislik
     {
         return await _context.LikesDislikes
             .Where(ld => ld.CommentId == commentId)
-            .ToListAsync();    }
-    
+            .ToListAsync();
+    }
+
     public async Task<int> CountLikesAsync(Guid commentId)
     {
         return await _context.LikesDislikes
-            .Where(ld => ld.CommentId == commentId && ld.IsLike)
-            .CountAsync();
+            .CountAsync(ld => ld.CommentId == commentId && ld.IsLike);
     }
 
     public async Task<int> CountDislikesAsync(Guid commentId)
     {
         return await _context.LikesDislikes
-            .Where(ld => ld.CommentId == commentId && !ld.IsLike)
-            .CountAsync();
+            .CountAsync(ld => ld.CommentId == commentId && !ld.IsLike);
     }
 }

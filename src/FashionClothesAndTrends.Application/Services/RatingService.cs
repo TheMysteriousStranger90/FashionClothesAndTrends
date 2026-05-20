@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.Application.UoW;
@@ -16,7 +16,7 @@ public class RatingService : IRatingService
         _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
-    
+
     public async Task AddRatingAsync(RatingDto ratingDto)
     {
         if (ratingDto == null)
@@ -26,13 +26,14 @@ public class RatingService : IRatingService
 
         var rating = _mapper.Map<Rating>(ratingDto);
         await _unitOfWork.RatingRepository.AddRatingToClothingItemAsync(rating);
+        await _unitOfWork.SaveAsync();
     }
 
     public async Task<double?> GetAverageRatingAsync(Guid clothingItemId)
     {
         return await _unitOfWork.RatingRepository.GetAverageRatingByClothingItemIdAsync(clothingItemId);
     }
-    
+
     public async Task<RatingDto?> GetUserRatingAsync(string userId, Guid clothingItemId)
     {
         var rating = await _unitOfWork.RatingRepository.GetUserRatingAsync(userId, clothingItemId);

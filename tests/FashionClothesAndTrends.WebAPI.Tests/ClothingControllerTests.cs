@@ -1,10 +1,11 @@
-﻿using AutoMapper;
+using AutoMapper;
 using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Helpers;
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.Domain.Entities;
 using FashionClothesAndTrends.Domain.Specifications;
 using FashionClothesAndTrends.WebAPI.Controllers;
+using FashionClothesAndTrends.WebAPI.Errors;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -60,7 +61,7 @@ public class ClothingControllerTests
 
         // Assert
         var badRequestResult = Assert.IsType<BadRequestObjectResult>(result.Result);
-        Assert.Equal("Test exception", badRequestResult.Value);
+        Assert.Equal("Test exception", ((ApiResponse)badRequestResult.Value!).Message);
     }
 
     [Fact]
@@ -95,7 +96,7 @@ public class ClothingControllerTests
 
         // Assert
         var badRequestResult = Assert.IsType<BadRequestObjectResult>(result.Result);
-        Assert.Equal("Test exception", badRequestResult.Value);
+        Assert.Equal("Test exception", ((ApiResponse)badRequestResult.Value!).Message);
     }
 
     [Fact]
@@ -133,6 +134,8 @@ public class ClothingControllerTests
 
         // Assert
         var badRequestResult = Assert.IsType<BadRequestObjectResult>(result.Result);
-        Assert.Equal("Test exception", badRequestResult.Value);
+        Assert.Equal("Test exception", ((ApiResponse)badRequestResult.Value!).Message);
     }
 }
+
+

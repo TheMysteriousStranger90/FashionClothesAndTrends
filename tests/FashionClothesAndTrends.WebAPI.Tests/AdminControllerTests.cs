@@ -1,5 +1,6 @@
-﻿using FashionClothesAndTrends.Application.Services.Interfaces;
+using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.WebAPI.Controllers;
+using FashionClothesAndTrends.WebAPI.Errors;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -63,7 +64,7 @@ public class AdminControllerTests
 
         // Assert
         var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-        Assert.Equal("Error adding role", badRequestResult.Value);
+        Assert.Equal("Error adding role", ((ApiResponse)badRequestResult.Value!).Message);
     }
 
     [Fact]
@@ -80,7 +81,7 @@ public class AdminControllerTests
 
         // Assert
         var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-        Assert.Equal("Error editing roles", badRequestResult.Value);
+        Assert.Equal("Error editing roles", ((ApiResponse)badRequestResult.Value!).Message);
     }
 
     [Fact]
@@ -113,6 +114,8 @@ public class AdminControllerTests
 
         // Assert
         var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-        Assert.Equal("Error deleting role", badRequestResult.Value);
+        Assert.Equal("Error deleting role", ((ApiResponse)badRequestResult.Value!).Message);
     }
 }
+
+

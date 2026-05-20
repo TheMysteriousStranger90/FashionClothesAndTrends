@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Services.Interfaces;
 using FashionClothesAndTrends.WebAPI.Controllers;
@@ -273,7 +273,7 @@ public class AccountControllerTests
         result.Result.Should().BeOfType<BadRequestObjectResult>();
         var badRequestResult = result.Result as BadRequestObjectResult;
         badRequestResult.Should().NotBeNull();
-        badRequestResult.Value.Should().Be("Confirmation failed");
+        ((ApiResponse)badRequestResult.Value!).Message.Should().Be("Confirmation failed");
     }
 
     [Fact]
@@ -315,7 +315,7 @@ public class AccountControllerTests
         result.Result.Should().BeOfType<BadRequestObjectResult>();
         var badRequestResult = result.Result as BadRequestObjectResult;
         badRequestResult.Should().NotBeNull();
-        badRequestResult.Value.Should().Be("Reset failed");
+        ((ApiResponse)badRequestResult.Value!).Message.Should().Be("Reset failed");
     }
 
     [Fact]
@@ -357,7 +357,7 @@ public class AccountControllerTests
         result.Result.Should().BeOfType<BadRequestObjectResult>();
         var badRequestResult = result.Result as BadRequestObjectResult;
         badRequestResult.Should().NotBeNull();
-        badRequestResult.Value.Should().Be("Change failed");
+        ((ApiResponse)badRequestResult.Value!).Message.Should().Be("Change failed");
     }
 
     [Fact]
@@ -395,7 +395,7 @@ public class AccountControllerTests
         result.Result.Should().BeOfType<BadRequestObjectResult>();
         var badRequestResult = result.Result as BadRequestObjectResult;
         badRequestResult.Should().NotBeNull();
-        badRequestResult.Value.Should().Be("Check failed");
+        ((ApiResponse)badRequestResult.Value!).Message.Should().Be("Check failed");
     }
 
     [Fact]
@@ -433,7 +433,7 @@ public class AccountControllerTests
         result.Result.Should().BeOfType<BadRequestObjectResult>();
         var badRequestResult = result.Result as BadRequestObjectResult;
         badRequestResult.Should().NotBeNull();
-        badRequestResult.Value.Should().Be("Check failed");
+        ((ApiResponse)badRequestResult.Value!).Message.Should().Be("Check failed");
     }
 
     [Fact]

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Exceptions;
 using FashionClothesAndTrends.Application.Extensions;
@@ -25,7 +25,7 @@ public class CommentService : ICommentService
         {
             throw new ArgumentNullException(nameof(commentDto));
         }
-        
+
         var user = await _unitOfWork.UserManager.FindByIdAsync(commentDto.UserId);
         if (user == null)
         {
@@ -34,6 +34,7 @@ public class CommentService : ICommentService
 
         var comment = _mapper.Map<Comment>(commentDto);
         await _unitOfWork.CommentRepository.AddCommentToClothingItemAsync(comment);
+        await _unitOfWork.SaveAsync();
     }
 
     public async Task RemoveCommentAsync(Guid commentId, string userId)
@@ -43,7 +44,7 @@ public class CommentService : ICommentService
         {
             throw new NotFoundException("Comment not found.");
         }
-        
+
         var currentUser = await _unitOfWork.UserRepository.GetUserByIdAsync(userId);
         if (currentUser == null)
         {
@@ -51,13 +52,14 @@ public class CommentService : ICommentService
         }
 
         var isAdmin = await _unitOfWork.UserManager.IsInRoleAsync(currentUser, "Administrator");
-        
+
         if (comment.UserId != currentUser.Id && !isAdmin)
         {
             throw new UnauthorizedAccessException("You do not have permission to delete this comment.");
         }
-        
+
         await _unitOfWork.CommentRepository.RemoveCommentAsync(comment);
+        await _unitOfWork.SaveAsync();
     }
 
     public async Task<IEnumerable<CommentDto>> GetCommentsForClothingItemAsync(Guid clothingItemId)
@@ -85,12 +87,6 @@ public class CommentService : ICommentService
             throw new NotFoundException("No comments found for this user.");
         }
 
-        var commentDtos = _mapper.Map<IEnumerable<CommentDto>>(comments);
-        foreach (var commentDto in commentDtos)
-        {
-            commentDto.TimeAgo = commentDto.CreatedAt.DateTimeAgo();
-        }
-
-        return commentDtos;
+        return _mapper.Map<IEnumerable<CommentDto>>(comments);
     }
 }

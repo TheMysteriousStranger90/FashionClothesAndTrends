@@ -113,7 +113,7 @@ public class ClothingItemService : IClothingItemService
     public async Task AddClothingBrandAsync(CreateClothingBrandDto createClothingBrandDto)
     {
         var clothingBrand = _mapper.Map<ClothingBrand>(createClothingBrandDto);
-        await _unitOfWork.GenericRepository<ClothingBrand>().AddAsync(clothingBrand);
+        _unitOfWork.GenericRepository<ClothingBrand>().Add(clothingBrand);
         await _unitOfWork.SaveAsync();
     }
 
@@ -129,16 +129,16 @@ public class ClothingItemService : IClothingItemService
 
         if (clothingBrandForItem == null)
         {
-            throw new NotFoundException($"Clothing brand with ID '{clothingBrandId}' not found.");
+            throw new NotFoundException($"Clothing brand with ID ''{clothingBrandId}'' not found.");
         }
 
         var clothingItem = _mapper.Map<ClothingItem>(createClothingItemDto);
 
         clothingItem.ClothingBrandId = clothingBrandId;
         clothingItem.IsInStock = true;
-        clothingItem.CreatedAt = DateTime.Now;
+        clothingItem.CreatedAt = DateTime.UtcNow;
 
-        await _unitOfWork.ClothingItemRepository.AddAsync(clothingItem);
+        _unitOfWork.ClothingItemRepository.Add(clothingItem);
         await _unitOfWork.SaveAsync();
     }
 
@@ -150,7 +150,7 @@ public class ClothingItemService : IClothingItemService
             throw new NotFoundException("Clothing item not found.");
         }
 
-        _unitOfWork.ClothingItemRepository.Remove(clothingItem);
+        _unitOfWork.ClothingItemRepository.Delete(clothingItem);
         await _unitOfWork.SaveAsync();
     }
 

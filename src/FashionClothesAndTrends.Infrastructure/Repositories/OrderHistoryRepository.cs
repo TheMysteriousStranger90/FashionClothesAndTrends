@@ -20,14 +20,14 @@ public class OrderHistoryRepository : GenericRepository<OrderHistory>, IOrderHis
             .ToListAsync();
     }
 
-    public new async Task<OrderHistory?> GetByIdAsync(Guid id)
+    public override async Task<OrderHistory?> GetByIdAsync(Guid id)
     {
         return await _context.OrderHistories
             .Include(f => f.OrderItems)
             .FirstOrDefaultAsync(f => f.Id == id);
     }
 
-    public new async Task<IReadOnlyList<OrderHistory>> ListAllAsync()
+    public override async Task<IReadOnlyList<OrderHistory>> ListAllAsync()
     {
         return await _context.OrderHistories
             .Include(f => f.OrderItems)

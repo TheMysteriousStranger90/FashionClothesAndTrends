@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using FashionClothesAndTrends.Application.DTOs;
 using FashionClothesAndTrends.Application.Exceptions;
 using FashionClothesAndTrends.Application.Hubs;
@@ -15,8 +15,7 @@ public class CouponService : ICouponService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public CouponService(IUnitOfWork unitOfWork, IMapper mapper
-    )
+    public CouponService(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
@@ -30,8 +29,7 @@ public class CouponService : ICouponService
             throw new NotFoundException("No coupons found.");
         }
 
-        var couponsDto = _mapper.Map<IEnumerable<CouponDto>>(coupons);
-        return couponsDto;
+        return _mapper.Map<IEnumerable<CouponDto>>(coupons);
     }
 
     public async Task CreateCouponAsync(CreateCouponDto couponDto)
@@ -46,6 +44,7 @@ public class CouponService : ICouponService
         coupon.IsActive = true;
 
         await _unitOfWork.CouponRepository.CreateCouponAsync(coupon);
+        await _unitOfWork.SaveAsync();
     }
 
     public async Task ApplyCouponToClothingItemAsync(Guid clothingItemId, Guid couponCodeId)
@@ -54,7 +53,7 @@ public class CouponService : ICouponService
         if (clothingItem == null) throw new NotFoundException("Clothing item not found");
 
         var coupon = await _unitOfWork.CouponRepository.GetByIdAsync(couponCodeId);
-        if (coupon == null || !coupon.IsActive || coupon.ExpiryDate <= DateTime.Now)
+        if (coupon == null || !coupon.IsActive || coupon.ExpiryDate <= DateTime.UtcNow)
         {
             throw new NotFoundException("Coupon not found or expired");
         }

@@ -1,4 +1,5 @@
 using FashionClothesAndTrends.Domain.Entities;
+using FashionClothesAndTrends.Domain.Entities.Enums;
 using FashionClothesAndTrends.Domain.Interfaces;
 using FashionClothesAndTrends.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +32,7 @@ public class UserRepository : IUserRepository
             .FirstOrDefaultAsync(u => u.Id == userId);
     }
 
-    public async Task<User?> GetUserByEmail(string email)
+    public async Task<User?> GetUserByEmailAsync(string email)
     {
         return await _context.Users
             .Include(u => u.UserRoles).ThenInclude(ur => ur.Role)
@@ -48,7 +49,7 @@ public class UserRepository : IUserRepository
             .FirstOrDefaultAsync(u => u.Email == email);
     }
 
-    public async Task<User?> GetUserByUserName(string userName)
+    public async Task<User?> GetUserByUserNameAsync(string userName)
     {
         return await _context.Users
             .Include(u => u.UserRoles).ThenInclude(ur => ur.Role)
