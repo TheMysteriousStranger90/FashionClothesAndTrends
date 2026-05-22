@@ -16,7 +16,10 @@ Log.Logger = new LoggerConfiguration()
 
 try
 {
+    EnvironmentBootstrapExtensions.LoadDotEnvIntoProcessEnvironment();
+
     var builder = WebApplication.CreateBuilder(args);
+    builder.Configuration.AddEnvironmentVariables();
     var serviceName = builder.Configuration["OpenTelemetry:ServiceName"] ?? builder.Environment.ApplicationName;
     var serviceVersion = builder.Configuration["OpenTelemetry:ServiceVersion"]
                          ?? Assembly.GetEntryAssembly()?.GetName().Version?.ToString()
@@ -126,3 +129,5 @@ finally
 {
     await Log.CloseAndFlushAsync();
 }
+
+

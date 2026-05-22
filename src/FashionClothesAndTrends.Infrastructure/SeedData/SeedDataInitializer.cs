@@ -58,7 +58,7 @@ public static class SeedDataInitializer
         {
             new ClothingItem
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.Parse("197a6281-5f53-43d5-b7d7-9b983d6a3a13"),
                 Name = "Chanel JACKET",
                 Description = "Classic Chanel tweed jacket in black.",
                 Price = 5000.00M,
@@ -70,7 +70,7 @@ public static class SeedDataInitializer
             },
             new ClothingItem
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.Parse("0e300a7b-22ac-4e66-9675-d36423e7d60f"),
                 Name = "LV Gram Square Cat Eye Sunglasses",
                 Description =
                     "The LV Gram Square Cat Eye sunglasses feature a distinctive signature from Louis Vuitton’s jewelry and belts collections. The slim acetate and metal temples are adorned with the LV Initials and two Monogram Flowers finely crafted in gold-tone metal. Monogram Flower details on the lenses and end tips add an extra House touch. These stylish, feminine sunglasses are ideal for accenting a summer outfit.",
@@ -83,7 +83,7 @@ public static class SeedDataInitializer
             },
             new ClothingItem
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.Parse("4705582c-8db9-41ac-9671-2c8dd7b05e78"),
                 Name = "Dior Dior Icon Heeled Ankle Boot",
                 Description =
                     "New for Winter 2024, the Dior Icon heeled ankle boot transcends House codes of couture refinement. The black suede calfskin upper is elevated by elastic bands on the sides and the gold-finish metal CD signature on the back. The 8-cm (3) Graphic Cannage cylindrical heel in gold-finish metal offers a modern 3D version of the House's iconic motif. Featuring a square toe, the sophisticated and comfortable ankle boot will add the finishing touch to any of the season's looks.",
@@ -96,7 +96,7 @@ public static class SeedDataInitializer
             },
             new ClothingItem
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.Parse("21d08196-0c31-4ad5-813e-176a5c43c4e0"),
                 Name = "Gucci GG MARMONT THIN BELT",
                 Description =
                     "The GG Marmont belt continues to enrich each new collection with its streamlined design. Inspired by an archival design from the 1970s, the line's monogram Double G hardware is presented in a shiny silver tone atop this black leather variation.",
@@ -109,7 +109,7 @@ public static class SeedDataInitializer
             },
             new ClothingItem
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.Parse("a33ccfc8-cd9d-463c-904e-cbad3dcbc71f"),
                 Name = "Prada Cotton T-shirt",
                 Description =
                     "An essential item of the brand, the Prada jersey T-shirt embodies the luxury of simplicity that becomes an attitude and search to reinvent the bases and propose new meanings. The design is accented with the brand's emblematic lettering logo presented here in a silicone version.",
@@ -122,7 +122,7 @@ public static class SeedDataInitializer
             },
             new ClothingItem
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.Parse("910a8e68-73c0-404d-be31-0b836bef5cfd"),
                 Name = "Versace Barocco Devore Shirt",
                 Description =
                     "A regular-fit, long-sleeved fluid shirt featuring an all-over tonal Barocco devore motif.",
@@ -141,7 +141,7 @@ public static class SeedDataInitializer
         {
             new ClothingItemPhoto
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.Parse("e05a4a09-2abf-463a-8146-f693014afb37"),
                 Url =
                     "https://www.chanel.com/images//t_zoomportee/f_auto//jacket-black-lambskin-lambskin-packshot-alternative-p78125c7009094305-9548808159262.jpg",
                 IsMain = true,
@@ -150,7 +150,7 @@ public static class SeedDataInitializer
             },
             new ClothingItemPhoto
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.Parse("37de7c1f-7838-4cd9-a323-5962a193ddb1"),
                 Url =
                     "https://eu.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-lv-gram-square-cat-eye-sunglasses-s00-sunglasses--Z2459U_PM2_Front%20view.png?wid=1090&hei=1090",
                 IsMain = true,
@@ -159,7 +159,7 @@ public static class SeedDataInitializer
             },
             new ClothingItemPhoto
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.Parse("a7c8924c-a47b-47f3-8efa-2d58e5e651d7"),
                 Url =
                     "https://www.dior.com/couture/ecommerce/media/catalog/product/Q/K/1721839565_KCT067VVV_S900_E03_GHC.jpg?imwidth=720",
                 IsMain = true,
@@ -168,7 +168,7 @@ public static class SeedDataInitializer
             },
             new ClothingItemPhoto
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.Parse("d6f97c75-d219-43c4-b80d-86fb5a17f726"),
                 Url =
                     "https://media.gucci.com/style/DarkGray_Center_0_0_2400x2400/1714409103/414516_0AABG_1000_001_100_0000_Light-GG-Marmont-thin-belt.jpg",
                 IsMain = true,
@@ -177,7 +177,7 @@ public static class SeedDataInitializer
             },
             new ClothingItemPhoto
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.Parse("ec6386f9-e640-4620-b17f-ae66e27da772"),
                 Url =
                     "https://www.prada.com/content/dam/pradabkg_products/U/UJN/UJN815/1052F0002/UJN815_1052_F0002_S_221_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg",
                 IsMain = true,
@@ -186,7 +186,7 @@ public static class SeedDataInitializer
             },
             new ClothingItemPhoto
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.Parse("795e4940-0f70-4234-8aa7-c9d19bc109a4"),
                 Url =
                     "https://www.versace.com/dw/image/v2/BGWN_PRD/on/demandware.static/-/Sites-ver-master-catalog/default/dwf9d0b70e/original/90_1012141-1A11358_1B000_10_BaroccoDevorShirt-Shirts-Versace-online-store_0_2.jpg?sw=1200&q=85&strip=true",
                 IsMain = true,
@@ -200,22 +200,22 @@ public static class SeedDataInitializer
         modelBuilder.Entity<DeliveryMethod>().HasData(
             new DeliveryMethod()
             {
-                Id = Guid.NewGuid(), ShortName = "UPS1", Description = "Fastest delivery time",
+                Id = Guid.Parse("7daf49da-1183-456b-84ae-debb4fe44820"), ShortName = "UPS1", Description = "Fastest delivery time",
                 DeliveryTime = "1-2 Days", Price = 10
             },
             new DeliveryMethod()
             {
-                Id = Guid.NewGuid(), ShortName = "UPS2", Description = "Get it within 5 days",
+                Id = Guid.Parse("1a557902-f2a8-45da-a364-1f8d475a78d8"), ShortName = "UPS2", Description = "Get it within 5 days",
                 DeliveryTime = "2-5 Days", Price = 5
             },
             new DeliveryMethod()
             {
-                Id = Guid.NewGuid(), ShortName = "UPS3", Description = "Slower but cheap", DeliveryTime = "5-10 Days",
+                Id = Guid.Parse("f59c5d03-e854-46b2-b054-d6d34ca24272"), ShortName = "UPS3", Description = "Slower but cheap", DeliveryTime = "5-10 Days",
                 Price = 2
             },
             new DeliveryMethod()
             {
-                Id = Guid.NewGuid(), ShortName = "FREE", Description = "Free! You get what you pay for",
+                Id = Guid.Parse("b7669aa8-dcc0-408e-a1b1-778dd0831177"), ShortName = "FREE", Description = "Free! You get what you pay for",
                 DeliveryTime = "1-2 Weeks", Price = 0
             }
         );
@@ -334,3 +334,5 @@ public static class SeedDataInitializer
         }
     }
 }
+
+

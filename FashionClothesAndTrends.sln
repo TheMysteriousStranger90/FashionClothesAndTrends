@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
@@ -29,6 +29,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionClothesAndTrends.Web
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionClothesAndTrends.WebAPI.Tests", "tests\FashionClothesAndTrends.WebAPI.Tests\FashionClothesAndTrends.WebAPI.Tests.csproj", "{2D35B861-E111-4B9F-B014-BAA36E2A8E6E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionClothesAndTrends.Application.Tests", "tests\FashionClothesAndTrends.Application.Tests\FashionClothesAndTrends.Application.Tests.csproj", "{273D1EED-7F27-488C-B07C-47E4348CF6DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionClothesAndTrends.Infrastructure.Tests", "tests\FashionClothesAndTrends.Infrastructure.Tests\FashionClothesAndTrends.Infrastructure.Tests.csproj", "{95BE6141-E8EC-49BC-BE23-72E843C56233}"
+EndProject
 Global
 GlobalSection(SolutionConfigurationPlatforms) = preSolution
 Debug|Any CPU = Debug|Any CPU
@@ -55,6 +59,14 @@ GlobalSection(ProjectConfigurationPlatforms) = postSolution
 {2D35B861-E111-4B9F-B014-BAA36E2A8E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 {2D35B861-E111-4B9F-B014-BAA36E2A8E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 {2D35B861-E111-4B9F-B014-BAA36E2A8E6E}.Release|Any CPU.Build.0 = Release|Any CPU
+	{273D1EED-7F27-488C-B07C-47E4348CF6DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+	{273D1EED-7F27-488C-B07C-47E4348CF6DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	{273D1EED-7F27-488C-B07C-47E4348CF6DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	{273D1EED-7F27-488C-B07C-47E4348CF6DB}.Release|Any CPU.Build.0 = Release|Any CPU
+	{95BE6141-E8EC-49BC-BE23-72E843C56233}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+	{95BE6141-E8EC-49BC-BE23-72E843C56233}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	{95BE6141-E8EC-49BC-BE23-72E843C56233}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	{95BE6141-E8EC-49BC-BE23-72E843C56233}.Release|Any CPU.Build.0 = Release|Any CPU
 EndGlobalSection
 GlobalSection(NestedProjects) = preSolution
 {7F83C63C-0A93-4C15-AEF1-59D6675E535C} = {1AC8348D-9A81-4663-BBCE-4236A83523AD}
@@ -62,6 +74,8 @@ GlobalSection(NestedProjects) = preSolution
 {4B6E70B7-0400-48FE-BD35-82C62248AF28} = {1AC8348D-9A81-4663-BBCE-4236A83523AD}
 {4E2E1862-D0B2-4017-A795-D70DAEA258B9} = {1AC8348D-9A81-4663-BBCE-4236A83523AD}
 {2D35B861-E111-4B9F-B014-BAA36E2A8E6E} = {157084BF-0D23-471F-ADF1-3CC7FDDF7A58}
+	{273D1EED-7F27-488C-B07C-47E4348CF6DB} = {157084BF-0D23-471F-ADF1-3CC7FDDF7A58}
+	{95BE6141-E8EC-49BC-BE23-72E843C56233} = {157084BF-0D23-471F-ADF1-3CC7FDDF7A58}
 EndGlobalSection
 GlobalSection(SolutionProperties) = preSolution
 HideSolutionNode = FALSE

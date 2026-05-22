@@ -1,4 +1,7 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=006b721a_002De117_002D47d1_002D97e0_002Df6cd3caab110/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AccountControllerTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;Project Location="D:\MyProjects\FashionClothesAndTrends\tests\FashionClothesAndTrends.WebAPI.Tests" Presentation="&amp;lt;tests&amp;gt;\&amp;lt;FashionClothesAndTrends.WebAPI.Tests&amp;gt;" /&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;Project Location="D:\MyProjects\FashionClothesAndTrends\tests\FashionClothesAndTrends.WebAPI.Tests" Presentation="&amp;lt;tests&amp;gt;\&amp;lt;FashionClothesAndTrends.WebAPI.Tests&amp;gt;" /&gt;&#xD;
+    &lt;Project Location="D:\MyProjects\FashionClothesAndTrends\tests\FashionClothesAndTrends.Application.Tests" Presentation="&amp;lt;tests&amp;gt;\&amp;lt;FashionClothesAndTrends.Application.Tests&amp;gt;" /&gt;&#xD;
+  &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
