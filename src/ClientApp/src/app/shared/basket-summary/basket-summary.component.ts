@@ -1,8 +1,9 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy} from '@angular/core';
 import {BasketItem} from '../models/basket';
 import {BasketService} from 'src/app/basket/basket.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-basket-summary',
   templateUrl: './basket-summary.component.html',

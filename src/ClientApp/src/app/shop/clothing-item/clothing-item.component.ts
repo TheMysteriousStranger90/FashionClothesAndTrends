@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit , ChangeDetectionStrategy} from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { BasketService } from 'src/app/basket/basket.service';
 import { FavoritesService } from 'src/app/favorites/favorites.service';
@@ -7,6 +7,7 @@ import { SharedService } from 'src/app/wishlist/shared.service';
 import { WishlistService } from 'src/app/wishlist/wishlist.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-clothing-item',
   templateUrl: './clothing-item.component.html',

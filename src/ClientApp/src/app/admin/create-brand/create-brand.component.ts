@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , ChangeDetectionStrategy} from '@angular/core';
 import {FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Brand } from 'src/app/shared/models/brand';
 import { CreateBrand } from 'src/app/shared/models/create-brand';
 import { ShopService } from 'src/app/shop/shop.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-create-brand',
   templateUrl: './create-brand.component.html',

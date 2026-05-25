@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , ChangeDetectionStrategy} from '@angular/core';
 import { OrdersHistoryService } from '../orders-history.service';
 import { ActivatedRoute } from '@angular/router';
 import { OrderHistoryToReturn } from 'src/app/shared/models/order-history-to-return';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-orders-history',
   templateUrl: './orders-history.component.html',

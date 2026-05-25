@@ -28,8 +28,8 @@
               </tbody>
             </table>
 
-            <div fxLayout="row wrap" *ngIf="selectedClothingItem">
-              <div fxFlex="100" fxFlex.gt-sm="33" *ngFor="let photo of selectedClothingItem.clothingItemPhotos">
+            <div class="row" *ngIf="selectedClothingItem">
+              <div class="col-12 col-md-4" *ngFor="let photo of selectedClothingItem.clothingItemPhotos">
                 <mat-card>
                   <img mat-card-image [src]="photo.url" alt="photo of item">
                   <mat-card-actions>
@@ -42,8 +42,8 @@
 
             <div *ngIf="selectedClothingItem">
               <h2>Add Photo to {{selectedClothingItem.name}}</h2>
-              <div fxLayout="row wrap">
-                <div fxFlex="100" fxFlex.gt-sm="33">
+              <div class="row">
+                <div class="col-12 col-md-4">
                   <h3>Add Photos</h3>
 
                   <div ng2FileDrop (fileOver)="fileOverBase($event)" [uploader]="uploader" class="my-drop-zone">
@@ -58,7 +58,7 @@
                   <input type="file" ng2FileSelect [uploader]="uploader" />
                 </div>
 
-                <div fxFlex="100" fxFlex.gt-sm="67" *ngIf="uploader.queue.length">
+                <div class="col-12 col-md-8" *ngIf="uploader.queue.length">
                   <h3>Upload queue</h3>
                   <p>Queue length: {{ uploader.queue.length }}</p>
 

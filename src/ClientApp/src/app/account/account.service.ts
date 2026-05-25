@@ -112,6 +112,13 @@ export class AccountService {
     );
   }
 
+
+  loadCurrentUser(): void {
+    const userString = localStorage.getItem('user');
+    if (!userString) return;
+    const user: User = JSON.parse(userString);
+    this.setCurrentUser(user);
+  }
   setCurrentUser(user: User) {
     user.roles = [];
     const roles = this.getDecodedToken(user.token).role;

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
 import {take} from 'rxjs';
 import {AccountService} from 'src/app/account/account.service';
@@ -8,6 +8,7 @@ import {UserPhoto} from 'src/app/shared/models/user-photo';
 import {environment} from 'src/environments/environment';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-user-editor',
   templateUrl: './user-editor.component.html',

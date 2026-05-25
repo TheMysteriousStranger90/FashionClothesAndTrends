@@ -1,10 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {AccountService} from './account/account.service';
-import {User} from './shared/models/user';
 import {BasketService} from './basket/basket.service';
-import { NotificationsService } from './notifications/notifications.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,24 +12,11 @@ import { NotificationsService } from './notifications/notifications.service';
 export class AppComponent implements OnInit {
   title = 'Fashion Clothes And Trends';
 
-  constructor(private accountService: AccountService, private basketService: BasketService, private notificationsService: NotificationsService) {
+  constructor(private accountService: AccountService, private basketService: BasketService) {
   }
 
   ngOnInit(): void {
-    this.setCurrentUser();
-    this.loadBasket();
-  }
-
-  setCurrentUser() {
-    const userString = localStorage.getItem('user');
-    if (!userString) return;
-    const user: User = JSON.parse(userString);
-    this.accountService.setCurrentUser(user);
-    this.notificationsService.startConnection(user.id);
-  }
-
-  loadBasket() {
-    const basketId = localStorage.getItem('basket_id');
-    if (basketId) this.basketService.getBasket(basketId);
+    this.accountService.loadCurrentUser();
+    this.basketService.loadFromStorage();
   }
 }

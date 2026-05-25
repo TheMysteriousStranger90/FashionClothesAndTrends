@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , ChangeDetectionStrategy} from '@angular/core';
 import {FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CouponService } from 'src/app/core/services/coupon.service';
 import { Coupon } from 'src/app/shared/models/coupon';
 import { CreateCoupon } from 'src/app/shared/models/create-coupon';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-create-coupon',
   templateUrl: './create-coupon.component.html',

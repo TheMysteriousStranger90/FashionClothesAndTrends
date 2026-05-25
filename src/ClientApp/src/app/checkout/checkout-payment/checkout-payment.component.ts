@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {NavigationExtras, Router} from '@angular/router';
 import {Address} from 'src/app/shared/models/address';
@@ -17,6 +17,7 @@ import {ToastrService} from 'ngx-toastr';
 import {CheckoutService} from '../checkout.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-checkout-payment',
   templateUrl: './checkout-payment.component.html',

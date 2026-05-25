@@ -20,6 +20,11 @@ export class BasketService {
 
   constructor(private http: HttpClient) {
   }
+  loadFromStorage() {
+    const basketId = localStorage.getItem('basket_id');
+    if (basketId) this.getBasket(basketId);
+  }
+
 
   createPaymentIntent() {
     return this.http.post<Basket>(this.baseUrl + 'payments/' + this.getCurrentBasketValue()?.id, {})

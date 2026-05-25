@@ -1,8 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {BasketService} from '../basket.service';
 import {BasketItem} from 'src/app/shared/models/basket';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-basket',
   templateUrl: './basket.component.html',

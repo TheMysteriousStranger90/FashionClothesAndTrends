@@ -1,10 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {DeliveryMethod} from 'src/app/shared/models/delivery-method';
 import {CheckoutService} from '../checkout.service';
 import {BasketService} from 'src/app/basket/basket.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-checkout-delivery',
   templateUrl: './checkout-delivery.component.html',

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , ChangeDetectionStrategy} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CouponService } from 'src/app/core/services/coupon.service';
@@ -8,6 +8,7 @@ import { Coupon } from 'src/app/shared/models/coupon';
 import { ShopService } from 'src/app/shop/shop.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-apply-coupon',
   templateUrl: './apply-coupon.component.html',

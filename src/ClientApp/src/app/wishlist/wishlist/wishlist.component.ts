@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Wishlist} from 'src/app/shared/models/wishlist';
 import {WishlistService} from '../wishlist.service';
@@ -8,6 +8,7 @@ import {map, Observable, of, switchMap, take} from 'rxjs';
 import {SharedService} from '../shared.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-wishlist',
   templateUrl: './wishlist.component.html',

@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {Category, ClothingParams, Gender, Size} from 'src/app/shared/models/clothing-params';
 import {ShopService} from '../shop.service';
 import {Brand} from 'src/app/shared/models/brand';
@@ -8,6 +8,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { PageEvent } from '@angular/material/paginator';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-shop',
   templateUrl: './shop.component.html',

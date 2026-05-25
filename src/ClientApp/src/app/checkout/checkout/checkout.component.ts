@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AccountService} from 'src/app/account/account.service';
 import {BasketService} from 'src/app/basket/basket.service';
 import {UsersService} from 'src/app/users/users.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',

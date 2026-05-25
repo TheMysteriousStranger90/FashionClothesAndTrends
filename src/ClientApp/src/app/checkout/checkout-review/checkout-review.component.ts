@@ -1,9 +1,10 @@
 import {CdkStepper} from '@angular/cdk/stepper';
-import {Component, Input} from '@angular/core';
+import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
 import {ToastrService} from 'ngx-toastr';
 import {BasketService} from 'src/app/basket/basket.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-checkout-review',
   templateUrl: './checkout-review.component.html',

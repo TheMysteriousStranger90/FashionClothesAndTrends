@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , ChangeDetectionStrategy} from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
 import { take } from 'rxjs';
 import { AccountService } from 'src/app/account/account.service';
@@ -10,6 +10,7 @@ import { ShopService } from 'src/app/shop/shop.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-add-photo-to-clothing-item',
   templateUrl: './add-photo-to-clothing-item.component.html',

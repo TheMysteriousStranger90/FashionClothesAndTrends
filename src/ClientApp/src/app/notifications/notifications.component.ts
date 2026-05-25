@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , ChangeDetectionStrategy} from '@angular/core';
 import { NotificationsService } from './notifications.service';
 import { Notification } from '../shared/models/notification';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-notifications',
   templateUrl: './notifications.component.html',

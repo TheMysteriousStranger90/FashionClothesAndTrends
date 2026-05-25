@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {FavoriteItemDto} from '../shared/models/favorite-item';
 import {FavoritesService} from './favorites.service';
 import {Guid} from 'guid-typescript';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-favorites',
   templateUrl: './favorites.component.html',

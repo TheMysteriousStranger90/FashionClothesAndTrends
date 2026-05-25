@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {BasketService} from 'src/app/basket/basket.service';
 import {BreadcrumbService} from 'xng-breadcrumb';
@@ -16,6 +16,7 @@ import {LikeService} from 'src/app/core/services/like.service';
 import {LikeDislike} from 'src/app/shared/models/like-dislike';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-clothing-details',
   templateUrl: './clothing-details.component.html',

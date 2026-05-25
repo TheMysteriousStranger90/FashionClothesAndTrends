@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , ChangeDetectionStrategy} from '@angular/core';
 import {FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FileUploader } from 'ng2-file-upload';
 import { Brand } from 'src/app/shared/models/brand';
@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { FileUploadModule } from 'ng2-file-upload';
 import { ClothingItem } from 'src/app/shared/models/clothing-item';
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-create-clothing-item',
   templateUrl: './create-clothing-item.component.html',

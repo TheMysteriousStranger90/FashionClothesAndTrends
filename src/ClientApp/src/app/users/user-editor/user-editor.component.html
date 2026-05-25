@@ -6,8 +6,8 @@
           <mat-card-content>
             <h2>User Photos</h2>
             
-            <div fxLayout="row wrap" *ngIf="user?.userPhotos?.length">
-              <<div fxFlex="100" fxFlex.gt-sm="33" *ngFor="let photo of user?.userPhotos">
+            <div class="row" *ngIf="user?.userPhotos?.length">
+              <div class="col-12 col-md-4" *ngFor="let photo of user?.userPhotos">
                 <mat-card>
                   <img mat-card-image [src]="photo.url" alt="User photo">
                   <mat-card-actions>

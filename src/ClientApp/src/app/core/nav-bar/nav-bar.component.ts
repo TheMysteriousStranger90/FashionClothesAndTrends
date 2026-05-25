@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {AccountService} from 'src/app/account/account.service';
 import {BasketService} from 'src/app/basket/basket.service';
 import { NotificationsService } from 'src/app/notifications/notifications.service';
@@ -6,6 +6,7 @@ import {BasketItem} from 'src/app/shared/models/basket';
 import { Notification } from '../../shared/models/notification';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',

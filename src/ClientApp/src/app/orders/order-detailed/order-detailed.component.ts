@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , ChangeDetectionStrategy} from '@angular/core';
 import { Order } from 'src/app/shared/models/order';
 import { OrdersService } from '../orders.service';
 import { ActivatedRoute } from '@angular/router';
@@ -8,6 +8,7 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-order-detailed',
   templateUrl: './order-detailed.component.html',

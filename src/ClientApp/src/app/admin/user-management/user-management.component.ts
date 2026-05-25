@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {RolesModalComponent} from 'src/app/core/modals/roles-modal/roles-modal.component';
 import {User} from 'src/app/shared/models/user';
 import {AdminService} from '../admin.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-user-management',
   templateUrl: './user-management.component.html',

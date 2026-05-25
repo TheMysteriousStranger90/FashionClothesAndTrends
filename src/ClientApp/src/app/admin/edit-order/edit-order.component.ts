@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import {CheckoutService} from 'src/app/checkout/checkout.service';
@@ -7,6 +7,7 @@ import {DeliveryMethod} from 'src/app/shared/models/delivery-method';
 import {Order, OrderItem, OrderUpdate} from 'src/app/shared/models/order';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   selector: 'app-edit-order',
   templateUrl: './edit-order.component.html',
