@@ -115,7 +115,10 @@ export class AccountService {
 
   loadCurrentUser(): void {
     const userString = localStorage.getItem('user');
-    if (!userString) return;
+    if (!userString) {
+      this.currentUserSource.next(null);
+      return;
+    }
     const user: User = JSON.parse(userString);
     this.setCurrentUser(user);
   }

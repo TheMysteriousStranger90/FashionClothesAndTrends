@@ -19,7 +19,10 @@ export class NavBarComponent {
   }
 
   ngOnInit(): void {
-    this.loadUnreadNotificationsCount();
+    this.accountService.currentUser$.subscribe(user => {
+      if (user) this.loadUnreadNotificationsCount();
+      else this.unreadNotificationsCount = 0;
+    });
   }
 
   getCount(items: BasketItem[]) {
