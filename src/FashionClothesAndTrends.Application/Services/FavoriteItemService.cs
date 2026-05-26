@@ -51,12 +51,7 @@ public class FavoriteItemService : IFavoriteItemService
     public async Task<IEnumerable<FavoriteItemDto>> GetFavoritesByUserIdAsync(string userId)
     {
         var favoriteItems = await _unitOfWork.FavoriteItemRepository.GetFavoritesByUserIdAsync(userId);
-        if (favoriteItems == null || !favoriteItems.Any())
-        {
-            throw new NotFoundException("No favorite items found for this user.");
-        }
-
-        return _mapper.Map<IEnumerable<FavoriteItemDto>>(favoriteItems);
+        return _mapper.Map<IEnumerable<FavoriteItemDto>>(favoriteItems ?? Enumerable.Empty<FavoriteItem>());
     }
 
     public async Task<bool> IsFavoriteAsync(Guid clothingItemId, string userId)

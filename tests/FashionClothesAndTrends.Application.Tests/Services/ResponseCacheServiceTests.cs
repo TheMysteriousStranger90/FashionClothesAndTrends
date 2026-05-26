@@ -81,8 +81,8 @@ public class ResponseCacheServiceTests
                 It.IsAny<bool>(),
                 It.IsAny<When>(),
                 It.IsAny<CommandFlags>()))
-            .Callback<RedisKey, RedisValue, TimeSpan?, bool, When, CommandFlags>(
-                (_, val, _, _, _, _) => capturedValue = val)
+            .Callback<RedisKey, RedisValue, TimeSpan?, bool, When, CommandFlags>((_, val, _, _, _, _) =>
+                capturedValue = val)
             .ReturnsAsync(true);
 
         var response = new { ItemName = "Test", TotalPrice = 99.99 };

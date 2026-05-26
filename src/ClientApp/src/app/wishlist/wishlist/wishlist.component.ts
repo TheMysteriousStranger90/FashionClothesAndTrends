@@ -1,10 +1,10 @@
-import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Wishlist} from 'src/app/shared/models/wishlist';
 import {WishlistService} from '../wishlist.service';
 import {AccountService} from 'src/app/account/account.service';
 import {User} from 'src/app/shared/models/user';
-import {map, Observable, of, switchMap, take} from 'rxjs';
+import {take} from 'rxjs';
 import {SharedService} from '../shared.service';
 
 @Component({
@@ -24,7 +24,8 @@ export class WishlistComponent implements OnInit {
     private wishlistService: WishlistService,
     private fb: FormBuilder,
     private accountService: AccountService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private cdr: ChangeDetectorRef
   ) {
     this.addWishlistForm = this.fb.group({
       name: ['', Validators.required]
@@ -45,7 +46,10 @@ export class WishlistComponent implements OnInit {
     }
 
     this.sharedService.defaultWishlistId$.subscribe({
-      next: (id) => this.defaultWishlistId = id
+      next: (id) => {
+        this.defaultWishlistId = id;
+        this.cdr.markForCheck();
+      }
     });
   }
 
@@ -56,7 +60,7 @@ export class WishlistComponent implements OnInit {
           ...wishlist,
           wishListItems: wishlist.items
         }));
-        
+
         let currentDefaultWishlistId = this.sharedService.getDefaultWishlistId();
 
         if (!currentDefaultWishlistId) {
@@ -66,6 +70,7 @@ export class WishlistComponent implements OnInit {
         }
 
         this.defaultWishlistId = currentDefaultWishlistId;
+        this.cdr.markForCheck();
       },
       error: (error) => console.error('Error loading wishlists:', error)
     });
@@ -80,13 +85,14 @@ export class WishlistComponent implements OnInit {
 
     this.wishlistService.createWishlist(wishlistName).subscribe(() => {
       this.loadWishlists();
-      
+
       const currentDefaultWishlistId = this.sharedService.getDefaultWishlistId();
       if (this.defaultWishlistId !== currentDefaultWishlistId) {
         this.defaultWishlistId = currentDefaultWishlistId;
       }
 
       this.addWishlistForm.reset();
+      this.cdr.markForCheck();
     });
   }
 

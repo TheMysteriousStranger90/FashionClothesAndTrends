@@ -165,8 +165,10 @@ public class ClothingItemServiceTests
     {
         // Arrange
         var item = CreateClothingItem();
-        var oldMain = new ClothingItemPhoto { Id = Guid.NewGuid(), IsMain = true, Url = "old.jpg", PublicId = "old-pub-id" };
-        var newMain = new ClothingItemPhoto { Id = Guid.NewGuid(), IsMain = false, Url = "new.jpg", PublicId = "new-pub-id" };
+        var oldMain = new ClothingItemPhoto
+            { Id = Guid.NewGuid(), IsMain = true, Url = "old.jpg", PublicId = "old-pub-id" };
+        var newMain = new ClothingItemPhoto
+            { Id = Guid.NewGuid(), IsMain = false, Url = "new.jpg", PublicId = "new-pub-id" };
         item.ClothingItemPhotos.Add(oldMain);
         item.ClothingItemPhotos.Add(newMain);
 
@@ -195,7 +197,9 @@ public class ClothingItemServiceTests
         genericRepo.Setup(r => r.ListAsync(It.IsAny<ISpecification<ClothingItem>>()))
             .ReturnsAsync(items);
         _unitOfWorkMock.Setup(u => u.GenericRepository<ClothingItem>()).Returns(genericRepo.Object);
-        _mapperMock.Setup(m => m.Map<IReadOnlyList<ClothingItem>, IReadOnlyList<ClothingItemDto>>(It.IsAny<IReadOnlyList<ClothingItem>>()))
+        _mapperMock.Setup(m =>
+                m.Map<IReadOnlyList<ClothingItem>, IReadOnlyList<ClothingItemDto>>(
+                    It.IsAny<IReadOnlyList<ClothingItem>>()))
             .Returns(dtos);
 
         // Act

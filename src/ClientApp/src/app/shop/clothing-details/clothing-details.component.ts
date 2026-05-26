@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {BasketService} from 'src/app/basket/basket.service';
 import {BreadcrumbService} from 'xng-breadcrumb';
@@ -10,7 +10,7 @@ import {User} from 'src/app/shared/models/user';
 import {Rating} from 'src/app/shared/models/rating';
 import {RatingService} from 'src/app/shared/rating/rating.service';
 import {CommentService} from 'src/app/core/services/comment.service';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Comment} from '../../shared/models/comment';
 import {LikeService} from 'src/app/core/services/like.service';
 import {LikeDislike} from 'src/app/shared/models/like-dislike';
@@ -34,7 +34,18 @@ export class ClothingDetailsComponent implements OnInit {
   commentForm: FormGroup;
   comments: Comment[] = [];
 
-  constructor(private accountService: AccountService, private ratingService: RatingService, private shopService: ShopService, private activatedRoute: ActivatedRoute, private bcService: BreadcrumbService, private basketService: BasketService, private commentService: CommentService, private likeService: LikeService, private fb: FormBuilder,) {
+  constructor(
+    private accountService: AccountService,
+    private ratingService: RatingService,
+    private shopService: ShopService,
+    private activatedRoute: ActivatedRoute,
+    private bcService: BreadcrumbService,
+    private basketService: BasketService,
+    private commentService: CommentService,
+    private likeService: LikeService,
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
+  ) {
     this.bcService.set('@productDetails', ' ')
 
     this.accountService.currentUser$.pipe(take(1)).subscribe({
@@ -44,7 +55,7 @@ export class ClothingDetailsComponent implements OnInit {
     })
 
     this.commentForm = this.fb.group({
-      text: ['']
+      text: ['', Validators.required]
     });
   }
 
@@ -71,6 +82,7 @@ export class ClothingDetailsComponent implements OnInit {
             }
           });
           this.loadRatings();
+          this.cdr.markForCheck();
         },
         error: error => console.log(error)
       });
@@ -115,6 +127,7 @@ export class ClothingDetailsComponent implements OnInit {
     this.ratingService.getAverageRating(id).subscribe({
       next: averageRating => {
         this.averageRating = averageRating;
+        this.cdr.markForCheck();
       },
       error: error => console.log(error)
     });
@@ -123,6 +136,7 @@ export class ClothingDetailsComponent implements OnInit {
       this.ratingService.getUserRating(this.user.id, id).subscribe({
         next: userRating => {
           this.userRating = userRating ? userRating.score : undefined;
+          this.cdr.markForCheck();
         },
         error: error => console.log(error)
       });
@@ -140,7 +154,6 @@ export class ClothingDetailsComponent implements OnInit {
 
       this.ratingService.addRating(newRating).subscribe({
         next: () => {
-          console.log('Rating added/updated successfully');
           this.loadRatings();
         },
         error: error => console.error('Error adding/updating rating:', error)
@@ -156,14 +169,21 @@ export class ClothingDetailsComponent implements OnInit {
           this.comments = comments;
           this.comments.forEach(comment => {
             this.likeService.getLikesCount(comment.id).subscribe({
-              next: (count) => comment.likesCount = count,
+              next: (count) => {
+                comment.likesCount = count;
+                this.cdr.markForCheck();
+              },
               error: (error) => console.error('Error fetching likes count', error)
             });
             this.likeService.getDislikesCount(comment.id).subscribe({
-              next: (count) => comment.dislikesCount = count,
+              next: (count) => {
+                comment.dislikesCount = count;
+                this.cdr.markForCheck();
+              },
               error: (error) => console.error('Error fetching dislikes count', error)
             });
           });
+          this.cdr.markForCheck();
         },
         (error) => {
           console.error('Error fetching comments', error);
@@ -173,21 +193,23 @@ export class ClothingDetailsComponent implements OnInit {
   }
 
   addComment(): void {
-    if (!this.commentForm.valid) {
+    if (!this.commentForm.valid || !this.product || !this.user) {
       return;
     }
 
-    const comment = this.commentForm.value;
-    comment.clothingItemId = this.product?.id;
-    comment.userId = this.user?.id;
-    comment.username = this.user?.username;
+    const comment = {
+      text: this.commentForm.value.text,
+      clothingItemId: this.product.id,
+      userId: this.user.id,
+      username: this.user.username
+    };
 
     this.commentForm.reset();
 
     this.commentService.addComment(comment).subscribe(
       (c) => {
-        this.comments.unshift(c);
         this.loadComments();
+        this.cdr.markForCheck();
       },
       (error) => {
         console.error('Error adding comment', error);
@@ -209,6 +231,7 @@ export class ClothingDetailsComponent implements OnInit {
             this.comments = comments;
             this.comments.reverse();
             this.loadComments();
+            this.cdr.markForCheck();
           },
           (error) => {
             console.error('Error fetching comments', error);
@@ -257,3 +280,5 @@ export class ClothingDetailsComponent implements OnInit {
     }
   }
 }
+
+

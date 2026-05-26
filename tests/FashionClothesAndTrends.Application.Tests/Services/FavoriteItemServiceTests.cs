@@ -37,8 +37,9 @@ public class FavoriteItemServiceTests
         await _sut.AddFavoriteAsync(clothingItemId, userId);
 
         // Assert
-        _unitOfWorkMock.Verify(u => u.FavoriteItemRepository.Add(It.Is<FavoriteItem>(
-            f => f.ClothingItemId == clothingItemId && f.UserId == userId)), Times.Once);
+        _unitOfWorkMock.Verify(
+            u => u.FavoriteItemRepository.Add(It.Is<FavoriteItem>(f =>
+                f.ClothingItemId == clothingItemId && f.UserId == userId)), Times.Once);
         _unitOfWorkMock.Verify(u => u.SaveAsync(), Times.Once);
     }
 
@@ -84,7 +85,7 @@ public class FavoriteItemServiceTests
     {
         // Arrange
         _unitOfWorkMock.Setup(u => u.FavoriteItemRepository
-            .GetByClothingItemIdAndUserIdAsync(It.IsAny<Guid>(), It.IsAny<string>()))
+                .GetByClothingItemIdAndUserIdAsync(It.IsAny<Guid>(), It.IsAny<string>()))
             .ReturnsAsync((FavoriteItem?)null);
 
         // Act

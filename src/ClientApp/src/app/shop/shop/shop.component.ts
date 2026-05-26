@@ -1,9 +1,8 @@
-import {Component, ElementRef, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {Category, ClothingParams, Gender, Size} from 'src/app/shared/models/clothing-params';
 import {ShopService} from '../shop.service';
 import {Brand} from 'src/app/shared/models/brand';
 import {ClothingItem} from 'src/app/shared/models/clothing-item';
-import {Guid} from 'guid-typescript';
 import { MatSelectChange } from '@angular/material/select';
 import { PageEvent } from '@angular/material/paginator';
 
@@ -30,7 +29,7 @@ export class ShopComponent implements OnInit {
   sizeOptions = [null, ...Object.values(Size)];
   totalCount = 0;
 
-  constructor(private shopService: ShopService) {
+  constructor(private shopService: ShopService, private cdr: ChangeDetectorRef) {
     this.clothingParams = shopService.getShopParams();
   }
 
@@ -44,17 +43,17 @@ export class ShopComponent implements OnInit {
       next: response => {
         this.products = response.data;
         this.totalCount = response.count;
+        this.cdr.markForCheck();
       },
       error: error => console.log(error)
     })
   }
 
-
-
   getBrands() {
     this.shopService.getBrands().subscribe({
       next: response => {
         this.brands = [{id: '', name: 'All', description: ''}, ...response]
+        this.cdr.markForCheck();
       },
       error: error => console.log(error)
     })
@@ -72,9 +71,7 @@ export class ShopComponent implements OnInit {
   onSortSelected(event: MatSelectChange) {
     const params = this.shopService.getShopParams();
     params.sort = event.value;
-
     params.pageIndex = 1;
-
     this.shopService.setShopParams(params);
     this.clothingParams = params;
     this.getProducts();
@@ -110,9 +107,7 @@ export class ShopComponent implements OnInit {
   onPageChanged(event: PageEvent) {
     const params = this.shopService.getShopParams();
     if (params.pageIndex !== event.pageIndex + 1 || params.pageSize !== event.pageSize) {
-
       params.pageIndex = event.pageIndex + 1;
-
       params.pageSize = event.pageSize;
       this.shopService.setShopParams(params);
       this.clothingParams = params;

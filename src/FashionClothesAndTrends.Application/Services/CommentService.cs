@@ -19,7 +19,7 @@ public class CommentService : ICommentService
         _mapper = mapper;
     }
 
-    public async Task AddCommentAsync(CommentDto commentDto)
+    public async Task<CommentDto> AddCommentAsync(CommentDto commentDto)
     {
         if (commentDto == null)
         {
@@ -32,9 +32,19 @@ public class CommentService : ICommentService
             throw new NotFoundException("User not found.");
         }
 
-        var comment = _mapper.Map<Comment>(commentDto);
+        var comment = new Comment
+        {
+            Text = commentDto.Text,
+            UserId = commentDto.UserId,
+            ClothingItemId = commentDto.ClothingItemId
+        };
+
         await _unitOfWork.CommentRepository.AddCommentToClothingItemAsync(comment);
         await _unitOfWork.SaveAsync();
+
+        var result = _mapper.Map<CommentDto>(comment);
+        result.Username = user.UserName ?? string.Empty;
+        return result;
     }
 
     public async Task RemoveCommentAsync(Guid commentId, string userId)
@@ -67,7 +77,7 @@ public class CommentService : ICommentService
         var comments = await _unitOfWork.CommentRepository.GetCommentsForClothingItemIdAsync(clothingItemId);
         if (comments == null || !comments.Any())
         {
-            throw new NotFoundException("No comments found for this clothing item.");
+            return Enumerable.Empty<CommentDto>();
         }
 
         var commentDtos = _mapper.Map<IEnumerable<CommentDto>>(comments);

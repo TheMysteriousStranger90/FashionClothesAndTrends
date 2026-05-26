@@ -29,9 +29,7 @@ public class NotificationService : INotificationService
         var notifications = await _unitOfWork.NotificationRepository.GetNotificationsByUserIdAsync(userId);
 
         if (notifications == null || !notifications.Any())
-        {
-            throw new NotFoundException("No notifications found for this user.");
-        }
+            return Enumerable.Empty<NotificationDto>();
 
         return _mapper.Map<IEnumerable<NotificationDto>>(notifications);
     }
@@ -41,9 +39,7 @@ public class NotificationService : INotificationService
         var notifications = await _unitOfWork.NotificationRepository.GetUnreadNotificationsByUserIdAsync(userId);
 
         if (notifications == null || !notifications.Any())
-        {
-            throw new NotFoundException("No unread notifications found for this user.");
-        }
+            return Enumerable.Empty<NotificationDto>();
 
         return _mapper.Map<IEnumerable<NotificationDto>>(notifications);
     }

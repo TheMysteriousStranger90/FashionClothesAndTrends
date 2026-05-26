@@ -5,6 +5,7 @@ export interface Comment {
   text: string;
   username: string;
   userId: string;
+  clothingItemId?: string;
   createdAt: Date;
   timeAgo?: string;
   likesCount?: number;

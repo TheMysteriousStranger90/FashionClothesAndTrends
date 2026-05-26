@@ -21,11 +21,15 @@ public class LikeDislikeService : ILikeDislikeService
     public async Task AddLikeDislikeAsync(LikeDislikeDto likeDislikeDto)
     {
         if (likeDislikeDto == null)
-        {
             throw new ArgumentNullException(nameof(likeDislikeDto));
-        }
 
-        var likeDislike = _mapper.Map<LikeDislike>(likeDislikeDto);
+        var likeDislike = new LikeDislike
+        {
+            IsLike = likeDislikeDto.IsLike,
+            CommentId = likeDislikeDto.CommentId,
+            UserId = likeDislikeDto.UserId
+        };
+
         await _unitOfWork.LikeDislikeRepository.AddLikeToCommentAsync(likeDislike);
         await _unitOfWork.SaveAsync();
     }

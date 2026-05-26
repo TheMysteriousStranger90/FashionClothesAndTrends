@@ -1,4 +1,4 @@
-import { Component, Input, OnInit , ChangeDetectionStrategy} from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { BasketService } from 'src/app/basket/basket.service';
 import { FavoritesService } from 'src/app/favorites/favorites.service';
@@ -24,19 +24,26 @@ export class ClothingItemComponent implements OnInit {
     private favoritesService: FavoritesService,
     private wishlistService: WishlistService,
     private sharedService: SharedService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     if (this.product) {
       this.favoritesService.isFavorite(this.product.id).subscribe({
-        next: (isFav) => this.isFavorite = isFav,
+        next: (isFav) => {
+          this.isFavorite = isFav;
+          this.cdr.markForCheck();
+        },
         error: (error) => console.error(error)
       });
     }
 
     this.sharedService.defaultWishlistId$.subscribe({
-      next: (id) => this.defaultWishlistId = id
+      next: (id) => {
+        this.defaultWishlistId = id;
+        this.cdr.markForCheck();
+      }
     });
   }
 
@@ -55,6 +62,7 @@ export class ClothingItemComponent implements OnInit {
         next: () => {
           this.isFavorite = false;
           this.toastr.success('Removed from favorites');
+          this.cdr.markForCheck();
         },
         error: (error) => {
           console.error(error);
@@ -66,6 +74,7 @@ export class ClothingItemComponent implements OnInit {
         next: () => {
           this.isFavorite = true;
           this.toastr.success('Added to favorites');
+          this.cdr.markForCheck();
         },
         error: (error) => {
           console.error(error);

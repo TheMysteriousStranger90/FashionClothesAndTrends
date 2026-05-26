@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Comment } from '../../shared/models/comment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +12,7 @@ export class CommentService {
 
   constructor(private http: HttpClient) { }
 
-  addComment(comment: Comment): Observable<Comment> {
+  addComment(comment: Partial<Comment>): Observable<Comment> {
     return this.http.post<Comment>(`${this.baseUrl}comments`, comment);
   }
 

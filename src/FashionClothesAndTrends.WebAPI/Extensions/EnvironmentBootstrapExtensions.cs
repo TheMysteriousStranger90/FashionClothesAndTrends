@@ -73,7 +73,8 @@ public static class EnvironmentBootstrapExtensions
                 return directCandidate;
             }
 
-            var nestedCandidate = Path.Combine(root.FullName, "src", "FashionClothesAndTrends.WebAPI", "certs", "localhost.pfx");
+            var nestedCandidate = Path.Combine(root.FullName, "src", "FashionClothesAndTrends.WebAPI", "certs",
+                "localhost.pfx");
             if (File.Exists(nestedCandidate))
             {
                 return nestedCandidate;

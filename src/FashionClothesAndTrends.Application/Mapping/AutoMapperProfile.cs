@@ -59,12 +59,19 @@ public class AutoMapperProfile : Profile
             .ForMember(d => d.PictureUrl, o => o.MapFrom(s => s.ItemOrdered.MainPictureUrl));
 
         CreateMap<Comment, CommentDto>()
-            .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.UserName))
-            .ReverseMap();
+            .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.UserName));
+
+        CreateMap<CommentDto, Comment>()
+            .ForMember(dest => dest.User, opt => opt.Ignore())
+            .ForMember(dest => dest.ClothingItem, opt => opt.Ignore())
+            .ForMember(dest => dest.LikesDislikes, opt => opt.Ignore());
 
         CreateMap<LikeDislike, LikeDislikeDto>()
-            .ForPath(dest => dest.Username, opt => opt.MapFrom(src => src.User.UserName))
-            .ReverseMap();
+            .ForPath(dest => dest.Username, opt => opt.MapFrom(src => src.User.UserName));
+
+        CreateMap<LikeDislikeDto, LikeDislike>()
+            .ForMember(dest => dest.User, opt => opt.Ignore())
+            .ForMember(dest => dest.Comment, opt => opt.Ignore());
 
         CreateMap<FavoriteItem, FavoriteItemDto>()
             .ForMember(dest => dest.ClothingItemDto, opt => opt.MapFrom(src => src.ClothingItem))
@@ -109,3 +116,4 @@ public class AutoMapperProfile : Profile
         CreateMap<Coupon, CouponDto>().ReverseMap();
     }
 }
+
