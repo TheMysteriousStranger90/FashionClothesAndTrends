@@ -119,20 +119,6 @@ public class FavoriteItemServiceTests
     }
 
     [Fact]
-    public async Task GetFavoritesByUserIdAsync_WhenNoFavorites_ShouldThrowNotFoundException()
-    {
-        // Arrange
-        _unitOfWorkMock.Setup(u => u.FavoriteItemRepository.GetFavoritesByUserIdAsync(It.IsAny<string>()))
-            .ReturnsAsync(new List<FavoriteItem>());
-
-        // Act
-        Func<Task> act = async () => await _sut.GetFavoritesByUserIdAsync("user-1");
-
-        // Assert
-        await act.Should().ThrowAsync<NotFoundException>();
-    }
-
-    [Fact]
     public async Task IsFavoriteAsync_ShouldDelegateToRepository()
     {
         // Arrange

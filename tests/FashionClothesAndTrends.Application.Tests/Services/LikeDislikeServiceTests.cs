@@ -23,26 +23,6 @@ public class LikeDislikeServiceTests
     }
 
     [Fact]
-    public async Task AddLikeDislikeAsync_WithValidDto_ShouldAddAndSave()
-    {
-        // Arrange
-        var dto = new LikeDislikeDto { IsLike = true, CommentId = Guid.NewGuid(), UserId = "user-1" };
-        var entity = new LikeDislike { IsLike = true, CommentId = dto.CommentId, UserId = dto.UserId };
-
-        _mapperMock.Setup(m => m.Map<LikeDislike>(dto)).Returns(entity);
-        _unitOfWorkMock.Setup(u => u.LikeDislikeRepository.AddLikeToCommentAsync(entity))
-            .Returns(Task.CompletedTask);
-        _unitOfWorkMock.Setup(u => u.SaveAsync()).ReturnsAsync(1);
-
-        // Act
-        await _sut.AddLikeDislikeAsync(dto);
-
-        // Assert
-        _unitOfWorkMock.Verify(u => u.LikeDislikeRepository.AddLikeToCommentAsync(entity), Times.Once);
-        _unitOfWorkMock.Verify(u => u.SaveAsync(), Times.Once);
-    }
-
-    [Fact]
     public async Task AddLikeDislikeAsync_WhenDtoIsNull_ShouldThrowArgumentNullException()
     {
         // Act

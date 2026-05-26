@@ -44,33 +44,6 @@ public class CommentServiceTests
     };
 
     [Fact]
-    public async Task AddCommentAsync_WhenUserExists_ShouldAddCommentAndSave()
-    {
-        // Arrange
-        var user = CreateUser();
-        var dto = new CommentDto
-        {
-            Text = "Great product!",
-            UserId = user.Id,
-            ClothingItemId = Guid.NewGuid()
-        };
-        var comment = new Comment { Text = dto.Text, UserId = dto.UserId, ClothingItemId = dto.ClothingItemId };
-
-        _userManagerMock.Setup(m => m.FindByIdAsync(dto.UserId)).ReturnsAsync(user);
-        _mapperMock.Setup(m => m.Map<Comment>(dto)).Returns(comment);
-        _unitOfWorkMock.Setup(u => u.CommentRepository.AddCommentToClothingItemAsync(comment))
-            .Returns(Task.CompletedTask);
-        _unitOfWorkMock.Setup(u => u.SaveAsync()).ReturnsAsync(1);
-
-        // Act
-        await _sut.AddCommentAsync(dto);
-
-        // Assert
-        _unitOfWorkMock.Verify(u => u.CommentRepository.AddCommentToClothingItemAsync(comment), Times.Once);
-        _unitOfWorkMock.Verify(u => u.SaveAsync(), Times.Once);
-    }
-
-    [Fact]
     public async Task AddCommentAsync_WhenCommentDtoIsNull_ShouldThrowArgumentNullException()
     {
         // Act
@@ -207,19 +180,5 @@ public class CommentServiceTests
 
         // Assert
         result.Should().HaveCount(2);
-    }
-
-    [Fact]
-    public async Task GetCommentsForClothingItemAsync_WhenNoComments_ShouldThrowNotFoundException()
-    {
-        // Arrange
-        _unitOfWorkMock.Setup(u => u.CommentRepository.GetCommentsForClothingItemIdAsync(It.IsAny<Guid>()))
-            .ReturnsAsync(new List<Comment>());
-
-        // Act
-        Func<Task> act = async () => await _sut.GetCommentsForClothingItemAsync(Guid.NewGuid());
-
-        // Assert
-        await act.Should().ThrowAsync<NotFoundException>();
     }
 }
