@@ -1,4 +1,4 @@
-version: "3.9"
+﻿version: "3.9"
 
 services:
   webapi:
@@ -17,6 +17,7 @@ services:
       ASPNETCORE_HTTPS_PORT: ${WEB_HTTPS_PORT:-8443}
       ASPNETCORE_Kestrel__Certificates__Default__Path: /https/localhost.pfx
       ASPNETCORE_Kestrel__Certificates__Default__Password: ${KESTREL_CERT_PASSWORD}
+      Database__ConnectionProfile: docker
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:80/health/ready" ]
       interval: 30s
@@ -24,7 +25,7 @@ services:
       retries: 5
     volumes:
       - ./logs:/logs
-      - ./localhost.pfx:/https/localhost.pfx:ro
+      - ./src/FashionClothesAndTrends.WebAPI/certs/localhost.pfx:/https/localhost.pfx:ro
       - data_protection_keys:/root/.aspnet/DataProtection-Keys
     depends_on:
       sql:
