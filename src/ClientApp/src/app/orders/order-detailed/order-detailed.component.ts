@@ -1,5 +1,4 @@
-import { Component, OnInit , ChangeDetectionStrategy} from '@angular/core';
-import { Order } from 'src/app/shared/models/order';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { OrdersService } from '../orders.service';
 import { ActivatedRoute } from '@angular/router';
 import { BreadcrumbService } from 'xng-breadcrumb';
@@ -21,7 +20,8 @@ export class OrderDetailedComponent implements OnInit {
   constructor(
     private ordersService: OrdersService,
     private route: ActivatedRoute,
-    private bcService: BreadcrumbService
+    private bcService: BreadcrumbService,
+    private cdr: ChangeDetectorRef
   ) {
     this.bcService.set('@OrderDetailed', ' ');
   }
@@ -33,6 +33,7 @@ export class OrderDetailedComponent implements OnInit {
         next: order => {
           this.order = order;
           this.bcService.set('@OrderDetailed', `Order# ${order.id} - ${order.status}`);
+          this.cdr.markForCheck();
         }
       });
     }
@@ -43,19 +44,20 @@ export class OrderDetailedComponent implements OnInit {
     const button = document.querySelector('.search-button') as HTMLElement;
     if (data && button) {
       button.style.display = 'none';
-      html2canvas(data).then(canvas => {
+      this.cdr.detectChanges();
+      html2canvas(data, { useCORS: true, scale: 2 }).then(canvas => {
         const imgWidth = 208;
         const imgHeight = canvas.height * imgWidth / canvas.width;
         const contentDataURL = canvas.toDataURL('image/png');
-        let pdf = new jsPDF('p', 'mm', 'a4');
-        const position = 0;
-        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        pdf.addImage(contentDataURL, 'PNG', 0, 0, imgWidth, imgHeight);
         pdf.save('order-details.pdf');
         button.style.display = 'block';
+        this.cdr.markForCheck();
       }).catch(error => {
         console.error('Error creating canvas:', error);
-        
         button.style.display = 'block';
+        this.cdr.markForCheck();
       });
     } else {
       console.error('Element not found');
