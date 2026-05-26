@@ -1,0 +1,167 @@
+using AutoMapper;
+using FashionClothesAndTrends.Application.DTOs;
+using FashionClothesAndTrends.Application.Exceptions;
+using FashionClothesAndTrends.Application.Helpers;
+using FashionClothesAndTrends.Application.Services.Interfaces;
+using FashionClothesAndTrends.Application.UoW;
+using FashionClothesAndTrends.Domain.Entities;
+using FashionClothesAndTrends.Domain.Specifications;
+
+namespace FashionClothesAndTrends.Application.Services;
+
+public class ClothingItemService : IClothingItemService
+{
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
+    private readonly IPhotoService _photoService;
+
+    public ClothingItemService(IUnitOfWork unitOfWork, IMapper mapper, IPhotoService photoService)
+    {
+        _unitOfWork = unitOfWork;
+        _mapper = mapper;
+        _photoService = photoService;
+    }
+
+    public async Task<ClothingItemDto> GetClothingItemById(Guid clothingItemId)
+    {
+        var spec = new ClothingItemsWithTypesAndBrandsSpecification(clothingItemId);
+
+        var clothingItem = await _unitOfWork.GenericRepository<ClothingItem>().GetEntityWithSpec(spec);
+
+        if (clothingItem == null) throw new NotFoundException("ClothingItem not found.");
+
+        return _mapper.Map<ClothingItem, ClothingItemDto>(clothingItem);
+    }
+
+    public async Task<Pagination<ClothingItemDto>> GetClothingItems(ClothingSpecParams clothingSpecParams)
+    {
+        var spec = new ClothingItemsWithTypesAndBrandsSpecification(clothingSpecParams);
+
+        var countSpec = new ClothingItemWithFiltersForCountSpecificication(clothingSpecParams);
+
+        var totalItems = await _unitOfWork.GenericRepository<ClothingItem>().CountAsync(countSpec);
+
+        var clothingItems = await _unitOfWork.GenericRepository<ClothingItem>().ListAsync(spec);
+
+        var data = _mapper
+            .Map<IReadOnlyList<ClothingItem>, IReadOnlyList<ClothingItemDto>>(clothingItems);
+
+        return new Pagination<ClothingItemDto>(clothingSpecParams.PageIndex, clothingSpecParams.PageSize, totalItems,
+            data);
+    }
+
+    public async Task<IReadOnlyList<ClothingBrandDto>> GetClothingBrands()
+    {
+        var brands = await _unitOfWork.GenericRepository<ClothingBrand>().ListAllAsync();
+        return _mapper.Map<IReadOnlyList<ClothingBrandDto>>(brands);
+    }
+
+    public async Task<ClothingItemPhotoDto> AddPhotoByClothingItem(PhotoUploadResultDto result, Guid clothingItemId)
+    {
+        var clothingItem = await _unitOfWork.ClothingItemRepository.GetClothingByIdAsync(clothingItemId);
+        if (clothingItem == null) throw new NotFoundException("Clothing item not found!");
+
+        if (string.IsNullOrWhiteSpace(result.SecureUrl) || string.IsNullOrWhiteSpace(result.PublicId))
+        {
+            throw new ConflictException("Photo upload returned incomplete data.");
+        }
+
+        var photo = new ClothingItemPhoto
+        {
+            Url = result.SecureUrl,
+            PublicId = result.PublicId
+        };
+
+        clothingItem.ClothingItemPhotos.Add(photo);
+        await _unitOfWork.SaveAsync();
+
+        return _mapper.Map<ClothingItemPhotoDto>(photo);
+    }
+
+    public async Task SetMainClothingItemPhotoByClothingItem(Guid clothingItemPhotoId, Guid clothingItemId)
+    {
+        var clothingItem = await _unitOfWork.ClothingItemRepository.GetClothingByIdAsync(clothingItemId);
+        if (clothingItem == null) throw new NotFoundException("Clothing item not found!");
+
+        var photo = clothingItem.ClothingItemPhotos.FirstOrDefault(p => p?.Id == clothingItemPhotoId);
+        if (photo == null) throw new NotFoundException("Photo not found!");
+
+        var currentMain = clothingItem.ClothingItemPhotos.FirstOrDefault(p => p?.IsMain == true);
+        if (currentMain != null) currentMain.IsMain = false;
+
+        photo.IsMain = true;
+        await _unitOfWork.SaveAsync();
+    }
+
+    public async Task DeleteClothingItemPhotoByClothingItem(Guid clothingItemPhotoId, Guid clothingItemId)
+    {
+        var clothingItem = await _unitOfWork.ClothingItemRepository.GetClothingByIdAsync(clothingItemId);
+        if (clothingItem == null) throw new NotFoundException("Clothing item not found!");
+
+        var photo = await _unitOfWork.PhotoRepository.GetClothingItemPhotoByIdAsync(clothingItemPhotoId);
+
+        if (photo == null) throw new NotFoundException("Not Found!");
+
+        if (photo.IsMain) throw new ForbiddenException("You cannot delete your main photo");
+
+        if (photo.PublicId != null)
+        {
+            var result = await _photoService.DeletePhotoAsync(photo.PublicId);
+            if (!result.Succeeded) throw new ConflictException(result.ErrorMessage ?? "Error!");
+        }
+
+        clothingItem.ClothingItemPhotos.Remove(photo);
+
+        await _unitOfWork.SaveAsync();
+    }
+
+    public async Task AddClothingBrandAsync(CreateClothingBrandDto createClothingBrandDto)
+    {
+        var clothingBrand = _mapper.Map<ClothingBrand>(createClothingBrandDto);
+        _unitOfWork.GenericRepository<ClothingBrand>().Add(clothingBrand);
+        await _unitOfWork.SaveAsync();
+    }
+
+    public async Task AddClothingItemAsync(CreateClothingItemDto createClothingItemDto)
+    {
+        if (!Guid.TryParse(createClothingItemDto.Brand, out var clothingBrandId))
+        {
+            throw new ArgumentException("Invalid brand ID format.");
+        }
+
+        var clothingBrandForItem = await _unitOfWork.GenericRepository<ClothingBrand>()
+            .GetByIdAsync(clothingBrandId);
+
+        if (clothingBrandForItem == null)
+        {
+            throw new NotFoundException($"Clothing brand with ID ''{clothingBrandId}'' not found.");
+        }
+
+        var clothingItem = _mapper.Map<ClothingItem>(createClothingItemDto);
+
+        clothingItem.ClothingBrandId = clothingBrandId;
+        clothingItem.IsInStock = true;
+        clothingItem.CreatedAt = DateTime.UtcNow;
+
+        _unitOfWork.ClothingItemRepository.Add(clothingItem);
+        await _unitOfWork.SaveAsync();
+    }
+
+    public async Task RemoveClothingItemAsync(Guid clothingItemId)
+    {
+        var clothingItem = await _unitOfWork.ClothingItemRepository.GetClothingByIdAsync(clothingItemId);
+        if (clothingItem == null)
+        {
+            throw new NotFoundException("Clothing item not found.");
+        }
+
+        _unitOfWork.ClothingItemRepository.Delete(clothingItem);
+        await _unitOfWork.SaveAsync();
+    }
+
+    public async Task<IReadOnlyList<ClothingItemDto>> GetAllClothingItemsAsync()
+    {
+        var clothingItems = await _unitOfWork.ClothingItemRepository.GetAllClothingItemsAsync();
+        return _mapper.Map<IReadOnlyList<ClothingItemDto>>(clothingItems);
+    }
+}

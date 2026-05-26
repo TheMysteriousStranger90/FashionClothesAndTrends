@@ -1,0 +1,119 @@
+using FashionClothesAndTrends.Application.UoW;
+using FashionClothesAndTrends.Domain.Common;
+using FashionClothesAndTrends.Domain.Entities;
+using FashionClothesAndTrends.Domain.Interfaces;
+using FashionClothesAndTrends.Infrastructure.Context;
+using FashionClothesAndTrends.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Identity;
+
+namespace FashionClothesAndTrends.Infrastructure.UoW;
+
+public class UnitOfWork : IUnitOfWork
+{
+    private readonly ApplicationDbContext _context;
+    private readonly UserManager<User> _userManager;
+    private readonly SignInManager<User> _signInManager;
+    private readonly RoleManager<AppRole> _roleManager;
+    private readonly Dictionary<string, object> _repositories = new();
+
+    private IClothingItemRepository? _clothingItemRepository;
+    private ICommentRepository? _commentRepository;
+    private IFavoriteItemRepository? _favoriteItemRepository;
+    private ILikeDislikeRepository? _likeDislikeRepository;
+    private INotificationRepository? _notificationRepository;
+    private IRatingRepository? _ratingRepository;
+    private IWishlistRepository? _wishlistRepository;
+    private IPhotoRepository? _photoRepository;
+    private IOrderHistoryRepository? _orderHistoryRepository;
+    private ICouponRepository? _couponRepository;
+    private IUserRepository? _userRepository;
+
+    public UnitOfWork(
+        ApplicationDbContext context,
+        UserManager<User> userManager,
+        SignInManager<User> signInManager,
+        RoleManager<AppRole> roleManager)
+    {
+        _context = context;
+        _userManager = userManager;
+        _signInManager = signInManager;
+        _roleManager = roleManager;
+    }
+
+    public IGenericRepository<T> GenericRepository<T>() where T : BaseEntity
+    {
+        var type = typeof(T).Name;
+
+        if (!_repositories.TryGetValue(type, out var repo))
+        {
+            var repositoryType = typeof(GenericRepository<>);
+            repo = Activator.CreateInstance(repositoryType.MakeGenericType(typeof(T)), _context)
+                   ?? throw new InvalidOperationException($"Could not create repository for type {type}.");
+            _repositories[type] = repo;
+        }
+
+        return (IGenericRepository<T>)repo;
+    }
+
+    public IClothingItemRepository ClothingItemRepository =>
+        _clothingItemRepository ??= new ClothingItemRepository(_context);
+
+    public ICommentRepository CommentRepository =>
+        _commentRepository ??= new CommentRepository(_context);
+
+    public IFavoriteItemRepository FavoriteItemRepository =>
+        _favoriteItemRepository ??= new FavoriteItemRepository(_context);
+
+    public ILikeDislikeRepository LikeDislikeRepository =>
+        _likeDislikeRepository ??= new LikeDislikeRepository(_context);
+
+    public INotificationRepository NotificationRepository =>
+        _notificationRepository ??= new NotificationRepository(_context);
+
+    public IRatingRepository RatingRepository =>
+        _ratingRepository ??= new RatingRepository(_context);
+
+    public IWishlistRepository WishlistRepository =>
+        _wishlistRepository ??= new WishlistRepository(_context);
+
+    public IPhotoRepository PhotoRepository =>
+        _photoRepository ??= new PhotoRepository(_context);
+
+    public IOrderHistoryRepository OrderHistoryRepository =>
+        _orderHistoryRepository ??= new OrderHistoryRepository(_context);
+
+    public ICouponRepository CouponRepository =>
+        _couponRepository ??= new CouponRepository(_context);
+
+    public IUserRepository UserRepository =>
+        _userRepository ??= new UserRepository(_context);
+
+    public UserManager<User> UserManager => _userManager;
+
+    public SignInManager<User> SignInManager => _signInManager;
+
+    public RoleManager<AppRole> RoleManager => _roleManager;
+
+    public async Task<int> SaveAsync()
+    {
+        return await _context.SaveChangesAsync();
+    }
+
+    private bool _disposed;
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed && disposing)
+        {
+            _context.Dispose();
+        }
+
+        _disposed = true;
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+}

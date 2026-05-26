@@ -1,0 +1,110 @@
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { FileUploader } from 'ng2-file-upload';
+import { take } from 'rxjs';
+import { AccountService } from 'src/app/account/account.service';
+import { PhotosService } from 'src/app/core/services/photos.service';
+import { ClothingItem } from 'src/app/shared/models/clothing-item';
+import { ClothingPhoto } from 'src/app/shared/models/clothing-photo';
+import { User } from 'src/app/shared/models/user';
+import { ShopService } from 'src/app/shop/shop.service';
+import { environment } from 'src/environments/environment';
+
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
+  selector: 'app-add-photo-to-clothing-item',
+  templateUrl: './add-photo-to-clothing-item.component.html',
+  styleUrls: ['./add-photo-to-clothing-item.component.sass']
+})
+export class AddPhotoToClothingItemComponent implements OnInit {
+  clothingItems: ClothingItem[] = [];
+  selectedClothingItem: ClothingItem | null = null;
+  uploader: FileUploader;
+  hasBaseDropZoneOver = false;
+  baseUrl = environment.apiUrl;
+  user: User | undefined;
+
+  constructor(private shopService: ShopService, private photosService: PhotosService, private accountService: AccountService, private cdr: ChangeDetectorRef) {
+    this.accountService.currentUser$.pipe(take(1)).subscribe({
+      next: user => {
+        if (user) this.user = user
+      }
+    });
+
+    this.uploader = new FileUploader({
+      url: this.baseUrl + 'photos/clothing-item/' + (this.selectedClothingItem?.id ?? ''),
+      authToken: 'Bearer ' + this.user?.token,
+      isHTML5: true,
+      allowedFileType: ['image'],
+      removeAfterUpload: true,
+      autoUpload: false,
+      maxFileSize: 10 * 1024 * 1024
+    });
+
+    this.uploader.onAfterAddingFile = (file) => {
+      file.withCredentials = false;
+    };
+
+    this.uploader.onSuccessItem = (item, response, status, headers) => {
+      if (response) {
+        const photo = JSON.parse(response);
+        if (this.selectedClothingItem) {
+          this.selectedClothingItem.pictureUrl = photo.url;
+          this.selectedClothingItem.clothingItemPhotos.push(photo);
+        }
+      }
+    };
+  }
+
+  ngOnInit(): void {
+    this.loadClothingItems();
+  }
+
+  loadClothingItems(): void {
+    this.shopService.getAllClothingItems().subscribe({
+      next: (items) => {
+        this.clothingItems = items;
+        this.cdr.markForCheck();
+      },
+      error: (error) => console.error('Error loading clothing items', error)
+    });
+  }
+
+  selectClothingItem(item: ClothingItem): void {
+    this.selectedClothingItem = item;
+    this.uploader.setOptions({ url: `${this.baseUrl}photos/clothing-item/${item.id}` });
+  }
+
+  fileOverBase(e: any): void {
+    this.hasBaseDropZoneOver = e;
+  }
+
+  setMainPhoto(photo: ClothingPhoto): void {
+    if (!this.selectedClothingItem) return;
+
+    this.photosService.setMainClothingItemPhoto(this.selectedClothingItem.id, photo.id).subscribe({
+      next: () => {
+        if (this.selectedClothingItem) {
+          this.selectedClothingItem.pictureUrl = photo.url;
+          this.selectedClothingItem.clothingItemPhotos.forEach(p => {
+            p.isMain = p.id === photo.id;
+          });
+        }
+      },
+      error: (err) => console.error('Error setting main photo', err)
+    });
+  }
+
+  deletePhoto(photoId: string): void {
+    if (!this.selectedClothingItem) return;
+
+    this.photosService.deleteClothingItemPhoto(this.selectedClothingItem.id, photoId).subscribe({
+      next: () => {
+        if (this.selectedClothingItem) {
+          this.selectedClothingItem.clothingItemPhotos = this.selectedClothingItem.clothingItemPhotos.filter(x => x.id !== photoId);
+        }
+      },
+      error: (err) => console.error('Error deleting photo', err)
+    });
+  }
+}

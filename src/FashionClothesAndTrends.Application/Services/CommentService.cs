@@ -1,0 +1,102 @@
+using AutoMapper;
+using FashionClothesAndTrends.Application.DTOs;
+using FashionClothesAndTrends.Application.Exceptions;
+using FashionClothesAndTrends.Application.Extensions;
+using FashionClothesAndTrends.Application.Services.Interfaces;
+using FashionClothesAndTrends.Application.UoW;
+using FashionClothesAndTrends.Domain.Entities;
+
+namespace FashionClothesAndTrends.Application.Services;
+
+public class CommentService : ICommentService
+{
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
+
+    public CommentService(IUnitOfWork unitOfWork, IMapper mapper)
+    {
+        _unitOfWork = unitOfWork;
+        _mapper = mapper;
+    }
+
+    public async Task<CommentDto> AddCommentAsync(CommentDto commentDto)
+    {
+        if (commentDto == null)
+        {
+            throw new ArgumentNullException(nameof(commentDto));
+        }
+
+        var user = await _unitOfWork.UserManager.FindByIdAsync(commentDto.UserId);
+        if (user == null)
+        {
+            throw new NotFoundException("User not found.");
+        }
+
+        var comment = new Comment
+        {
+            Text = commentDto.Text,
+            UserId = commentDto.UserId,
+            ClothingItemId = commentDto.ClothingItemId
+        };
+
+        await _unitOfWork.CommentRepository.AddCommentToClothingItemAsync(comment);
+        await _unitOfWork.SaveAsync();
+
+        var result = _mapper.Map<CommentDto>(comment);
+        result.Username = user.UserName ?? string.Empty;
+        return result;
+    }
+
+    public async Task RemoveCommentAsync(Guid commentId, string userId)
+    {
+        var comment = await _unitOfWork.CommentRepository.GetByIdAsync(commentId);
+        if (comment == null)
+        {
+            throw new NotFoundException("Comment not found.");
+        }
+
+        var currentUser = await _unitOfWork.UserRepository.GetUserByIdAsync(userId);
+        if (currentUser == null)
+        {
+            throw new NotFoundException("User not found.");
+        }
+
+        var isAdmin = await _unitOfWork.UserManager.IsInRoleAsync(currentUser, "Administrator");
+
+        if (comment.UserId != currentUser.Id && !isAdmin)
+        {
+            throw new UnauthorizedAccessException("You do not have permission to delete this comment.");
+        }
+
+        await _unitOfWork.CommentRepository.RemoveCommentAsync(comment);
+        await _unitOfWork.SaveAsync();
+    }
+
+    public async Task<IEnumerable<CommentDto>> GetCommentsForClothingItemAsync(Guid clothingItemId)
+    {
+        var comments = await _unitOfWork.CommentRepository.GetCommentsForClothingItemIdAsync(clothingItemId);
+        if (comments == null || !comments.Any())
+        {
+            return Enumerable.Empty<CommentDto>();
+        }
+
+        var commentDtos = _mapper.Map<IEnumerable<CommentDto>>(comments);
+        foreach (var commentDto in commentDtos)
+        {
+            commentDto.TimeAgo = commentDto.CreatedAt.DateTimeAgo();
+        }
+
+        return commentDtos;
+    }
+
+    public async Task<IEnumerable<CommentDto>> GetCommentsByUserIdAsync(string userId)
+    {
+        var comments = await _unitOfWork.CommentRepository.GetCommentsByUserIdAsync(userId);
+        if (comments == null || !comments.Any())
+        {
+            throw new NotFoundException("No comments found for this user.");
+        }
+
+        return _mapper.Map<IEnumerable<CommentDto>>(comments);
+    }
+}
