@@ -9,7 +9,7 @@ public class Order : BaseEntity
     {
     }
 
-    public Order(IReadOnlyList<OrderItem> orderItems, string buyerEmail, AddressAggregate shipToAddress,
+    public Order(List<OrderItem> orderItems, string buyerEmail, AddressAggregate shipToAddress,
         DeliveryMethod deliveryMethod, decimal subtotal, string paymentIntentId, Coupon? coupon = null)
     {
         BuyerEmail = buyerEmail;
@@ -25,7 +25,7 @@ public class Order : BaseEntity
     public DateTimeOffset OrderDate { get; set; } = DateTimeOffset.Now;
     public AddressAggregate ShipToAddress { get; set; } = null!;
     public DeliveryMethod DeliveryMethod { get; set; } = null!;
-    public IReadOnlyList<OrderItem> OrderItems { get; set; } = [];
+    public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     public Guid? CouponId { get; set; }
     public Coupon? Coupon { get; set; }
     public decimal Subtotal { get; set; }

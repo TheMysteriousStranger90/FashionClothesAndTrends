@@ -10,15 +10,15 @@ WORKDIR /src
 COPY ["Directory.Packages.props", "."]
 COPY ["Directory.Build.props", "."]
 COPY ["nuget.config", "."]
-COPY ["src/FashionClothesAndTrends.WebAPI/FashionClothesAndTrends.WebAPI.csproj", "src/FashionClothesAndTrends.WebAPI/"]
-COPY ["src/FashionClothesAndTrends.Application/FashionClothesAndTrends.Application.csproj", "src/FashionClothesAndTrends.Application/"]
-COPY ["src/FashionClothesAndTrends.Domain/FashionClothesAndTrends.Domain.csproj", "src/FashionClothesAndTrends.Domain/"]
-COPY ["src/FashionClothesAndTrends.Infrastructure/FashionClothesAndTrends.Infrastructure.csproj", "src/FashionClothesAndTrends.Infrastructure/"]
+COPY ["src/FashionClothesAndTrends.WebAPI/FashionClothesAndTrends.WebAPI.csproj", "FashionClothesAndTrends.WebAPI/"]
+COPY ["src/FashionClothesAndTrends.Application/FashionClothesAndTrends.Application.csproj", "FashionClothesAndTrends.Application/"]
+COPY ["src/FashionClothesAndTrends.Domain/FashionClothesAndTrends.Domain.csproj", "FashionClothesAndTrends.Domain/"]
+COPY ["src/FashionClothesAndTrends.Infrastructure/FashionClothesAndTrends.Infrastructure.csproj", "FashionClothesAndTrends.Infrastructure/"]
 
-RUN dotnet restore "src/FashionClothesAndTrends.WebAPI/FashionClothesAndTrends.WebAPI.csproj"
+RUN dotnet restore "FashionClothesAndTrends.WebAPI/FashionClothesAndTrends.WebAPI.csproj"
 
-COPY . .
-WORKDIR "/src/src/FashionClothesAndTrends.WebAPI"
+COPY src/ .
+WORKDIR "/src/FashionClothesAndTrends.WebAPI"
 RUN dotnet build "FashionClothesAndTrends.WebAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build /p:TreatWarningsAsErrors=false
 
 FROM build AS publish

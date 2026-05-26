@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [ develop, master ]
+  pull_request:
+    branches: [ develop, master ]
+
+jobs:
+  build-and-test:
+    name: Build & Test (.NET 9)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore
+        run: dotnet restore FashionClothesAndTrends.sln
+
+      - name: Build (Release)
+        run: dotnet build FashionClothesAndTrends.sln -c Release --no-restore
+
+      - name: Test with coverage
+        run: >
+          dotnet test FashionClothesAndTrends.sln
+          -c Release
+          --no-build
+          --logger "trx;LogFileName=results.trx"
+          --results-directory ./TestResults
+          --collect:"XPlat Code Coverage"
+
+      - name: Generate coverage report
+        uses: danielpalme/ReportGenerator-GitHub-Action@5
+        with:
+          reports: './TestResults/**/coverage.cobertura.xml'
+          targetdir: './CoverageReport'
+          reporttypes: 'HtmlInline_AzurePipelines;Cobertura'
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: ./TestResults/*.trx
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: ./CoverageReport
+
+      - name: Build summary
+        if: always()
+        run: |
+          echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "* **Project**: FashionClothesAndTrends" >> $GITHUB_STEP_SUMMARY
+          echo "* **Build Number**: ${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
+          echo "* **Status**: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY

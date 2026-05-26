@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Order } from 'src/app/shared/models/order';
+import { OrderToReturn } from 'src/app/shared/models/order-to-return';
 import { OrdersService } from '../orders.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { OrdersService } from '../orders.service';
 })
 export class OrdersComponent implements OnInit {
 
-  orders: Order[] = [];
+  orders: OrderToReturn[] = [];
   displayedColumns: string[] = ['order', 'date', 'total', 'status'];
 
   constructor(private orderService: OrdersService, private cdr: ChangeDetectorRef) {}
@@ -25,7 +25,8 @@ export class OrdersComponent implements OnInit {
       next: orders => {
         this.orders = orders;
         this.cdr.markForCheck();
-      }
+      },
+      error: (error) => console.error('Error loading orders:', error)
     });
   }
 }
