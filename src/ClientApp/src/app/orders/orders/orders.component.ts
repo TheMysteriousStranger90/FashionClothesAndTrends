@@ -1,6 +1,6 @@
-import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
-import {Order} from 'src/app/shared/models/order';
-import {OrdersService} from '../orders.service';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Order } from 'src/app/shared/models/order';
+import { OrdersService } from '../orders.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -13,8 +13,8 @@ export class OrdersComponent implements OnInit {
 
   orders: Order[] = [];
   displayedColumns: string[] = ['order', 'date', 'total', 'status'];
-  constructor(private orderService: OrdersService) {
-  }
+
+  constructor(private orderService: OrdersService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.getOrders();
@@ -22,8 +22,10 @@ export class OrdersComponent implements OnInit {
 
   getOrders() {
     this.orderService.getOrdersForUser().subscribe({
-      next: orders => this.orders = orders
-    })
+      next: orders => {
+        this.orders = orders;
+        this.cdr.markForCheck();
+      }
+    });
   }
-
 }

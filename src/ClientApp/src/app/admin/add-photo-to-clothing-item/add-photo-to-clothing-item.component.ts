@@ -1,4 +1,4 @@
-import { Component, OnInit , ChangeDetectionStrategy} from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
 import { take } from 'rxjs';
 import { AccountService } from 'src/app/account/account.service';
@@ -24,13 +24,13 @@ export class AddPhotoToClothingItemComponent implements OnInit {
   baseUrl = environment.apiUrl;
   user: User | undefined;
 
-  constructor(private shopService: ShopService, private photosService: PhotosService, private accountService: AccountService) {
+  constructor(private shopService: ShopService, private photosService: PhotosService, private accountService: AccountService, private cdr: ChangeDetectorRef) {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
         if (user) this.user = user
       }
     });
-    
+
     this.uploader = new FileUploader({
       url: this.baseUrl + 'photos/clothing-item/' + (this.selectedClothingItem?.id ?? ''),
       authToken: 'Bearer ' + this.user?.token,
@@ -62,7 +62,10 @@ export class AddPhotoToClothingItemComponent implements OnInit {
 
   loadClothingItems(): void {
     this.shopService.getAllClothingItems().subscribe({
-      next: (items) => this.clothingItems = items,
+      next: (items) => {
+        this.clothingItems = items;
+        this.cdr.markForCheck();
+      },
       error: (error) => console.error('Error loading clothing items', error)
     });
   }
