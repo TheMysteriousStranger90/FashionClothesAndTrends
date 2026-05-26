@@ -25,11 +25,6 @@ public class OrdersHistoryController : BaseApiController
         {
             var userId = User.GetUserId();
             var orderHistories = await _orderHistoryService.GetOrderHistoriesByUserIdAsync(userId);
-            if (orderHistories == null || !orderHistories.Any())
-            {
-                return NotFound(new ApiResponse(404, $"Order histories not found for user with ID '{userId}'."));
-            }
-
             return Ok(orderHistories);
         }
         catch (Exception ex)

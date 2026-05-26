@@ -50,9 +50,7 @@ public class OrderHistoryService : IOrderHistoryService
     {
         var orderHistories = await _unitOfWork.OrderHistoryRepository.GetOrderHistoryByUserIdAsync(userId);
         if (orderHistories == null)
-        {
-            throw new NotFoundException($"Order histories not found.");
-        }
+            return new List<OrderHistoryToReturnDto>();
 
         return _mapper.Map<IReadOnlyList<OrderHistoryToReturnDto>>(orderHistories);
     }
