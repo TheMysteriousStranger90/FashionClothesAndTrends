@@ -200,22 +200,26 @@ public static class SeedDataInitializer
         modelBuilder.Entity<DeliveryMethod>().HasData(
             new DeliveryMethod()
             {
-                Id = Guid.Parse("7daf49da-1183-456b-84ae-debb4fe44820"), ShortName = "UPS1", Description = "Fastest delivery time",
+                Id = Guid.Parse("7daf49da-1183-456b-84ae-debb4fe44820"), ShortName = "UPS1",
+                Description = "Fastest delivery time",
                 DeliveryTime = "1-2 Days", Price = 10
             },
             new DeliveryMethod()
             {
-                Id = Guid.Parse("1a557902-f2a8-45da-a364-1f8d475a78d8"), ShortName = "UPS2", Description = "Get it within 5 days",
+                Id = Guid.Parse("1a557902-f2a8-45da-a364-1f8d475a78d8"), ShortName = "UPS2",
+                Description = "Get it within 5 days",
                 DeliveryTime = "2-5 Days", Price = 5
             },
             new DeliveryMethod()
             {
-                Id = Guid.Parse("f59c5d03-e854-46b2-b054-d6d34ca24272"), ShortName = "UPS3", Description = "Slower but cheap", DeliveryTime = "5-10 Days",
+                Id = Guid.Parse("f59c5d03-e854-46b2-b054-d6d34ca24272"), ShortName = "UPS3",
+                Description = "Slower but cheap", DeliveryTime = "5-10 Days",
                 Price = 2
             },
             new DeliveryMethod()
             {
-                Id = Guid.Parse("b7669aa8-dcc0-408e-a1b1-778dd0831177"), ShortName = "FREE", Description = "Free! You get what you pay for",
+                Id = Guid.Parse("b7669aa8-dcc0-408e-a1b1-778dd0831177"), ShortName = "FREE",
+                Description = "Free! You get what you pay for",
                 DeliveryTime = "1-2 Weeks", Price = 0
             }
         );
@@ -334,5 +338,3 @@ public static class SeedDataInitializer
         }
     }
 }
-
-

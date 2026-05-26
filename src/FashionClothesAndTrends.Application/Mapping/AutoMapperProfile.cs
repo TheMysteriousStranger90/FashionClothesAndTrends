@@ -116,4 +116,3 @@ public class AutoMapperProfile : Profile
         CreateMap<Coupon, CouponDto>().ReverseMap();
     }
 }
-

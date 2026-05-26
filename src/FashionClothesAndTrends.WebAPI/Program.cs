@@ -129,5 +129,3 @@ finally
 {
     await Log.CloseAndFlushAsync();
 }
-
-
