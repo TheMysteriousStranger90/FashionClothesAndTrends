@@ -1,6 +1,4 @@
-import { Component, OnInit , ChangeDetectionStrategy} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CouponService } from 'src/app/core/services/coupon.service';
 import { ApplyCoupon } from 'src/app/shared/models/apply-coupon';
 import { ClothingItem } from 'src/app/shared/models/clothing-item';
@@ -20,7 +18,11 @@ export class ApplyCouponComponent implements OnInit {
   selectedClothingItem: ClothingItem | null = null;
   selectedCoupon: Coupon | null = null;
 
-  constructor(private couponService: CouponService, private shopService: ShopService) {}
+  constructor(
+    private couponService: CouponService,
+    private shopService: ShopService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.loadClothingItems();
@@ -28,7 +30,10 @@ export class ApplyCouponComponent implements OnInit {
 
   loadClothingItems(): void {
     this.shopService.getAllClothingItems().subscribe({
-      next: (items) => this.clothingItems = items,
+      next: (items) => {
+        this.clothingItems = items;
+        this.cdr.markForCheck();
+      },
       error: (error) => console.error('Error loading clothing items', error)
     });
   }
@@ -40,7 +45,10 @@ export class ApplyCouponComponent implements OnInit {
 
   loadCoupons(): void {
     this.couponService.getAllCoupons().subscribe({
-      next: (coupons) => this.coupons = coupons,
+      next: (coupons) => {
+        this.coupons = coupons;
+        this.cdr.markForCheck();
+      },
       error: (error) => console.error('Error loading coupons', error)
     });
   }
@@ -61,15 +69,12 @@ export class ApplyCouponComponent implements OnInit {
         this.shopService.getClothingItems(true).subscribe({
           next: (response) => {
             const cacheKey = Object.values(this.shopService.getShopParams()).join('-');
-
             this.shopService.updateCache(cacheKey, response);
           },
           error: (error) => console.error('Error updating cache', error)
         });
       }).subscribe({
-        next: () => {
-          console.log('Coupon applied successfully');
-        },
+        next: () => console.log('Coupon applied successfully'),
         error: (error) => console.error('Error applying coupon', error)
       });
     }

@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {NavigationExtras, Router} from '@angular/router';
 import {Address} from 'src/app/shared/models/address';
@@ -38,9 +38,13 @@ export class CheckoutPaymentComponent implements OnInit {
   cardErrors: any;
   loading = false;
 
-  constructor(private basketService: BasketService, private checkoutService: CheckoutService,
-              private toastr: ToastrService, private router: Router) {
-  }
+  constructor(
+    private basketService: BasketService,
+    private checkoutService: CheckoutService,
+    private toastr: ToastrService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     loadStripe('pk_test_51MTi62FcLOHghxDePnGLffsIETFm4xnE3xUi6t6HwtMKBH5zAnBVkib1nAJ4Y2ZfLo0TRIwCCtYBInc9vTO4E65w00fj0HuSwg').then(stripe => {
@@ -51,24 +55,24 @@ export class CheckoutPaymentComponent implements OnInit {
         this.cardNumber.mount(this.cardNumberElement?.nativeElement);
         this.cardNumber.on('change', event => {
           this.cardNumberComplete = event.complete;
-          if (event.error) this.cardErrors = event.error.message;
-          else this.cardErrors = null;
+          this.cardErrors = event.error ? event.error.message : null;
+          this.cdr.markForCheck();
         });
 
         this.cardExpiry = elements.create('cardExpiry');
         this.cardExpiry.mount(this.cardExpiryElement?.nativeElement);
         this.cardExpiry.on('change', event => {
           this.cardExpiryComplete = event.complete;
-          if (event.error) this.cardErrors = event.error.message;
-          else this.cardErrors = null;
+          this.cardErrors = event.error ? event.error.message : null;
+          this.cdr.markForCheck();
         });
 
         this.cardCvc = elements.create('cardCvc');
         this.cardCvc.mount(this.cardCvcElement?.nativeElement);
         this.cardCvc.on('change', event => {
           this.cardCvcComplete = event.complete;
-          if (event.error) this.cardErrors = event.error.message;
-          else this.cardErrors = null;
+          this.cardErrors = event.error ? event.error.message : null;
+          this.cdr.markForCheck();
         });
       }
     });

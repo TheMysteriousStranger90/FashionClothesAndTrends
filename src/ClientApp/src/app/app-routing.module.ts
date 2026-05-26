@@ -8,6 +8,7 @@ import { adminGuard } from './core/guards/admin.guard';
 import { UserEditorComponent } from './users/user-editor/user-editor.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   {
     path: 'shop',
