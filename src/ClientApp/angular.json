@@ -36,7 +36,14 @@
               "node_modules/ngx-toastr/toastr.css",
               "src/styles.sass"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "canvg",
+              "html2canvas",
+              "cuid",
+              "rgbcolor",
+              "raf"
+            ]
           },
           "configurations": {
             "production": {
@@ -104,7 +111,14 @@
             "styles": [
               "src/styles.sass"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "canvg",
+              "html2canvas",
+              "cuid",
+              "rgbcolor",
+              "raf"
+            ]
           }
         }
       }

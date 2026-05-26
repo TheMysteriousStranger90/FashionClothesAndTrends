@@ -1,32 +1,38 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+# This workflow is superseded by the split workflows:
+#   ci.yml          - Build & test with code coverage
+#   codeql.yml      - CodeQL security scanning (weekly + on push/PR)
+#   docker-build.yml- Docker image dry-run build
+#   deploy.yml      - Production deploy (triggered after CI on master)
+#
+# Kept as a lightweight sanity check on PRs to non-develop/master branches.
 
-name: .NET
+name: .NET Quick Check
 
 on:
   push:
-    branches: [ "master" ]
+    branches-ignore: [ develop, master ]
   pull_request:
-    branches: [ "master" ]
+    branches-ignore: [ develop, master ]
 
 jobs:
-  build:
+  quick-build:
+    name: Quick Build (.NET 9)
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Set up .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '8.0.x'
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
 
-    - name: Install dependencies
-      run: dotnet restore
+      - name: Restore
+        run: dotnet restore FashionClothesAndTrends.sln
 
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
+      - name: Build
+        run: dotnet build FashionClothesAndTrends.sln -c Release --no-restore
 
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      - name: Test
+        run: dotnet test FashionClothesAndTrends.sln -c Release --no-build --verbosity normal
